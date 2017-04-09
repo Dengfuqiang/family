@@ -16,7 +16,7 @@
 			</header>
 			<article>
 				<a href="#" class="img_contain"><img src="../img/login_phone.jpg"/></a>
-				<form action="#" method="post">
+				<form action="../php/index/login.php" method="post">
 					<h1>登录</h1>
 					<label><input type="text" name="mobile_phone" id="mobile_phone" value="" placeholder="请输入手机号码" /></label>
 					<label><input type="password" name="pwd" id="pwd" value="" placeholder='请输入密码'/></label>
@@ -37,5 +37,27 @@
 				<a href="../aboutOur.html">关于我们</a>
 				<p>CopyrightO 生活一家 2007-2015, All Rights Reserved</p>
 		</footer>
+		<script type="text/javascript" src="../js/jquery-2.2.2.min.js" ></script>
+		<script type="text/javascript">
+			$("#btn").on('click',function(){
+	            $.ajax({
+	                url:'b.txt',//请求地址
+	                type:'GET',//请求类型
+	                dataType:'json',//预期请求数据类型
+	                data:{"city":"beijing"}, //查询字符
+	                success:function(s){
+	                    //成功的回调
+	                    console.log(s)
+	                },
+	                error:function(err){
+	                    console.log(err)
+	                },
+	                complete:function(){
+	                    //不管成功失败都会执行
+	                    console.log("hello world");
+	                }
+	            })
+	        })
+		</script>
 	</body>
 </html>

@@ -274,7 +274,7 @@ class MySQL{
     $this->query_start_time = microtime(true);
     
     $this->queryID = mysql_query($sql, $this->conn);
-    $this->query_count**;
+    $this->query_count;
     if ( false === $this->queryID ) 
     {
       $this->error();
@@ -308,7 +308,7 @@ class MySQL{
     $this->query_start_time = microtime(true);
     
     $result = mysql_query($sql, $this->conn) ;
-    $this->query_count**;
+    $this->query_count;
     if ( false === $result) 
     {
       $this->error();
@@ -430,7 +430,7 @@ class MySQL{
     {
       mysql_query('START TRANSACTION', $this->conn);
     }
-    $this->transTimes**;
+    $this->transTimes;
     return ;
   }
 

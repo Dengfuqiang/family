@@ -3,24 +3,26 @@ header("content-type:text/html;charset:utf-8");
 
 require_once 'mysql.class.php';
 
-$mysql = new MySQL('localhost','root','','users');
+$mysql = new MySQL('localhost','root','','family');
 
 echo '<pre>';
 //获取表字段
-//print_r($mysql->getFields('test'));
+//print_r($mysql->getFields('users'));
 //增
-echo $mysql->data(array('name'=>'test','password'=>'123456'))->table('test')->add();
+//$pwd=md5('123456');
+$id=7;
+//echo $mysql->data(array('name'=>'邓福','pwd'=>$pwd))->table('users')->add();
 //删
-echo $mysql->table('test')->where('id=1')->delete();
+//echo $mysql->table('test')->where('id=1')->delete();
 //改
-echo $mysql->table('test')->data(array('name'=>'bbbbbbbbbbbb'))->where('id<3')->update();
+//echo $mysql->table('test')->data(array('name'=>'bbbbbbbbbbbb'))->where('id<3')->update();
 //查
-print_r($mysql->table('test')->where('id=4')->select());
-print_r($mysql->table('test')->order('id desc')->select());
+print_r($mysql->table('users')->where("id={$id}")->select());
+//print_r($mysql->table('users')->order('id desc')->select());
 
 //
-$mysql->query('select * from `test`');
-$mysql->execute('update `test` set password = 123');
+//$mysql->query('select * from `test`');
+//$mysql->execute('update `test` set password = 123');
 
 echo '</pre>';
 echo '查询次数:'.$mysql->query_count.'<br>';
