@@ -16,13 +16,13 @@
 			</header>
 			<article>
 				<a href="#" class="img_contain"><img src="../img/login_phone.jpg"/></a>
-				<form action="../php/index/login.php" method="post">
+				<form action="../php/index/login.php" method="post" id="login_form">
 					<h1>登录</h1>
 					<label><input type="text" name="mobile_phone" id="mobile_phone" value="" placeholder="请输入手机号码" /></label>
 					<label><input type="password" name="pwd" id="pwd" value="" placeholder='请输入密码'/></label>
 					<label ><input type="checkbox" name="" id="auto_login" value="" />下次自动登录</label>
-					<input type="submit" value="登录" class="confirm_submit"/>
-					<p><a href="" class="register">免费注册</a><a href="" class="find_pwd">忘记密码</a></p>
+					<input type="submit" value="登录" class="confirm_submit" id="confirm_bt"/>
+					<p><a href="register.html" class="register">免费注册</a><a href="find_pwd.html" class="find_pwd">忘记密码</a></p>
 				</form>
 			</article>
 		</div>
@@ -39,22 +39,25 @@
 		</footer>
 		<script type="text/javascript" src="../js/jquery-2.2.2.min.js" ></script>
 		<script type="text/javascript">
-			$("#btn").on('click',function(){
+			$("#login_form").on('click','#confirm_bt',function(e){
+				e.preventDefault();
 	            $.ajax({
-	                url:'b.txt',//请求地址
-	                type:'GET',//请求类型
+	                url:'../php/index/login.php',//请求地址
+	                type:'POST',//请求类型
 	                dataType:'json',//预期请求数据类型
-	                data:{"city":"beijing"}, //查询字符
-	                success:function(s){
+	                data:$("#login_form").serialize(), //查询字符
+	                success:function(res){
 	                    //成功的回调
-	                    console.log(s)
+	                    console.log(res)
+	                    if(res.code){
+	                    	alert(res.msg);
+	                    	location.href="index.html";
+	                    }else{
+	                    	alert(res.msg)
+	                    }
 	                },
 	                error:function(err){
 	                    console.log(err)
-	                },
-	                complete:function(){
-	                    //不管成功失败都会执行
-	                    console.log("hello world");
 	                }
 	            })
 	        })

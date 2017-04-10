@@ -53,11 +53,18 @@
 	                data:$("#register_form").serialize(), //查询字符
 	                success:function(res){
 	                    //成功的回调
-	                    console.log(res)
-	                    
-	                    alert(res.msg);
+	                    console.log(res);
 	                    if(res.code==1){
+	                    	alert(res.msg);
 	                    	location.href='index.html';
+	                    }else if(res.code==4){
+	                    	alert(res.msg);
+	                    	$("#sms").focus();
+	                    }else if(res.code==3){
+	                    	alert(res.msg);
+	                    	$("#mobile_phone").focus();
+	                    }else{
+	                    	alert(res.msg);
 	                    }
 	                },
 	                error:function(err){

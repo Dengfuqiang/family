@@ -6,29 +6,27 @@
 		require_once '../mysql.class.php';
 		$mysql = new MySQL('localhost','root','','family');
 		$phone=$arr['mobile_phone'];
-		$name=$arr['username'];
-		$pwd=md5($arr['pwd']);
 		$result=$mysql->table('users')->where("phone={$phone}")->select();
-		if(empty($result)){
-			$result= $mysql->data(array('name'=>$name,'phone'=>$phone,'pwd'=>$pwd))->table('users')->add();
+		if(!empty($result)){
+			$pwd=md5($arr['pwd']);
+			$result = $mysql->table('users')->data(array('pwd'=>$pwd,'name'=>'23333'))->where("phone={$phone}")->update();
 			if($result>0){
 				$res=[
-					'msg'=>'注册成功',
-					'code'=>1,
-					'data'=>array('name'=>$name,'phone'=>$phone,'pwd'=>$pwd)
+					'msg'=>'找回密码成功！',
+					'code'=>'1'
 				];
 				echo json_encode($res);
-			}else{
-				$res=[
-					'msg'=>'注册失败,网络连接错误',
-					'code'=>0,
-					
-				];
-				echo json_encode($res);
-			}
+				}else{
+					$res=[
+						'msg'=>'找回密码失败',
+						'code'=>0
+					];
+					echo json_encode($res);
+				}
+			
 		}else{
 			$res=[
-					'msg'=>'注册失败,手机号码已被注册',
+					'msg'=>'找回密码失败,手机号码不存在',
 					'code'=>3
 				];
 				echo json_encode($res);
@@ -39,7 +37,8 @@
 			'code'=>4
 		];
 		echo json_encode($res);
-	}
+	}	
+
 	
 	
 ?>
