@@ -1,19 +1,28 @@
+<?php
+	session_start();
+	$useInfo=$_SESSION;
+?>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="../css/familyHeader.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/index/indexCss.css"/>
-		<script type="text/javascript" src="../js/lunbo.js" ></script>
-		<script type="text/javascript" src="../js/indexjs.js" ></script>
+		<link rel='stylesheet' type='text/css' href='../css/familyHeader.css'/>
+		<link rel='stylesheet' type='text/css' href='../css/index/indexCss.css'/>
+		<script type='text/javascript' src='../js/lunbo.js' ></script>
+		<script type='text/javascript' src='../js/indexjs.js' ></script>
 	</head>
 	<body>
 		<div id="familyAndContain">
-			<div id="familyHeader">
+			<header id="familyHeader">
 				<div id="loginNav">
-					<span>[<a href="login.html">登录</a>]</span>
-					<span>[<a href="register.html">注册</a>]</span>
+					<?php
+					if(isset($useInfo['username'])){
+						echo "<span><a href='javascript:;'>".$useInfo['username']."，您好</a></span>";
+					}else{
+						echo "<span>[<a href='login.html'>登录</a>]</span><span>[<a href='register.html'>注册</a>]</span>";
+						
+					}?>
 					<span class="shuGang">|</span>
 					<span><a href="###">我的账号</a></span>
 					<span class="shuGang">|</span>
@@ -37,18 +46,17 @@
 				<div class="headerNav">
 					<div class="headerNavInner">
 						<ul>
-							<li><a class="active_nav" href="index.html">首页</a></li>
-							<li><a href="../beautifulLife.html">精彩生活</a></li>
-							<li><a href="../lifeFood.html">生活食品</a></li>
+							<li><a class="active_nav" href="index/index.php">首页</a></li>
+							<li><a href="../nav_contain/beautifulLife.php">精彩生活</a></li>
+							<li><a href="../nav_contain/lifeFood.php">生活食品</a></li>
 							<li><a href="###">生活用品</a></li>
 							<li><a href="###">生活家居</a></li>
 							<li><a href="###">会员杂锦</a></li>
-							<li><a href="../aboutOur.html">关于我们</a></li>
+							<li><a href="../nav_contain/aboutOur.php">关于我们</a></li>
 						</ul>
 					</div>
 				</div>
-			</div>
-
+			</header>
 			<div id="familyLunbo">
 				<div class="familyLunboInner">
 					<div id="lunbo_outer" class="lunboPicture">

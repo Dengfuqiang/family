@@ -1,5 +1,5 @@
 <?php
-	header("content-type:text/html;charset:utf-8");
+	header("content-type:text/html;charset=utf-8");
 	$arr = $_POST;
 	$sms=$arr['sms'];
 	if($sms==000000){
@@ -17,7 +17,7 @@
 					'code'=>1,
 					'data'=>array('name'=>$name,'phone'=>$phone,'pwd'=>$pwd)
 				];
-				echo json_encode($res);
+					echo json_encode($res);
 			}else{
 				$res=[
 					'msg'=>'注册失败,网络连接错误',

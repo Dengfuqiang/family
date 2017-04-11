@@ -1,76 +1,34 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<link rel="stylesheet" type="text/css" href="css/familyHeader.css"/>
-		<link rel="stylesheet" type="text/css" href="css/foodxianqing.css"/>
-	</head>
-	<body>
-		<div id="familyAndContain">
-			<div id="familyHeader">
-				<div id="loginNav">
-					<span>[<a href="###">登录</a>]</span>
-					<span>[<a href="###">注册</a>]</span>
-					<span class="shuGang">|</span>
-					<span><a href="###">我的账号</a></span>
-					<span class="shuGang">|</span>
-					<span><a href="###">生活一家app下载</a></span>
-				</div>
-				<div class="seacherKuang">
-					<div class="seacherInner">
-						<a href="###" class="familyLogo">
-
-						</a>
-						<select id="addressSelect" name="addressSelect">
-							<option value="广州">广州</option>
-						</select>
-						<input type="text" name="searchText" id="searchText" value="" /><input type="submit" name="searchBt" id="searchBt" value="搜索" />
-						<div class="kefuShoppingCar">
-							<a href="###" id="kefu">一键客服</a><a href="###" id="shoppingCar">购物车</a>
-						</div>
-					</div>
-
-				</div>
-				<div class="headerNav">
-					<div class="headerNavInner">
-						<ul>
-							<li><a href="index/index.html">首页</a></li>
-							<li><a href="beautifulLife.html">精彩生活</a></li>
-							<li><a class="active_nav" href="lifeFood.html">生活食品</a></li>
-							<li><a href="###">生活用品</a></li>
-							<li><a href="###">生活家居</a></li>
-							<li><a href="###">会员杂锦</a></li>
-							<li><a href="aboutOur.html">关于我们</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
+<?php
+	session_start();
+	$useInfo=$_SESSION;
+		include '../public/public_header.php';
+?>
+<link rel="stylesheet" type="text/css" href="../css/foodxianqing.css"/>
 			<div id="beatifulBody">
 				<ul id="bt_right">
 					<h4>同类热卖</h4>
 					<li>
-						<a href="###"><img src="img/weiyiguo.jpg" alt="" /></a>
+						<a href="###"><img src="../img/weiyiguo.jpg" alt="" /></a>
 						<h2>百草味-夏威夷果200gx2袋 干果...</h2>
 						<span class="price">￥32.90</span>
 					</li>
 					<li>
-						<a href="###"><img src="img/weiyiguo.jpg" alt="" /></a>
+						<a href="###"><img src="../img/weiyiguo.jpg" alt="" /></a>
 						<h2>百草味-夏威夷果200gx2袋 干果...</h2>
 						<span class="price">￥32.90</span>
 					</li>
 					<li>
-						<a href="###"><img src="img/weiyiguo.jpg" alt="" /></a>
+						<a href="###"><img src="../img/weiyiguo.jpg" alt="" /></a>
 						<h2>百草味-夏威夷果200gx2袋 干果...</h2>
 						<span class="price">￥32.90</span>
 					</li>
 					<li>
-						<a href="###"><img src="img/weiyiguo.jpg" alt="" /></a>
+						<a href="###"><img src="../img/weiyiguo.jpg" alt="" /></a>
 						<h2>百草味-夏威夷果200gx2袋 干果...</h2>
 						<span class="price">￥32.90</span>
 					</li>
 					<li>
-						<a href="###"><img src="img/weiyiguo.jpg" alt="" /></a>
+						<a href="###"><img src="../img/weiyiguo.jpg" alt="" /></a>
 						<h2>百草味-夏威夷果200gx2袋 干果...</h2>
 						<span class="price">￥32.90</span>
 					</li>
@@ -79,11 +37,11 @@
 					<ul>
 						<li class="childLi pictureAndInformation">
 							<div id="picture_watch">
-								<a class="bigPicture" href="###"><img  src="img/shiping (5).jpg" alt="" /></a>
-								<a href="###"><img src="img/shiping (7).jpg" alt="" /></a>
-								<a href="###"><img src="img/shiping (5).jpg" alt="" /></a>
-								<a href="###"><img src="img/shiping (8).jpg" alt="" /></a>
-								<a href="###"><img src="img/shiping (5).jpg" alt="" /></a>
+								<a class="bigPicture" href="###"><img  src="../img/shiping (5).jpg" alt="" /></a>
+								<a href="###"><img src="../img/shiping (7).jpg" alt="" /></a>
+								<a href="###"><img src="../img/shiping (5).jpg" alt="" /></a>
+								<a href="###"><img src="../img/shiping (8).jpg" alt="" /></a>
+								<a href="###"><img src="../img/shiping (5).jpg" alt="" /></a>
 							</div>
 							<div id="information">
 								<ul>
@@ -115,19 +73,19 @@
 								</a>
 							</span>
 							<span class="xiangxi">
-								<a href="javascript:void(0)"><img src="img/shiping (1).jpg" alt="" /></a>
+								<a href="javascript:void(0)"><img src="../img/shiping (1).jpg" alt="" /></a>
 								
 							</span>
 							<span class="xiangxi">
-								<a href="javascript:void(0)"><img src="img/shiping (3).jpg" alt="" /></a>
+								<a href="javascript:void(0)"><img src="../img/shiping (3).jpg" alt="" /></a>
 								
 							</span>
 							<span class="xiangxi">
-								<a href="javascript:void(0)"><img src="img/shiping (2).jpg" alt="" /></a>
+								<a href="javascript:void(0)"><img src="../img/shiping (2).jpg" alt="" /></a>
 								
 							</span>
 							<span class="xiangxi">
-								<a href="javascript:void(0)"><img src="img/shiping (4).jpg" alt="" /></a>
+								<a href="javascript:void(0)"><img src="../img/shiping (4).jpg" alt="" /></a>
 								
 							</span>
 						</li>

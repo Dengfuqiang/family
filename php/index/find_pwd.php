@@ -1,5 +1,5 @@
 <?php
-	header("content-type:text/html;charset:utf-8");
+	header("content-type:text/html;charset=utf-8");
 	$arr = $_POST;
 	$sms=$arr['sms'];
 	if($sms==000000){
