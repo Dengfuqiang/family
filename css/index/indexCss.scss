@@ -318,3 +318,41 @@ h2{
     font-size: 20px;
     margin-bottom: 8px;
 }
+.life_food_cmd{
+    width: 930px!important;
+    a{
+        display:inline-block;
+        width: 25%;
+        background: white;
+        border-bottom: 1px solid #f5f5f5;
+        border-right: 1px solid #f5f5f5;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    a:nth-of-type(4){
+        border-right: none;
+    }
+    a:nth-of-type(8){
+        border-right: none;
+    }
+    img{
+        display:block;
+        margin: 0 auto;
+        width: 150px;
+        height: 150px;
+        margin-top: 10px;
+    }
+    h3{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size:14px!important ;
+        padding: 20px 20px 0;
+    }
+}
+.life_articles{
+    @extend .life_food_cmd;
+}
+.life_furniture{
+    @extend .life_food_cmd;
+}

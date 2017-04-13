@@ -8,7 +8,7 @@
 	 foreach ($obj['list']['pageList'] as $key => $value) {
 	 	$mysql = new MySQL('localhost','root','','family');
 		 var_dump($value);
-		$result= $mysql->data($value)->table('beautity_life')->add();
+		$result= $mysql->data($value)->table('life_furniture')->add();
 	 	if($result>0){
 	 		echo '成功';
 	 	}else{

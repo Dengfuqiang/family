@@ -10,7 +10,7 @@
 		<link rel='stylesheet' type='text/css' href='../css/familyHeader.css'/>
 		<link rel='stylesheet' type='text/css' href='../css/index/indexCss.css'/>
 		<script type='text/javascript' src='../js/lunbo.js' ></script>
-		<script type='text/javascript' src='../js/indexjs.js' ></script>
+		<script type="text/javascript" src="../js/vue.js" ></script>
 	</head>
 	<body>
 		<div id="familyAndContain">
@@ -24,7 +24,7 @@
 						
 					}?>
 					<span class="shuGang">|</span>
-					<span><a href="###">我的账号</a></span>
+					<span><a href="../person_center/person_center_index.php">我的账号</a></span>
 					<span class="shuGang">|</span>
 					<span><a href="###">生活一家app下载</a></span>
 				</div>
@@ -97,26 +97,7 @@
 							</span>
 						</li>
 						<li class="bodyliFirst">
-							<a href="###"><img src="../img/lifepicture (8).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (9).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (10).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (11).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (12).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (13).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (14).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (15).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (16).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (17).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (18).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (19).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (20).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (21).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (22).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (23).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (24).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (25).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (26).jpg" alt="" /></a>
-							<a href="###"><img src="../img/lifepicture (27).jpg" alt="" /></a>
+							<a href="###" v-for='item in cmd_info[0]'><img :src="item.pic" alt="" /></a>
 						</li>
 					</ul>
 					<ul>
@@ -135,20 +116,12 @@
 								<li><a href="###">无糖食品</a></li>
 							</ul>
 						</li>
-						<table border="0" cellspacing="0" cellpadding="1">
-							<tr>
-								<td><a href="###"><img src="../img/lifepicture (28).jpg" alt="" /></a></td>
-								<td><a href="###"><img src="../img/lifepicture (29).jpg" alt="" /></a></td>
-								<td rowspan="2"><a href="###"><img src="../img/lifepicture(1).jpg" alt="" /></a></td>
-								<td><a href="###"><img src="../img/lifepicture (31).jpg" alt="" /></a></td>
-							</tr>
-							<tr>
-								<td><a href="###"><img src="../img/lifepicture (32).jpg" alt="" /></a></td>
-								<td><a href="###"><img src="../img/lifepicture (33).jpg" alt="" /></a></td>
-
-								<td><a href="###"><img src="../img/lifepicture (35).jpg" alt="" /></a></td>
-							</tr>
-						</table>
+						<li class="life_food_cmd">
+							<a href="###" v-for='item in cmd_info[1]'>
+								<h3 class="title" v-text='item.title'></h3>
+								<img :src="item.pic" alt="" />
+							</a>
+						</li>
 					</ul>
 					<ul>
 						<li  class="ShengHuoYongPing">
@@ -166,20 +139,12 @@
 								<li><a href="###">创意用品</a></li>
 							</ul>
 						</li>
-						<table border="0" cellspacing="0" cellpadding="1">
-							<tr>
-								<td><a href="###"><img src="../img/lifepicture (36).jpg" alt="" /></a></td>
-								<td><a href="###"><img src="../img/lifepicture (37).jpg" alt="" /></a></td>
-								<td rowspan="2"><a href="###"><img src="../img/lifepicture(2).jpg" alt="" /></a></td>
-								<td><a href="###"><img src="../img/lifepicture (39).jpg" alt="" /></a></td>
-							</tr>
-							<tr>
-								<td><a href="###"><img src="../img/lifepicture (40).jpg" alt="" /></a></td>
-								<td><a href="###"><img src="../img/lifepicture (41).jpg" alt="" /></a></td>
-
-								<td><a href="###"><img src="../img/lifepicture (43).jpg" alt="" /></a></td>
-							</tr>
-						</table>
+						<li class="life_articles">
+							<a href="###" v-for='item in cmd_info[2]'>
+								<h3 class="title" v-text='item.title'></h3>
+								<img :src="item.pic" alt="" />
+							</a>
+						</li>
 					</ul>
 					<ul>
 						<li  class="ShengHuoJiaJu">
@@ -197,20 +162,12 @@
 								<li><a href="###">创意用品</a></li>
 							</ul>
 						</li>
-						<table border="0" cellspacing="0" cellpadding="1">
-							<tr>
-								<td><a href="###"><img src="../img/lifepicture (44).jpg" alt="" /></a></td>
-								<td><a href="###"><img src="../img/lifepicture (45).jpg" alt="" /></a></td>
-								<td rowspan="2"><a href="###"><img src="../img/lifepicture(3).jpg" alt="" /></a></td>
-								<td><a href="###"><img src="../img/lifepicture (47).jpg" alt="" /></a></td>
-							</tr>
-							<tr>
-								<td><a href="###"><img src="../img/lifepicture (48).jpg" alt="" /></a></td>
-								<td><a href="###"><img src="../img/lifepicture (49).jpg" alt="" /></a></td>
-
-								<td><a href="###"><img src="../img/lifepicture (51).jpg" alt="" /></a></td>
-							</tr>
-						</table>
+						<li class="life_furniture">
+							<a href="###" v-for='item in cmd_info[3]'>
+								<h3 class="title" v-text='item.title'></h3>
+								<img :src="item.pic" alt="" />
+							</a>
+						</li>
 					</ul>
 					<p class="teMaititle">特卖专区 Sales</p>
 					<ul class="teMaiSals">
@@ -252,7 +209,9 @@
 				<a href="###">一键客服</a><span>|</span>
 				<a href="../aboutOur.html">关于我们</a>
 				<p>CopyrightO 生活一家 2007-2015, All Rights Reserved</p>
-			</div>
+			</div>	
 		</div>
+		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
+		<script type='text/javascript' src='../js/indexjs.js' ></script>
 	</body>
 </html>
