@@ -1,5 +1,5 @@
 @import "base.css";
-@import "d:/sassCore/_function.scss";
+@import "g:/sassCore/_function.scss";
 
 %divWidthAuto{
     width: 1200px;
@@ -169,7 +169,7 @@
     width: 720px;
     margin: 20px 0px  50px 190px;
 }
-.active-a{
+.active_a{
     background-color: #fb7803;
     color: white !important;
 }

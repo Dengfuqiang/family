@@ -59,7 +59,7 @@
   margin: 20px auto 50px;
   clear: both; }
 
-.active-a {
+.active_a {
   background-color: #fb7803;
   color: white !important; }
 
@@ -155,7 +155,10 @@
     background: url("../img/lifepicture (1).png") no-repeat -283px -177px; }
   #foodContain h2 {
     margin: 16px auto 11px;
-    color: #4d4d4d; }
+    color: #4d4d4d;
+    width: 187px;
+    height: 38px;
+    overflow-y: hidden; }
   #foodContain p {
     color: #ed601b; }
     #foodContain p span {

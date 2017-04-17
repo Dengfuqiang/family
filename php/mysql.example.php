@@ -27,5 +27,6 @@
 	echo '</pre>';
 	echo '查询次数:'.$mysql->query_count.'<br>';
 	echo '查询时间:'.number_format(microtime(true)-($mysql->query_start_time),10).' 秒<br>';
-	echo '错误信息:'.$mysql->error().'<br>';
-?>
+	echo '错误信息:'.$mysql->error().'<br>';4,7,11,14
+?>update life_articles set category=371 where category=3; 
+update life_articles set category=374 where category=375; 

@@ -7,13 +7,33 @@ window.onload=function(){
 	
 }
 Vue.http.get('../php/getData/getData.php').then(function(res){
-	var data=JSON.parse(res.bodyText);
-	var vm=new Vue({
-		el:"#familyAndContain",
-		data:{
-			cmd_info:data
-		}
-	});
+	vm.beautity_life=JSON.parse(res.bodyText)[0];
+	vm.life_food=JSON.parse(res.bodyText)[1];
+	vm.life_articles=JSON.parse(res.bodyText)[2];
+	vm.life_furniture=JSON.parse(res.bodyText)[3];
+	
 }, function(res){
 	
+});
+var vm=new Vue({
+	el:"#familyAndContain",
+	data:{
+		beautity_life:[],
+		life_food:[],
+		life_articles:[],
+		life_furniture:[],
+		index:null
+	},
+	methods:{
+		getDate:function(event,table,index){
+			vm.index=table;
+			this.$http.get('../php/getData/upData.php?table='+table+'&category='+event.target.id).then(function(res){
+				//console.log(this.cmd_info[this.index])
+				vm[vm.index]=JSON.parse(res.bodyText)[0];
+				
+			}, function(res){
+				
+			});
+		}
+	}
 });

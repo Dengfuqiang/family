@@ -59,9 +59,9 @@
     margin: 20px auto 50px;
     clear: both;
 }
-.active-a{
+.active_a{
     background-color: #fb7803;
-    color: white !important;
+    color: white !important; 
 }
 #life_contain{
     width: 1004px;
@@ -184,6 +184,9 @@
     h2{
         margin: 16px auto 11px;
         color: #4d4d4d;
+        width: 187px; 
+        height: 38px;
+        overflow-y: hidden;
     }
     p{
         color: #ed601b;
