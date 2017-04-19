@@ -86,6 +86,7 @@
         position: relative;
         border-right: 1px solid #e6e6e6;
         padding-right: 25px;
+        cursor: pointer;
     }
     .food_next_pre{
         font-size: 14px;
@@ -197,4 +198,10 @@
             margin-right: 20px;
         } 
      } 
+}
+.active_top{
+    border-bottom-color: #ffaf5b!important;
+}
+.active_bottom{
+    border-top-color: #ffaf5b!important;
 }

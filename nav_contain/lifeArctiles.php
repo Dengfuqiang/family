@@ -50,10 +50,10 @@
 		<script type="text/javascript" src="../js/vue.js" ></script>
 		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
 		<script type="text/javascript">
-			var nav ={"msg":"","list":{"columnIcon":"","msgCount":0,"pageList":[{"id":"224","title":"中外名酒"},{"id":"225","title":"茗茶月饼"},{"id":"226","title":"休闲食品"},{"id":"229","title":"奶粉"},{"id":"230","title":"饮品"},{"id":"312","title":"生鲜蔬果"},{"id":"313","title":"干货"},{"id":"379","title":"保健品"},{"id":"402","title":"特产类"}],"pageNum":1,"pageSize":10000,"totalPage":1,"totalRecord":9,"updateTime":""},"status":"0"};
+			var nav ={"msg":"","list":{"columnIcon":"","msgCount":0,"pageList":[{"id":"232","title":"小家电"},{"id":"233","title":"大家电"},{"id":"234","title":"厨电总汇"},{"id":"336","title":"手机数码"},{"id":"337","title":"名表首饰"},{"id":"365","title":"化妆品"},{"id":"370","title":"服装"},{"id":"371","title":"女装"},{"id":"372","title":"母婴"},{"id":"373","title":"鞋靴箱包"},{"id":"374","title":"运动户外"},{"id":"375","title":"汽车用品"},{"id":"380","title":"日常用品"},{"id":"395","title":"床上用品"}],"pageNum":1,"pageSize":10000,"totalPage":1,"totalRecord":14,"updateTime":""},"status":"0"};
 		   document.getElementsByClassName('headerNavInner')[0].getElementsByTagName('a')[0].className='';
-		   document.getElementsByClassName('headerNavInner')[0].getElementsByTagName('a')[2].className='active_nav';
-			var url='../php/getData/getCommodityData.php?table=life_food&page=0&category=224';
+		   document.getElementsByClassName('headerNavInner')[0].getElementsByTagName('a')[3].className='active_nav';
+			var url='../php/getData/getCommodityData.php?table=life_articles&page=0&category=232';
 			Vue.http.get(url).then(function(res){
 				console.log(JSON.parse(res.bodyText))
 				vm.cmd_list=JSON.parse(res.bodyText)[0];
@@ -79,7 +79,7 @@
 					nav:nav.list.pageList,
 					nav_selected:0,
 					page:0,
-					category:224,
+					category:232,
 					active:0,
 					nowPage:1,
 					active_sort:0,
@@ -108,7 +108,7 @@
 						this.nav_selected=index;
 						this.category=event.target.id;
 						this.active_sort=0;
-						var url='../php/getData/getCommodityData.php?table=life_food&page=0&category='+event.target.id;
+						var url='../php/getData/getCommodityData.php?table=life_articles&page=0&category='+event.target.id;
 						this.$http.get(url).then(function(res){
 							vm.cmd_list=JSON.parse(res.bodyText)[0];
 							var page=Math.floor(JSON.parse(res.bodyText)[2][0]['count(id)']/12) ;
@@ -131,9 +131,9 @@
 						this.nowPage=i;
 						this.active=i-1;
 						if(this.active_sort){
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+this.nowPage+'&category='+this.category+'&sort='+this.sortId+'&top=0';
+							var url='../php/getData/getCommodityData.php?table=life_articles&page='+this.nowPage+'&category='+this.category+'&sort='+this.sortId+'&top=0';
 						}else{
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+this.nowPage+'&category='+this.category;
+							var url='../php/getData/getCommodityData.php?table=life_articles&page='+this.nowPage+'&category='+this.category;
 						}
 
 						this.$http.get(url).then(function(res){
@@ -149,12 +149,12 @@
 						this.sortId=item.id;
 						if(top==1){
 							item.flag=top;
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+(this.nowPage-1)+'&category='+this.category+'&sort='+item.id+'&top=1';
+							var url='../php/getData/getCommodityData.php?table=life_articles&page='+(this.nowPage-1)+'&category='+this.category+'&sort='+item.id+'&top=1';
 						}else if(top==2){
 							item.flag=top;
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+(this.nowPage-1)+'&category='+this.category+'&sort='+item.id+'&top=0';
+							var url='../php/getData/getCommodityData.php?table=life_articles&page='+(this.nowPage-1)+'&category='+this.category+'&sort='+item.id+'&top=0';
 						}else{
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+(this.nowPage-1)+'&category='+this.category+'&sort='+item.id;
+							var url='../php/getData/getCommodityData.php?table=life_articles&page='+(this.nowPage-1)+'&category='+this.category+'&sort='+item.id;
 						}
 
 						this.$http.get(url).then(function(res){

@@ -85,7 +85,7 @@
 							</div>
 							<a class="telphone" href="###">400-890-2828转11064</a>
 						</li>
-						<li>
+						<li v-html='data[0][0].content'>
 							<span class="spInformation">
 								<a href="###">
 									<h2>商品详情</h2>
@@ -147,5 +147,28 @@
 				<p>CopyrightO 生活一家 2007-2015, All Rights Reserved</p>
 			</div>
 		</div>
+		<script type="text/javascript" src="../js/vue.js" ></script>
+		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
+		<script type="text/javascript">
+		   document.getElementsByClassName('headerNavInner')[0].getElementsByTagName('a')[0].className='';
+		   document.getElementsByClassName('headerNavInner')[0].getElementsByTagName('a')[1].className='active_nav';
+			var cmdId = location.search.split('=')[1];
+			var url='../php/getData/getDetailData.php?table=beautity_life&id='+cmdId;
+			Vue.http.get(url).then(function(res){
+				var res =JSON.parse(res.bodyText ) ;
+				console.log(res)
+				var vm=new Vue({
+					el:'#beatifulBody',
+					data:{
+						data:res
+					},
+					methods:{
+					}
+				})
+			}, function(res){
+				console.log(res);
+			});
+			
+		</script>
 	</body>
 </html>

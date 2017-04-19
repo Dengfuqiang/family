@@ -47,8 +47,8 @@
 							<li><a class="active_nav" href="../index/index.php">首页</a></li>
 							<li><a href="../nav_contain/beautifulLife.php">精彩生活</a></li>
 							<li><a href="../nav_contain/lifeFood.php">生活食品</a></li>
-							<li><a href="###">生活用品</a></li>
-							<li><a href="###">生活家居</a></li>
+							<li><a href="../nav_contain/lifeArctiles.php">生活用品</a></li>
+							<li><a href="../nav_contain/lifeFurniture.php">生活家居</a></li>
 							<li><a href="###">会员杂锦</a></li>
 							<li><a href="../nav_contain/aboutOur.php">关于我们</a></li>
 						</ul>

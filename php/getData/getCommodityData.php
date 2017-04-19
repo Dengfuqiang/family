@@ -9,7 +9,19 @@
 	$min=$_GET['page']*12;
 	$category=$_GET['category'];
 	$max=$min+12;
-	$sql='select * from '.$table.' where category='.$category.' LIMIT '.$min.','.$max;
+	if(!isset($_GET['sort'])){
+		$sql='select * from '.$table.' where category='.$category.' LIMIT '.$min.','.$max;
+	}else{
+		if(isset($_GET['top'])){
+			if($_GET['top']){
+				$sql='select * from '.$table.' where category='.$category.' ORDER BY '.$_GET['sort'].' LIMIT '.$min.','.$max;
+			}else{
+				$sql='select * from '.$table.' where category='.$category.' ORDER BY '.$_GET['sort'].' desc LIMIT '.$min.','.$max;
+			}
+		}else{
+			$sql='select * from '.$table.' where category='.$category.' ORDER BY '.$_GET['sort'].' LIMIT '.$min.','.$max;
+		}
+	}
 	$sql2='select * from '.$table.' where commodity_id=1';
 	$sql3=' select count(id) from '.$table.' where category='.$category;
 	$res = $mysql->query($sql);

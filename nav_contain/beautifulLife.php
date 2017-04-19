@@ -39,7 +39,7 @@
 					</li>
 				</ul>
 				<ul id="bt_middle">
-					<li v-for='item in cmd_list'>
+					<li @click='to_deatil(item)' v-for='item in cmd_list'>
 						<a href="javascript:;"><img :src="item.pic" :alt="item.shortDesc" /></a>
 						<span>
 							<h2><a href="javascript:;" v-text='item.title'></a></h2>
@@ -115,6 +115,9 @@
 								console.log(res);
 							});
 						this.active=i;
+					},
+					to_deatil:function(item){
+						location.href='beautifulLife_inner.php?id='+item.id;
 					}
 				}
 			})
