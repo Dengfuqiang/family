@@ -26,4 +26,27 @@
 			];
 			echo json_encode($res);
 	}
-?>
+?>			<?php
+				header("content-type:text/html;charset=utf-8");
+				session_start();
+				$useInfo=$_SESSION;
+				if(isset( $_SESSION['username'])){
+					if(isset($_SESSION['shoppingCar'])){
+						require_once '../php/mysql.class.php';
+						$mysql = new MySQL('localhost','root','','family');
+						$arr=[];
+						foreach ($_SESSION['shoppingCar'] as $key => $value) {
+							$sql='select * from '.$value['table'].' where id='.$key;
+							$res = $mysql->query($sql);
+							$res[]=$value['count'];
+							$arr[]=$res;
+						}
+						echo 'var login=1; var dataList='.json_encode($arr).';';
+					}
+
+					
+				}else{
+					echo 'var login=0;';
+				}
+				
+				?>

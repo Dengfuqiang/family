@@ -36,7 +36,7 @@
 						</select>
 						<input type="text" name="searchText" id="searchText" value="" /><input type="submit" name="searchBt" id="searchBt" value="搜索" />
 						<div class="kefuShoppingCar">
-							<a href="###" id="kefu">一键客服</a><a href="###" id="shoppingCar">购物车</a>
+							<a href="###" id="kefu">一键客服</a><a href="../life_food/shopping_car.php" id="shoppingCar">购物车</a>
 						</div>
 					</div>
 

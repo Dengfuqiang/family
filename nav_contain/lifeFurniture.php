@@ -19,7 +19,7 @@
 						</span>
 					</div>
 					<ul id="foodContain">
-						<li v-for='item in cmd_list'>
+						<li  @click='to_deatil(item)' v-for='item in cmd_list'>
 							<a href="javascript:;"><img :src="item.pic" alt="" /></a>
 							<h2 v-text='item.title'></h2>
 							<p><i v-text='item.marketPrice'></i><span v-text='item.salesPrice'></span></p>
@@ -162,6 +162,9 @@
 							}, function(res){
 								console.log(res);
 							});
+					},
+					to_deatil:function(item){
+						location.href='shipingxiangqing.php?category=life_furniture&id='+item.id;
 					}
 				}
 			})
