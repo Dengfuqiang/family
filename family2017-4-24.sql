@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-04-24 22:08:23
+Date: 2017-04-25 00:25:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1835,18 +1835,47 @@ INSERT INTO `users` VALUES ('8', '18813973443', '18813973443', 'e10adc3949ba59ab
 -- ----------------------------
 DROP TABLE IF EXISTS `user_address`;
 CREATE TABLE `user_address` (
-  `id` int(4) NOT NULL,
+  `id` int(4) NOT NULL AUTO_INCREMENT,
   `phone` varchar(11) NOT NULL,
   `username` varchar(64) CHARACTER SET utf8 NOT NULL,
   `address` varchar(32) CHARACTER SET utf8 NOT NULL,
   `detailaddrass` varchar(255) CHARACTER SET utf8 NOT NULL,
   `default` int(2) NOT NULL,
+  `addressname` varchar(32) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of user_address
 -- ----------------------------
-INSERT INTO `user_address` VALUES ('0', '18813973441', '豆腐', '广东广州', '天河车陂东圃大马路8号时代TIT广场A座4楼430\r\n天河车陂东圃大马路8号时代TIT广场A座4楼430\r\n天河车陂东圃大马路8号时代TIT广场A座4楼430', '1');
-INSERT INTO `user_address` VALUES ('1', '18813973441', '测试地址', '测试地址', '测试地址测试地址测试地址测试地址', '0');
-INSERT INTO `user_address` VALUES ('2', '18813973441', '豆腐强', '广东广州', '天河车陂东圃大马路8号时代TIT广场A座4楼430\r\n天河车陂东圃大马路8号时代TIT广场A座4楼430\r\n天河车陂东圃大马路8号时代TIT广场A座4楼430', '0');
+INSERT INTO `user_address` VALUES ('15', '18813973441', 'sdasdasd', 'asda', 'asdasd', '0', '');
+INSERT INTO `user_address` VALUES ('16', '18813973441', 'asdas', 'dasd', 'asdafa', '0', '');
+INSERT INTO `user_address` VALUES ('17', '18813973441', 'asdasd', 'asdas', 'dasdasd', '0', '');
+INSERT INTO `user_address` VALUES ('18', '18813973441', 'asd', 'qwq', 'asfaf', '0', '');
+INSERT INTO `user_address` VALUES ('19', '18813973441', 'qwrq', 'rqt', 'asdasd', '0', '');
+INSERT INTO `user_address` VALUES ('20', '18813973441', 'asdasa', 'fasfa', 'sasdasd', '0', '');
+INSERT INTO `user_address` VALUES ('21', '18813973441', 'asdasa', 'fasfa', 'sasdasd', '0', '');
+INSERT INTO `user_address` VALUES ('22', '18813973441', 'asdasa', 'fasfa', 'sasdasd', '0', '');
+INSERT INTO `user_address` VALUES ('23', '18813973441', 'asdasa', 'fasfa', 'sasdasd', '0', '');
+INSERT INTO `user_address` VALUES ('24', '18813973441', 'asf', 'qetq', 'weqweqwe', '1', '');
+INSERT INTO `user_address` VALUES ('25', '18813973441', '', '', '', '0', '');
+
+-- ----------------------------
+-- Table structure for user_order
+-- ----------------------------
+DROP TABLE IF EXISTS `user_order`;
+CREATE TABLE `user_order` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(255) NOT NULL,
+  `cmd_id` int(8) NOT NULL,
+  `cmd_count` varchar(8) NOT NULL,
+  `cmd_price` decimal(10,2) NOT NULL,
+  `order_status` int(2) NOT NULL,
+  `create_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `address` int(8) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of user_order
+-- ----------------------------

@@ -19,13 +19,13 @@
 					<div class="address">
 						<h2>选择收货地址</h2>
 						<ul class="address_list" >
-							<li @click='selected($index,item,$event)' :class="defaults(item,$index)?'selected':''" v-for='item in dataList.address'>
+							<li @click='selected($index,item,$event)' :class="defaults(item,$index)&&$index==thisIndex?'selected':''" v-for='item in dataList.address'>
 								<p><span>{{item.address}}（{{item.username}}收）</span><span v-text='item.phone'>13689223290</span></p>
 								<p>天河车陂东圃大马路8号时代TIT广场A座4楼430</p>
 								<div class="change_address"><a href="javascript:;" class="change_bt">修改</a> | <a href="javascript:;" class="cancel_bt">删除</a></div>
 							</li>
 						</ul>
-						<a href="" class="add_address">+添加地址</a>
+						<a href="javascript:void(0)" @click='addAddress()' class="add_address">+添加地址</a>
 					</div>
 					<div class="confirm_order_info">
 						<h2>确认订单信息</h2>
@@ -52,7 +52,7 @@
 							<label>买家留言：<input type="text" name="" id="" v-model='liuyan'/></label>
 							<div class="zongji">
 								<p>总计：<i v-text='allPrice'>158.00</i></p>
-								<input type="submit" name="" id="" value="提交订单" class="confirm_submit" />
+								<input type="submit" name="" id="" value="提交订单" @click.prevent='submitOrder()' class="confirm_submit" />
 							</div>
 						</div>
 					</div>
@@ -69,18 +69,18 @@
 				<a href="../aboutOur.html">关于我们</a>
 				<p>CopyrightO 生活一家 2007-2015, All Rights Reserved</p>
 			</footer>
-			<div class="add_address_window" style="display: none;">
+			<div class="add_address_window" style="display: none;" v-show='addWin'>
 				<div class="add_address_inner">
-					<h3>使用新地址 <a href="" class="close_win"></a></h3>
+					<h3>使用新地址 <a href="javascript:void(0);" class="close_win" @click='addAddress()'></a></h3>
 					<div class="add_info">
 						<p><span>新增收货地址</span>电话号码、手机号选填一项，其余均为必真项</p>
 						<form action="" method="post">
-							<label><span>收货人姓名</span><input type="text" name="" id="reciver_name" value="" placeholder="长度不超过25个字符"/></label>
-							<label><span>手机号码<i>*</i></span><input type="text" name="" id="mobile_phone" value="" placeholder="请输入手机号" /></label>
-							<label><span>所在城市<i>*</i></span><input type="text" name="" id="city" value="" placeholder="请输入省市区" /></label>
-							<label><span>详细地址<i>*</i></span><textarea name="" rows="" cols=""  id="address_detail" placeholder="建议你如实填写的的信息，如街道门牌号..."></textarea>  </label>
-							<label><input type="checkbox" name="isdefault" id="isdefault" value="" />设置为默认收货地址</label>
-							<input type="submit" value="保存" id="confirm_add_address"/>
+							<label><span>收货人姓名</span><input type="text" name="" id="reciver_name" value="" placeholder="长度不超过25个字符" v-model='address.userName'/></label>
+							<label><span>手机号码<i>*</i></span><input type="text" name="" id="mobile_phone" value="" placeholder="请输入手机号"  v-model='address.phone'/></label>
+							<label><span>所在城市<i>*</i></span><input type="text" name="" id="city" value="" placeholder="请输入省市区" v-model='address.provinCity'/></label>
+							<label><span>详细地址<i>*</i></span><textarea name="" rows="" cols=""  id="address_detail" placeholder="建议你如实填写的的信息，如街道门牌号..."  v-model='address.addressDetail'></textarea>  </label>
+							<label><input type="checkbox" name="isdefault" id="isdefault"  v-model='address.isDefault'/>设置为默认收货地址</label>
+							<input type="submit" value="保存" id="confirm_add_address" @click.prevent='submitAddAddress()'/>
 						</form>
 					</div>
 				</div>
@@ -98,13 +98,23 @@
 			if(!login){
 					location.href='../index/login.html';
 				}
+			Vue.http.options.emulateJSON = true;
 			var vm=new Vue({
-				el:'#submit_order_ct',
+				el:'#familyAndContain',
 				data:{
 					dataList:dataList,
 					allPrice:dataList.allPrice*1,
 					liuyan:'',
 					selectedAddress:0,
+					addWin:false,
+					address:{
+						userName:'',
+						phone:'',
+						provinCity:'',
+						addressDetail:'',
+						isDefault:'',
+						thisIndex:0
+					}
 				},
 				methods:{
 					addCount:function(item){
@@ -125,6 +135,7 @@
 					},
 					defaults:function(item,index){
 						if(item.default==1){
+							this.thisIndex=index;
 							return true;
 						}
 						else{
@@ -138,6 +149,48 @@
 						}
 						lis[index].className='selected';
 						this.selectedAddress=item.id;
+					},
+					addAddress:function(){
+						this.addWin=!this.addWin;
+					},
+					submitAddAddress:function(){
+						var url='../php/createOrder/addAddress.php';
+						this.$http.post(url, this.address).then(function(res){
+							res=JSON.parse(res.bodyText);
+							console.log(res);
+							if(res.code){
+								alert(res.msg);
+								vm.addWin=false;
+								this.thisIndex=this.dataList.address.length-1;
+								vm.dataList.address.push({
+									'address':vm.address.provinCity,
+									'addressname':vm.address.userName,
+									'default':vm.address.isDefault,
+									'detailaddrass':vm.address.provinCity,
+									'id':res.id[0]['max(id)'],
+									'phone':vm.address.phone
+								});
+							}else{
+								alert(res.msg);
+								
+							}
+						}, function(err){
+							
+						});
+					},
+					submitOrder:function(){
+						var url='../php/createOrder/createOrder.php';
+						addressId=this.selectedAddress;
+						var obj={};
+							obj.cmdId=[],
+							obj.addressId=addressId;
+						this.$http.post(url, obj).then(function(res){
+							res=JSON.parse(res.bodyText);
+							console.log(res);
+						}, function(err){
+							console.log(res);
+							
+						});
 					}
 				}
 			});
