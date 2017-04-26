@@ -27,6 +27,7 @@ var vm=new Vue({
 	methods:{
 		getDate:function(event,table,index){
 			vm.index=table;
+			console.log(event.target)
 			this.$http.get('../php/getData/upData.php?table='+table+'&category='+event.target.id).then(function(res){
 				//console.log(this.cmd_info[this.index])
 				vm[vm.index]=JSON.parse(res.bodyText)[0];

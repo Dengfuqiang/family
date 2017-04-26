@@ -1,7 +1,6 @@
 <?php
 	session_start();
 	$useInfo=$_SESSION;
-	$_SESSION['shoppingCar']=[];
 	include '../public/public_header.php';
 	if(isset( $_SESSION['username'])){
 		require_once '../php/mysql.class.php';
@@ -135,6 +134,7 @@
 					},
 					defaults:function(item,index){
 						if(item.default==1){
+							this.selectedAddress=item.id;
 							this.thisIndex=index;
 							return true;
 						}
@@ -184,9 +184,22 @@
 						var obj={};
 							obj.cmdId=[],
 							obj.addressId=addressId;
+							obj.liuyan=this.liuyan;
+							for(a in this.dataList[0]){
+								obj.cmdId.push({
+									'cmdId':this.dataList[0][a][0].id,
+									'counts':this.dataList[0][a].count
+								});
+							}
 						this.$http.post(url, obj).then(function(res){
 							res=JSON.parse(res.bodyText);
 							console.log(res);
+							if(res.code==1){
+								alert(res.msg);
+								location.href='pay_success.html?order_code='+res.order_code;
+							}else{
+								alert(res.msg)
+							}
 						}, function(err){
 							console.log(res);
 							
