@@ -37,27 +37,26 @@
 					
 					</div>
 					<h3>我的订单</h3>
-					<div class="my_order" >
-						<h4>订单编号：{{data.order.order_code}}</h4>
-						<div class="commodity_info" v-for='item in data.order_cmd'>
+					<div class="my_order" v-for='item in data.order'>
+						<h4>订单编号：{{item.order_code}}</h4>
+						<div class="commodity_info" v-for='items in item.cmd_list'>
 							<a class="info_ct">
 								<span class="cmd_pic_ct">
-									<img src="../img/120_120-(3)_02.png"/>
+									<img :src="items.commodity_img"/>
 								</span>
-								<span class="cmd_title" v-text=''>
-									百草味 夏威夷果200g*3袋奶油 味  夏威夷果
+								<span class="cmd_title" v-text='items.commodity_title'>
 								</span>
 								<span class="cmd_num">
-									x{{item.cmd_count}}
+									x{{items.cmd_count}}
 								</span>
 								<span class="pay_way">
-									<p class="price">￥500.00</p>
+									<p class="price" >￥{{items.all_price}}</p>
 									<span>在线支付</span>
 								</span>
 							</a>
 							<div class="cmd_status">
 								<p class="status">
-									<a href="" class="" v-if='data.order.order_status==1'>等待付款</a>
+									<a href="" class="" v-if='item.order_status==1'>等待付款</a>
 								</p>
 								<p>
 									<a href="" class="cmd_detail_bt">订单详情</a>
@@ -72,28 +71,10 @@
 					<h3>我的收藏</h3>
 					<div class="my_favour">
 						<ul>
-							<li>
-								<a href=""><img src="../img/120_120-(3)_02.png" alt="" /></a>
-								<h5>同仁堂牌  枸杞子枸杞王500g</h5>
-								<p><span class="price">￥59.00</span><del>￥79.00</del></p>
-								<a href="" class="add_shopping_car">加入购物车</a>
-							</li>
-							<li>
-								<a href=""><img src="../img/120_120-(3)_02.png" alt="" /></a>
-								<h5>同仁堂牌  枸杞子枸杞王500g</h5>
-								<p><span class="price">￥59.00</span><del>￥79.00</del></p>
-								<a href="" class="add_shopping_car">加入购物车</a>
-							</li>
-							<li>
-								<a href=""><img src="../img/120_120-(3)_02.png" alt="" /></a>
-								<h5>同仁堂牌  枸杞子枸杞王500g</h5>
-								<p><span class="price">￥59.00</span><del>￥79.00</del></p>
-								<a href="" class="add_shopping_car">加入购物车</a>
-							</li>
-							<li>
-								<a href=""><img src="../img/120_120-(3)_02.png" alt="" /></a>
-								<h5>同仁堂牌  枸杞子枸杞王500g</h5>
-								<p><span class="price">￥59.00</span><del>￥79.00</del></p>
+							<li v-for='item in data.favour_cmd'>
+								<a href=""><img :src="item.pic" alt="" /></a>
+								<h5 v-text='item.title'>同仁堂牌  枸杞子枸杞王500g</h5>
+								<p><span class="price">￥{{item.salesPrice}}</span><del>￥{{item.marketPrice}}</del></p>
 								<a href="" class="add_shopping_car">加入购物车</a>
 							</li>
 						</ul>
@@ -123,16 +104,33 @@
 					}
 					$phone=$_SESSION['phone'];
 					$res= $mysql->table('users')->where("phone={$phone}")->select();
+					$favour= $mysql->table('user_favour')->where("phone={$phone}")->limit(0,4)->select();
+					$favour_list=[];
+						//var_dump($favour);exit;
+					foreach ($favour as $key => $value) {
+						$cmd_id=$value['cmd_id'];
+						//var_dump($cmd_id);exit;
+						$sql='SELECT * FROM life_food WHERE id='.$cmd_id.' UNION SELECT * FROM life_furniture WHERE id='.$cmd_id.' UNION SELECT * FROM life_articles WHERE id='.$cmd_id;
+						$favour_cmd_list= $mysql->query($sql);
+						//var_dump($favour_cmd_list);exit;
+						$favour_list[]=$favour_cmd_list[0];
+					}
+						//var_dump($favour_list);exit;
 					//$phone=['0']['phone'];
 					$defautl_address=$mysql->table('user_address')->where("phone={$phone} and `default`=1")->select();
-					$order=$mysql->table('user_order')->where("phone={$phone}")->limit(0,1)->select();
-					$order_code=$order[0]['order_code'];
-					$order_commodity=$mysql->table('order_commodity')->where("order_code={$order_code}")->limit(0,2)->select();
-					$arr=['userInfo'=>$res[0],'address'=>$defautl_address[0],'order'=>$order[0],'order_cmd'=>$order_commodity];
+					$order=$mysql->table('user_order')->where("phone={$phone}")->limit(0,2)->select();
+					foreach ($order as $key => $value) {
+						$order_code=$value['order_code'];
+						$order_commodity=$mysql->table('order_commodity')->where("order_code={$order_code}")->select();
+						$order[$key]['cmd_list']=$order_commodity;
+						//var_dump($order[$key]);
+					}
+					$arr=['userInfo'=>$res[0],'address'=>$defautl_address[0],'order'=>$order,'favour_cmd'=>$favour_list];
 					echo 'var data='. json_encode($arr).";";
 					?>
 			</script>
 			<script type="text/javascript">
+			console.log(data);
 				if(!data){
 					alert('请先登录！');
 					location.href='../index/index.php';

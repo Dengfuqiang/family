@@ -35,7 +35,7 @@
 										数量 <span><input type="text" name="shuliang" id="shuliang" value="1" v-model='cmdCount' /><a id="add_cont" @click='addCount()' href="javascript:void(0)"></a><a id="reduce_cont" @click='reduceCount()' href="javascript:void(0)"></a></span>件
 									</li>
 									<li class="buying"><a href="javascript:void(0)">立即购买</a><a  class="mashangmai" href="javascript:void(0)" @click='toShoppingCar()'>加入购物车</a></li>
-									<li class="sharefriend"><span href="javascript:void(0)">分享</span><span class="spelice_span">|</span><span class="shouchang" href="javascript:void(0)">收藏</span></li>
+									<li class="sharefriend"><span href="javascript:void(0)">分享</span><span class="spelice_span">|</span><span class="shouchang" href="javascript:void(0)" @click='shouCang()'>收藏</span></li>
 								</ul>
 							</div>
 
@@ -82,6 +82,7 @@
 			var vm;
 			Vue.http.get(url).then(function(res){
 				var res =JSON.parse(res.bodyText );
+				console.log(res);
 				 vm=new Vue({
 					el:'#beatifulBody',
 					data:{
@@ -117,6 +118,19 @@
 								}else{
 									alert(res.msg);
 								}
+							},function(err){
+								
+							});
+						},
+						shouCang:function(){
+							var url='../php/shopping/addToFavour.php?id='+arr[1];
+							this.$http.get(url).then(function(res){
+								res=JSON.parse(res.bodyText);
+								if(res.code==2){
+									alert(res.msg);
+									location.href='../index/login.html';
+								}
+								alert(res.msg);
 							},function(err){
 								
 							});

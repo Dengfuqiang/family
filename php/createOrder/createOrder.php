@@ -17,7 +17,12 @@
 	foreach ($data['cmdId'] as $key => $value) {
 		$commodity_id=$value['cmdId'];
 		$cmd_count=$value['counts'];
-		$res2 = $mysql->data(array('commodity_id'=>$commodity_id,'order_code'=>$order_code2	,'cmd_count'=>$cmd_count))->table('order_commodity')->add();
+		$sql='SELECT * FROM life_food WHERE id='.$commodity_id.' UNION SELECT * FROM life_furniture WHERE id='.$commodity_id.' UNION SELECT * FROM life_articles WHERE id='.$commodity_id;
+		$cmd_info = $mysql->query($sql);
+		$all_price = $cmd_info[0]['salesPrice']*$cmd_count;
+		$title=$cmd_info[0]['title'];
+		$img=$cmd_info[0]['pic'];
+		$res2 = $mysql->data(array('commodity_img'=>$img,'commodity_title'=>$title,'commodity_id'=>$commodity_id,'order_code'=>$order_code2	,'cmd_count'=>$cmd_count,'all_price'=>$all_price))->table('order_commodity')->add();
 	}
 	if($res>0||$res2>0){
 			$res=[
