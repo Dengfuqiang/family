@@ -6,8 +6,8 @@
 	$mysql = new MySQL('localhost','root','','family');
 	$arr = $_POST;
 	$phone=$arr['mobile_phone'];
-	$pwd=$arr['pwd'];
-	$sql="SELECT * FROM users WHERE phone ='$phone' and pwd = md5($pwd)";
+	$pwd=md5($arr['pwd']);
+	$sql="SELECT * FROM users WHERE phone ='$phone' and pwd ='$pwd'";
 	$result = $mysql->query($sql);
 	if(!empty($result)){
 		session_start();

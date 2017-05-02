@@ -8,14 +8,14 @@
 			<article id='account_contain'>
 				<section class="nav_left">
 					<ul>
-						<li><a href="">基本资料</a></li>
-						<li><a href="">升级会员</a></li>
-						<li><a href="">我的订单</a></li>
-						<li><a href="">我的钱包</a></li>
-						<li><a href="">我的收藏</a></li>
-						<li><a href="">收货地址</a></li>
-						<li><a href="">帮组中心</a></li>
-						<li><a href="">意见反馈</a></li>
+						<li><a href="person_info.php">基本资料</a></li>
+						<li><a href="person_info.php">升级会员</a></li>
+						<li><a href="person_info.php">我的订单</a></li>
+						<li><a href="person_info.php">我的钱包</a></li>
+						<li><a href="person_info.php">我的收藏</a></li>
+						<li><a href="person_info.php">收货地址</a></li>
+						<li><a href="person_info.php">帮组中心</a></li>
+						<li><a href="person_info.php">意见反馈</a></li>
 					</ul>
 				</section>
 				<section class="info_right">
@@ -93,15 +93,15 @@
 				<p>CopyrightO 生活一家 2007-2015, All Rights Reserved</p>
 			</footer>
 			<script type="text/javascript" src="../js/vue.js" ></script>
-		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
 			<script type="text/javascript">
 				<?php
 					header("content-type:text/html;charset=utf-8");
 					require_once '../php/mysql.class.php';
 					$mysql = new MySQL('localhost','root','','family');
 					if(!isset($_SESSION['phone'])){
-						echo 'var data=0;';exit;
-					}
+						echo 'var data=0;';
+					}else{
 					$phone=$_SESSION['phone'];
 					$res= $mysql->table('users')->where("phone={$phone}")->select();
 					$favour= $mysql->table('user_favour')->where("phone={$phone}")->limit(0,4)->select();
@@ -126,21 +126,21 @@
 						//var_dump($order[$key]);
 					}
 					$arr=['userInfo'=>$res[0],'address'=>$defautl_address[0],'order'=>$order,'favour_cmd'=>$favour_list];
-					echo 'var data='. json_encode($arr).";";
+					echo 'var data='. json_encode($arr).";";}
 					?>
-			</script>
-			<script type="text/javascript">
-			console.log(data);
-				if(!data){
-					alert('请先登录！');
-					location.href='../index/index.php';
-				}
-				var vm =new Vue({
-					el:'#account_contain',
-					data:{
-						data:data
+					console.log(data);
+					if(!data){
+						alert('请先登录！');
+						location.href='../index/login.html';
 					}
-				})
+					var vm =new Vue({
+						el:'#account_contain',
+						data:{
+							data:data
+						}
+					})
 			</script>
 	</body>
 </html>
+
+

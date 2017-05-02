@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="div">
+			<component :is='currentView' :abc='arr'></component>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/vue.js" ></script>
+	<script type="text/javascript">
+		var vm= new Vue({
+			el:'#div',
+			data:{
+				arr:[1,2,3],
+				currentView:'child'
+			},
+			components:{
+				'child':{
+					props:['abc'],
+					template:'<p v-for="item in abc">{{item}}</p>'
+				}
+			}
+		})
+	</script>
+</html>
