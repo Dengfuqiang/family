@@ -37,6 +37,7 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 				userInfo:res,
 				favourList:[],
 				addressList:[],
+				purse:true,
 			},
 			favourList:[]
 			
@@ -116,7 +117,11 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 					this.$parent.currentView='child7'
 				},
 				changePurse:function(){
-					this.$parent.currentView='child8'
+					if(!this.$parent.dataArr.userInfo.purse_pwd){
+						//this.$parent.$options.components.child8.purse=false;
+						vm.dataArr.purse=false;
+					}
+					this.$parent.currentView='child8';
 					
 				}
 			}
@@ -156,7 +161,78 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 		},
 		 'child3':{
 		 	props:['data'],
-			template:'#my_favour_cmd'
+		 	data:function(){
+		 		return {
+		 			checkAlls:false,
+		 			selectedCheckbox:{}
+		 		};
+		 	},
+			template:'#my_favour_cmd',
+			methods:{
+				checkAll:function(){
+					this.checkAlls=!this.checkAlls;
+					if(this.checkAlls){
+						for(i=0;i<this.data.favourList.length;i++){
+							this.selectedCheckbox[i]=this.data.favourList[i].id;
+						}
+					}else{
+						this.selectedCheckbox={};
+					}
+					console.log(this.selectedCheckbox);
+				},
+				deleteThis:function(index,item){
+					var url='../php/getData/getOrder.php?fc=deleteFavour';
+					var index=index;
+					var arr=[];
+					arr.push(item.id);
+					var obj={
+						arr:arr,
+					}
+					this.$http.post(url, obj).then(function(res){
+						res=JSON.parse(res.bodyText);
+						if(res.code==1){
+							this.data.favourList.splice(index,1);
+							alert(res.msg);
+						}else{
+							alert(res.msg);
+						}
+					}, function(err){
+						alert(err);
+					});
+				},
+				childCheck:function(index,item,e){
+					if(e.target.checked){
+						if(!this.selectedCheckbox[index]){
+							this.selectedCheckbox[index]=item.id;
+						}
+					}else{
+						if(this.selectedCheckbox[index]){
+							delete this.selectedCheckbox[index];
+						}
+					}
+					console.log(this.selectedCheckbox);
+				},
+				deleteSelect:function(){
+					console.log(1)
+					var url='../php/getData/getOrder.php?fc=deleteFavour';
+					var obj={};
+					obj.arr=[];
+					 for(a in this.selectedCheckbox){
+						obj.arr.push(this.selectedCheckbox[a])
+					 }
+					this.$http.post(url, obj).then(function(res){
+						res=JSON.parse(res.bodyText);
+						if(res.code==1){
+							alert(res.msg);
+							location.reload();
+						}else{
+							alert(res.msg);
+						}
+					}, function(err){
+						alert(err);
+					});
+				}
+			}
 		},
 		 'child4':{
 		 	props:['data'],
@@ -206,16 +282,17 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 						console.log(res);
 						if(res.code){
 							alert(res.msg);
-							vm.addWin=false;
-							this.thisIndex=this.dataList.address.length-1;
-							vm.dataList.address.push({
-								'address':vm.address.provinCity,
-								'addressname':vm.address.userName,
-								'default':vm.address.isDefault,
-								'detailaddrass':vm.address.provinCity,
-								'id':res.id[0]['max(id)'],
-								'phone':vm.address.phone
+							this.thisIndex=this.data.addressList.length;
+							this.data.addressList.push({
+									'address':this.address.provinCity,
+									'addressname':this.address.userName,
+									'default':this.address.isDefault,
+									'detailaddrass':this.address.addressDetail,
+									'id':res.id[0]['max(id)'],
+									'phone':this.address.phone
 							});
+							this.addWin=false;
+							return ;
 						}else{
 							alert(res.msg);
 							
@@ -305,7 +382,54 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 			}
 		},
 		'child8':{
+			props:['data'],
+			data:function(){
+				return {
+					pursePwd:'',
+					changeData:{
+						newPursePwd:'',
+						repeatPwd:'',
+						phone:'',
+						sms:'',
+					}
+					
+				};
+			},
 			template:'#change_purse_pwd',
+			methods:{
+				setPursePwd:function(){
+					var url='../php/getData/getOrder.php?purse='+this.pursePwd+'&fc=setPurse';
+					this.$http.get(url).then(function(res){
+						res=JSON.parse(res.bodyText);
+						if(res.code==1){
+							alert(res.msg);
+							this.$parent.currentView='child0';
+						}
+					}, function(err){
+						
+					});
+				},
+				changePursePwd:function(){
+					if(this.changeData.newPursePwd!=this.changeData.repeatPwd){
+						alert('请输入一样的密码');
+						return;
+					}
+					var url='../php/getData/getOrder.php?fc=changePursePwd';
+					this.$http.post(url,this.changeData).then(function(res){
+						res=JSON.parse(res.bodyText);
+						console.log(res);
+						if(res.code==1){
+							alert(res.msg);
+							this.$parent.currentView='child0';return;
+						}
+						
+							alert(res.msg);
+						
+					}, function(err){
+						
+					});
+				}
+			}
 		},
 		 'loading':{
 			template:'#loading'
@@ -315,3 +439,4 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 }, function(res){
 	console.log(res);
 });
+

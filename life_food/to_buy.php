@@ -166,7 +166,7 @@
 									'address':vm.address.provinCity,
 									'addressname':vm.address.userName,
 									'default':vm.address.isDefault,
-									'detailaddrass':vm.address.provinCity,
+									'detailaddrass':vm.address.addressDetail,
 									'id':res.id[0]['max(id)'],
 									'phone':vm.address.phone
 								});
@@ -196,7 +196,7 @@
 							console.log(res);
 							if(res.code==1){
 								alert(res.msg);
-								location.href='pay_success.html?order_code='+res.order_code;
+								location.href='pay.php?order_code='+res.order_code;
 							}else{
 								alert(res.msg)
 							}

@@ -140,4 +140,84 @@
 		
 		echo  json_encode($res);
 	}
+	function setPurse(){
+		global $mysql;
+		$phone=$_SESSION['phone'];
+		$purse=md5($_GET['purse']);
+			//var_dump($favour_list);exit;
+		//$phone=['0']['phone'];
+		$result= $mysql->table('users')->data(array('purse_pwd'=>$purse))->where("phone=$phone")->update();
+		if($result>0){
+			$res=[
+				'msg'=>'设置成功',
+				'code'=>1
+			];
+		}else{
+			$res=[
+				'msg'=>'网络链接失败',
+				'code'=>2
+			];
+		}
+		echo  json_encode($res);
+	}
+	function changePursePwd(){
+		global $mysql;
+		$thisPhone=$_SESSION['phone'];
+		$phone=$_POST['phone'];
+		$sms=$_POST['sms'];
+		$newPurse=md5($_POST['newPursePwd']);
+		if($thisPhone==$phone&&$sms==111111){
+			$result= $mysql->table('users')->data(array('purse_pwd'=>$newPurse))->where("phone={$thisPhone}")->update();
+			if($result>0){
+			$res=[
+					'msg'=>'修改成功',
+					'code'=>1,
+					'erro'=>$mysql->error()
+				];
+			}else{
+				$res=[
+					'msg'=>'网络连接失败',
+					'code'=>3,
+					'erro'=>$mysql->error()
+				];
+			}
+		}else{
+			$res=[
+				'msg'=>'修改	失败，验证码错误',
+				'code'=>2
+			];
+		}
+		echo  json_encode($res);
+	}
+	function deleteFavour(){
+		global $mysql;
+		$thisPhone=$_SESSION['phone'];
+		$arr=$_POST['arr'];
+		//$sql='delete * from user_favour where cmd_id in (-1';
+		$uname='';
+		for($i=0;$i<count($arr);$i++){
+
+		$uname=$uname."'".$arr[$i]."',";
+		
+		}
+		
+		$the_uname ="cmd_id in(".$uname."'')";
+		
+		
+		$result=$mysql->table('user_favour')->where($the_uname)->delete();
+		if($result>0){
+			$res=[
+					'msg'=>'删除成功',
+					'code'=>1,
+				];
+			
+		}else{
+			$res=[
+				'msg'=>'网络连接失败',
+				'code'=>3,
+				'erro'=>$sql
+			];
+		}
+		echo  json_encode($res);
+	}
 ?>

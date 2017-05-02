@@ -140,20 +140,20 @@
 						</span>
 					</h2>
 					<div class="property box">
-						<div class="item item2 "><label><span class="check_span"></span><input type="checkbox" name="" id="" value="">全选</label><a href="javascript:;" class="cancel_all">删除</a><span>商品详情</span></div>
+						<div class="item item2 "><label><input type="checkbox" name="" id="allSelect" @click='checkAll()'>全选</label><a href="javascript:void(0);" class="cancel_all" @click='deleteSelect()'>删除</a><span>商品详情</span></div>
 						<div class="item">单价（元）</div>
 						<div class="item">操作</div>
 					</div>
 					<ul class="commodity_list ">
 						<li class="box" v-for='item in data.favourList'>
-							<label><span class="check_span"></span><input type="checkbox" name="" id="" value=""></label>
+							<label><input @click='childCheck($index,item,$event)' type="checkbox" name="" id="" value="" :checked="checkAlls"></label>
 							<div class="cmd_info item">
 								<a href="#" class="box">
 									<div><img :src="item.pic" alt=""></div>
 									<div class="item cd_title"><span v-text='item.title'>百草味 夏威夷果200g*3袋奶油 味  夏威夷果</span></div>
 								</a></div>
 							<div class="item before">￥<span class="price" v-text='item.salesPrice'>500</span></div>
-							<div class="item"><a href="#" class="cancel">删除</a></div>
+							<div class="item"><a href="javascript:void(0);" class="cancel" @click='deleteThis($index,item)'>删除</a></div>
 						</li>
 					</ul>
 				</section>
@@ -241,9 +241,9 @@
 					</h2>
 					<form action="" method="post">
 						
-						<label><span>当前密码:</span><input type="text" name="" id="" value="" placeholder="请输入密码" v-model='obj.oldPwd'/></label>
-						<label><span>新密码:</span><input type="text" name="" id="" value="" placeholder="请输入新密码" v-model='obj.newPwd'/></label>
-						<label><span>确认密码:</span><input type="text" name="" id="" value="" placeholder="请再次输入密码" v-model='obj.repeatPwd'/></label>
+						<label><span>当前密码:</span><input type="password" name="" id="" value="" placeholder="请输入密码" v-model='obj.oldPwd'/></label>
+						<label><span>新密码:</span><input type="password" name="" id="" value="" placeholder="请输入新密码" v-model='obj.newPwd'/></label>
+						<label><span>确认密码:</span><input type="password" name="" id="" value="" placeholder="请再次输入密码" v-model='obj.repeatPwd'/></label>
 						<i>注意：密码不得填空格，可由英文字母和数字组成</i>
 						<input type="submit" value="保存" @click.prevent='submits' class="save"/>
 					</form>
@@ -256,15 +256,17 @@
 							修改钱包密码
 						</span>
 					</h2>
-					<form action="" method="post">
-						
-
-						<label><span>新密码:</span><input type="text" name="" id="" value="" placeholder="请输入新密码"/></label>
-						<label><span>确认密码:</span><input type="text" name="" id="" value="" placeholder="请再次输入密码"/></label>
-						<label><span>手机号码:</span><input type="text" name="" id="" value="" placeholder="请输入手机号码"/></label>
-						<label><span>验证码:</span><input type="text" name="" id="sms" value="" placeholder="请输入验证码"/><a href="" id="sms_bt">获取验证码</a></label>
+					<form action="" method="post" v-if='data.purse'>
+						<label><span>新密码:</span><input type="password" name="" id="" value="" placeholder="请输入新密码" v-model='changeData.newPursePwd'/></label>
+						<label><span>确认密码:</span><input type="password" name="" id="" value="" placeholder="请再次输入密码" v-model='changeData.repeatPwd'/></label>
+						<label><span>手机号码:</span><input type="text" name="" id="" value="" placeholder="请输入手机号码" v-model='changeData.phone'/></label>
+						<label><span>验证码:</span><input type="text" name="" id="sms" value="" placeholder="请输入验证码" v-model='changeData.sms'/><a href="" id="sms_bt">获取验证码</a></label>
 						<i>注意：密码不得填空格，可由英文字母和数字组成</i>
-						<input type="submit" value="保存" class="save"/>
+						<input type="submit" value="保存" class="save"  @click.prevent='changePursePwd()'/>
+					</form>
+					<form action="#" method="post" v-else>
+						<label><span>钱包密码:</span><input type="text" name="" id="" value="" placeholder="请设置钱包密码" v-model='pursePwd'/></label>
+						<input type="submit" value="保存" class="save" @click.prevent='setPursePwd()'/>
 					</form>
 				</section>
 				</template>

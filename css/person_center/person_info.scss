@@ -184,7 +184,11 @@ h2{
 
 .change_purse_pwd{
     @extend .change_pwd;
-    
+    form{
+    min-height: 327px;
+        
+    }
+
 }
 #sms{
     width: 173px;
@@ -451,19 +455,6 @@ h2{
         background-color: $bc;
     }
 }
-.check_span{
-    width: 15px;
-    height: 15px;
-    border: 1px solid #cdcdcd;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-    display: inline-block;
-    position: absolute;
-    left: 0;
-    top:0;
-    bottom: 0;
-    margin: auto;
-}
 
 .my_favour_cmd label{
     position: absolute;
@@ -474,7 +465,17 @@ h2{
     margin: auto;
     padding-left: 35px;
     input{
-        opacity: 0;
+         width: 15px;
+    height: 15px;
+    border: 1px solid #cdcdcd;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top:0;
+    bottom: 0;
+    margin: auto;
     }
 }
 .my_favour_cmd{
