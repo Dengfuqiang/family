@@ -152,6 +152,42 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 					}, function(err){
 						
 					});
+				},
+				orderDetial:function(item){
+					console.log(item);
+					location.href='order_detail.php?order_code='+item.order_code;
+				},
+				cencelOrder:function(index,item){
+					if(confirm('是否确认取消订单！')){
+						var url='../php/getData/getOrder.php?fc=cencelOrder&order_code='+item.order_code;
+							this.$http.get(url).then(function(res){
+							res=JSON.parse(res.bodyText);
+							console.log(res)
+							if(res.code==1){
+								alert(res.msg);
+								this.data.myorder.splice(index,1);
+								
+							}
+						}, function(err){
+							
+						});
+					}
+				},
+				getCmd:function(index,item){
+					if(confirm('是否确认收货！')){
+						var url='../php/getData/getOrder.php?fc=getCmd&order_code='+item.order_code;
+							this.$http.get(url).then(function(res){
+							res=JSON.parse(res.bodyText);
+							console.log(res)
+							if(res.code==1){
+								alert(res.msg);
+								this.data.myorder.splice(index,1);
+								
+							}
+						}, function(err){
+							
+						});
+					}
 				}
 			}
 		},

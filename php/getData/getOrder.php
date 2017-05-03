@@ -220,4 +220,76 @@
 		}
 		echo  json_encode($res);
 	}
+	function cencelOrder(){
+		global $mysql;
+		$order_code=$_GET['order_code'];
+		$result=$mysql->table('order_commodity')->where("order_code={$order_code}")->delete();
+		$result=$mysql->table('user_order')->where("order_code={$order_code}")->delete();
+		if($result>0){
+			$res=[
+					'msg'=>'取消订单成功',
+					'code'=>1,
+				];
+			
+		}else{
+			$res=[
+				'msg'=>'由于网络原因，取消订单失败',
+				'code'=>3,
+				'erro'=>$mysql->error()
+			];
+		}
+		echo  json_encode($res);
+	}
+	function getCmd(){
+		global $mysql;
+		$order_code=$_GET['order_code'];
+		$result=$mysql->table('user_order')->data(array('order_status'=>'4'))->where("order_code={$order_code}")->update();
+		if($result>0){
+			$res=[
+					'msg'=>'操作成功',
+					'code'=>1,
+				];
+			
+		}else{
+			$res=[
+				'msg'=>'由于网络原因，操作失败',
+				'code'=>3,
+				'erro'=>$mysql->error()
+			];
+		}
+		echo  json_encode($res);
+	}
+	function createAfterOrder(){
+		global $mysql;
+		    $back_reason = $_POST["back_reason"];
+		    $back_price = $_POST["back_price"];
+			$back_info = $_POST['back_info'];
+		    $file = $_FILES["upfile"];
+		    // var_dump($file);
+		    //文件名
+		    $name = iconv('utf-8','gb2312','../upload/'.$file["name"]);
+		    $file_type = $file["type"];
+		    $tmp = $file["tmp_name"];
+		    if($file_type=='image/png'){
+		        //判断文件是否存在
+		        if(!file_exists($name)){
+		            //移动文件
+		            if(move_uploaded_file($tmp,$name)){
+		                // echo "上传成功";
+		                //$sql = "INSERT INTO `slide_img`(`id`, `link`, `title`, `src`) VALUES (null,'$link','$title','$name')";
+		                //$res=$mysql->execute($sql);
+		                //if($res>0){
+		                    echo "上传成功";
+		                    echo "<script type='text/javascript'>setTimeout(function() {location.href='upload_img.html';},2000);</script>";
+		                //}
+		            }else{
+		                echo "上传失败";
+		            }
+		        }else{
+		            echo "文件已经存在";
+		        }
+		    }else{
+		        echo "文件格式错误";
+		    }
+	}
 ?>

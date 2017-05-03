@@ -64,7 +64,7 @@
 								<div class="item">交易操作</div>
 							</div>
 							<ul class="commodity_list">
-								<li v-for='child in items	.cmd_list'>
+								<li v-for='child in items.cmd_list'>
 									<div class="order_bianhao">
 										订单编号：<span v-text='items.order_code'>SHYJ125203</span>
 										<a href="" class="delete_order"></a>
@@ -78,15 +78,15 @@
 										</div>
 										<div class="item">x{{child.cmd_count}}</div>
 										<div class="item order_before"><span class="price">￥{{child.all_price}}</span><p class="pay_way">在线支付</p></div>
-										<div class="item after  order_before" v-if='items.order_status==1'><p class="order_status">等待付款</p><a href="javascript:void(0)" class="order_detail">订单详情</a></div>
-										<div class="item after  order_before" v-if='items.order_status==2'><p class="order_status">待发货</p><a href="javascript:void(0)" class="order_detail">订单详情</a></div>
-										<div class="item after  order_before" v-if='items.order_status==3'><p class="order_status" >待收货</p><a href="javascript:void(0)" class="order_detail">订单详情</a></div>
-										<div class="item after  order_before" v-if='items.order_status==4'><p class="order_status">已完成</p><a href="javascript:void(0)" class="order_detail">订单详情</a></div>
-										<div class="item after  order_before" v-if='items.order_status==5'><p class="order_status">售后处理中</p><a href="javascript:void(0)" class="order_detail">订单详情</a></div>
-										<div class="item" v-if='items.order_status==1'><a href="" class="to_pay">立即付款</a><a href="" class="cancel_order">取消订单</a></div>
-										<div class="item" v-if='items.order_status==2'><a href="" class="cancel_order">取消订单</a></div>
-										<div class="item" v-if='items.order_status==3'><a href="" class="to_pay">收货</a><a href="" class="to_pay">申请退款</a></div>
-										<div class="item" v-if='items.order_status==4'><a href="" class="to_pay" >申请售后</a><a href="" class="cancel_order"></a></div>
+										<div class="item after  order_before" v-if='items.order_status==1'><p class="order_status">等待付款</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
+										<div class="item after  order_before" v-if='items.order_status==2'><p class="order_status">待发货</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
+										<div class="item after  order_before" v-if='items.order_status==3'><p class="order_status" >待收货</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
+										<div class="item after  order_before" v-if='items.order_status==4'><p class="order_status">已完成</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
+										<div class="item after  order_before" v-if='items.order_status==5'><p class="order_status">售后处理中</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
+										<div class="item" v-if='items.order_status==1'><a href="../life_food/pay.php" class="to_pay">立即付款</a><a href="javascript:void(0);" class="cancel_order"  @click='cencelOrder($parent.$index,items)'>取消订单</a></div>
+										<div class="item" v-if='items.order_status==2'><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>取消订单</a></div>
+										<div class="item" v-if='items.order_status==3'><a href="javascript:void(0);" class="to_pay" @click='getCmd($parent.$index,items)'>收货</a></div>
+										<div class="item" v-if='items.order_status==4'><a href="" class="cancel_order"></a></div>
 										<div class="item" v-if='items.order_status==5'><a href="" class="to_pay" >取消售后</a><a href="" class="cancel_order"></a></div>
 									</div>
 								</li>

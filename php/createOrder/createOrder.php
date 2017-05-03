@@ -13,17 +13,20 @@
 	$address_id=$data['addressId'];
 	$order_code=date('Ymd').str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
 	$order_code2=$order_code;
-	$res = $mysql->data(array('address'=>$address_id,'order_code'=>$order_code,'phone'=>$phone,'order_status'=>$order_statue,'create_time'=>$create_time,'liuyan'=>$liuyan))->table('user_order')->add();
+	$order_all_price=0;
 	foreach ($data['cmdId'] as $key => $value) {
 		$commodity_id=$value['cmdId'];
 		$cmd_count=$value['counts'];
 		$sql='SELECT * FROM life_food WHERE id='.$commodity_id.' UNION SELECT * FROM life_furniture WHERE id='.$commodity_id.' UNION SELECT * FROM life_articles WHERE id='.$commodity_id;
 		$cmd_info = $mysql->query($sql);
 		$all_price = $cmd_info[0]['salesPrice']*$cmd_count;
+		$order_all_price+=$all_price;
 		$title=$cmd_info[0]['title'];
 		$img=$cmd_info[0]['pic'];
-		$res2 = $mysql->data(array('commodity_img'=>$img,'commodity_title'=>$title,'commodity_id'=>$commodity_id,'order_code'=>$order_code2	,'cmd_count'=>$cmd_count,'all_price'=>$all_price))->table('order_commodity')->add();
+		$salesPrice=$cmd_info[0]['salesPrice'];
+		$res2 = $mysql->data(array('sales_price'=>$salesPrice,'commodity_img'=>$img,'commodity_title'=>$title,'commodity_id'=>$commodity_id,'order_code'=>$order_code2	,'cmd_count'=>$cmd_count,'all_price'=>$all_price))->table('order_commodity')->add();
 	}
+	$res = $mysql->data(array('order_all_price'=>$order_all_price,'address'=>$address_id,'order_code'=>$order_code,'phone'=>$phone,'order_status'=>$order_statue,'create_time'=>$create_time,'liuyan'=>$liuyan))->table('user_order')->add();
 	if($res>0||$res2>0){
 			$res=[
 				'msg'=>'提交订单成功',
