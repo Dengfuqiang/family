@@ -20,8 +20,8 @@
 						<ul class="address_list" >
 							<li @click='selected($index,item,$event)' :class="defaults(item,$index)&&$index==thisIndex?'selected':''" v-for='item in dataList.address'>
 								<p><span>{{item.address}}（{{item.username}}收）</span><span v-text='item.phone'>13689223290</span></p>
-								<p>天河车陂东圃大马路8号时代TIT广场A座4楼430</p>
-								<div class="change_address"><a href="javascript:;" class="change_bt">修改</a> | <a href="javascript:;" class="cancel_bt">删除</a></div>
+								<p v-text='item.detailaddrass'>天河车陂东圃大马路8号时代TIT广场A座4楼430</p>
+								<div class="change_address"><a href="javascript:;" class="change_bt"  @click='changeAddress(item)'>修改</a> | <a href="javascript:;" class="cancel_bt"  @click='deleteAddress($index,item)'>删除</a></div>
 							</li>
 						</ul>
 						<a href="javascript:void(0)" @click='addAddress()' class="add_address">+添加地址</a>
@@ -106,16 +106,29 @@
 					liuyan:'',
 					selectedAddress:0,
 					addWin:false,
+					flag:1,
 					address:{
 						userName:'',
 						phone:'',
 						provinCity:'',
 						addressDetail:'',
 						isDefault:'',
-						thisIndex:0
+						thisIndex:0,
+						id:''
 					}
 				},
 				methods:{
+					changeAddress:function(item){
+						console.log(item)
+						this.addWin=!this.addWin;
+						this.address.userName=item.username;
+						this.address.phone=item.phone;
+						this.address.provinCity=item.address;
+						this.address.addressDetail=item.detailaddrass;
+						this.address.isDefault=item.default;
+						this.address.id=item.id;
+						this.flag=0;
+					},
 					addCount:function(item){
 						item.count++;
 						if(item.check){
@@ -153,8 +166,25 @@
 					addAddress:function(){
 						this.addWin=!this.addWin;
 					},
+					deleteAddress:function(index,item){
+						if(confirm('是否确认删除收货地址！')){
+							var url='../php/getData/getOrder.php?fc=deleteAddress&id='+item.id;
+								this.$http.get(url).then(function(res){
+								res=JSON.parse(res.bodyText);
+								console.log(res)
+								if(res.code==1){
+									alert(res.msg);
+									this.dataList.address.splice(index,1);
+									return;
+								}
+								alert(res.msg)
+							}, function(err){
+								
+							});
+						}
+					},
 					submitAddAddress:function(){
-						var url='../php/createOrder/addAddress.php';
+						var url='../php/createOrder/addAddress.php?flag='+this.flag+'&id='+this.address.id;
 						this.$http.post(url, this.address).then(function(res){
 							res=JSON.parse(res.bodyText);
 							console.log(res);
@@ -162,14 +192,20 @@
 								alert(res.msg);
 								vm.addWin=false;
 								this.thisIndex=this.dataList.address.length-1;
-								vm.dataList.address.push({
-									'address':vm.address.provinCity,
-									'addressname':vm.address.userName,
-									'default':vm.address.isDefault,
-									'detailaddrass':vm.address.addressDetail,
-									'id':res.id[0]['max(id)'],
-									'phone':vm.address.phone
-								});
+								if(this.flag){
+									console.log(vm.address.userName)
+									vm.dataList.address.push({
+										'address':vm.address.provinCity,
+										'username':vm.address.userName,
+										'default':vm.address.isDefault,
+										'detailaddrass':vm.address.addressDetail,
+										'id':res.id[0]['max(id)'],
+										'phone':vm.address.phone
+									});
+								}else{
+									location.reload();
+								}
+								this.addWin=false;
 							}else{
 								alert(res.msg);
 								

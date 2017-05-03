@@ -14,7 +14,7 @@
 					</div>
 					<ul class="commodity_list ">
 						<li class="box" v-for='item in dataList'>
-							<label><input type="checkbox" name="" @change='checkBox(item,$index)' id="" value="" /></label>
+							<label><input type="checkbox" name="" @click='checkBox(item,$index)' :checked="checks" id="" value="" /></label>
 							<div class="cmd_info item">
 								<a href="#" class="box">
 									<div><img :src="item[0].pic" alt="" /></div>
@@ -81,16 +81,16 @@
 		</script>
 		<script type="text/javascript" src="../js/jquery-2.2.2.min.js" ></script>
 		<script type="text/javascript">
-				var allPrice=0;
 				var vm=new Vue({
 					el:'#shopping_car',
 					data:{
 						dataList:dataList,
 						selectCommodity:{
 							'0':[],
-							allPrice:allPrice
+							allPrice:0
 						},
 						selectNum:0,
+						checks:false
 					},
 					methods:{
 						checkBox:function(item,index){
@@ -100,7 +100,7 @@
 								this.selectNum++;
 								this.selectCommodity.allPrice+=item[0].salesPrice*item.count*1;
 							}else{
-								item.check=false	;
+								item.check=false;
 								this.selectNum--;
 								delete this.selectCommodity[index]
 								this.selectCommodity.allPrice-=item[0].salesPrice*item.count*1;
@@ -142,11 +142,19 @@
 				//全选
 				$(document).on('click',obj.allSelect,function(){
 					if(this.checked){
-						oneArr.find('input:checkbox').click();
-						vm.selectCommodity=vm.dataList;
+						var len=vm.dataList.length;
+						vm.checks=true;
+						vm.selectCommodity[0]=vm.dataList;
+						vm.selectNum=len;
+						for(i=0;i<len;i++){
+							console.log(vm.dataList[i].count)
+							console.log(vm.dataList[i][0].salesPrice)
+							console.log(vm.selectCommodity)
+							vm.selectCommodity.allPrice+=vm.dataList[i].count*1*vm.dataList[i][0].salesPrice*1;
+						}
 					}else{
-						oneArr.find('input:checkbox').click();
-						vm.selectCommodity={};
+						vm.checks=false;
+						vm.selectCommodity['0']={};
 					}
 				});
 				if(obj.two){

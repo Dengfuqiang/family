@@ -7,22 +7,17 @@
 		html,body{
 			width: 100%;
 			height: 100%;
-			position: relative;
 		}
 		img{
 			display: block;
 			width: 240px;
 			height: 300px;
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			right: 0;
-			left: 0;
-			margin: auto;
+			
+			margin: 78px auto;
 		}
 	</style>
 		<img src="../img/1493722188878.jpg"/>
-	<footer id="familyFooter" style="position: fixed;bottom: 0;left: 0;width: 100%;">
+	<footer id="familyFooter">
 				<a href="index.html">首页</a><span>|</span>
 				<a href="../beautifulLife.html">精彩生活</a><span>|</span>
 				<a href="../lifeFood.html">生活食品</a><span>|</span>

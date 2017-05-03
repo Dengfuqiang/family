@@ -8,14 +8,13 @@
 			<article id='account_contain'>
 				<section class="nav_left">
 					<ul>
-						<li><a href="person_info.php">基本资料</a></li>
-						<li><a href="person_info.php">升级会员</a></li>
-						<li><a href="person_info.php">我的订单</a></li>
-						<li><a href="person_info.php">我的钱包</a></li>
-						<li><a href="person_info.php">我的收藏</a></li>
-						<li><a href="person_info.php">收货地址</a></li>
-						<li><a href="person_info.php">帮组中心</a></li>
-						<li><a href="person_info.php">意见反馈</a></li>
+						<li><a href="person_info.php?tab=child0&selectNum=0">基本资料</a></li>
+						<li><a href="person_info.php?tab=child1&selectNum=1">我的订单</a></li>
+						<li><a href="person_info.php?tab=child2&selectNum=2">我的钱包</a></li>
+						<li><a href="person_info.php?tab=child3&selectNum=3">我的收藏</a></li>
+						<li><a href="person_info.php?tab=child4&selectNum=4">收货地址</a></li>
+						<li><a href="person_info.php?tab=child5&selectNum=5">帮组中心</a></li>
+						<li><a href="person_info.php?tab=child6&selectNum=6">意见反馈</a></li>
 					</ul>
 				</section>
 				<section class="info_right">
@@ -56,15 +55,31 @@
 							</a>
 							<div class="cmd_status">
 								<p class="status">
-									<a href="" class="" v-if='item.order_status==1'>等待付款</a>
+									<a href="javascript:void(0)" class="" v-if='item.order_status==1'>等待付款</a>
+									<a href="javascript:void(0)" class="" v-if='item.order_status==2'>待发货</a>
+									<a href="javascript:void(0)" class="" v-if='item.order_status==3'>待收货</a>
+									<a href="javascript:void(0)" class="" v-if='item.order_status==4'>已完成</a>
+									<a href="javascript:void(0)" class="" v-if='item.order_status==5'>售后处理中</a>
 								</p>
 								<p>
-									<a href="" class="cmd_detail_bt">订单详情</a>
+									<a href="javascript:void(0)" class="cmd_detail_bt"  @click='orderDetial(items)'>订单详情</a>
 								</p>
 
 							</div>
-							<div class="operation">
-								<a href="">立即付款</a>
+							<div class="operation" v-if='item.order_status==1'>
+								<a href="../life_food/pay.php">立即付款</a>
+								<a href="javascript:void(0)" @click='cencelOrder($parent.$index,items)'>取消订单</a>
+							</div>
+							<div class="operation" v-if='item.order_status==2'>
+								<a href="javascript:void(0)" @click='cencelOrder($parent.$index,items)'>取消订单</a>
+							</div>
+							<div class="operation" v-if='item.order_status==3'>
+								<a href="javascript:void(0)"  @click='getCmd($parent.$index,items)'>收货</a>
+							</div>
+							<div class="operation" v-if='item.order_status==4'>
+							</div>
+							<div class="operation" v-if='item.order_status==5'>
+								<a href="javascript:void(0)">取消售后</a>
 							</div>
 						</div>
 					</div>
@@ -72,7 +87,7 @@
 					<div class="my_favour">
 						<ul>
 							<li v-for='item in data.favour_cmd'>
-								<a href=""><img :src="item.pic" alt="" /></a>
+								<a href="javascript:void(0);" @click='toDetail(item)'><img :src="item.pic" alt="" /></a>
 								<h5 v-text='item.title'>同仁堂牌  枸杞子枸杞王500g</h5>
 								<p><span class="price">￥{{item.salesPrice}}</span><del>￥{{item.marketPrice}}</del></p>
 								<a href="" class="add_shopping_car">加入购物车</a>
@@ -118,7 +133,7 @@
 						//var_dump($favour_list);exit;
 					//$phone=['0']['phone'];
 					$defautl_address=$mysql->table('user_address')->where("phone={$phone} and `default`=1")->select();
-					$order=$mysql->table('user_order')->where("phone={$phone}")->limit(0,2)->select();
+					$order=$mysql->table('user_order')->where("phone={$phone}")->limit(0,5)->select();
 					foreach ($order as $key => $value) {
 						$order_code=$value['order_code'];
 						$order_commodity=$mysql->table('order_commodity')->where("order_code={$order_code}")->select();
@@ -137,6 +152,46 @@
 						el:'#account_contain',
 						data:{
 							data:data
+						},
+						methods:{
+							orderDetial:function(item){
+								console.log(item);
+								location.href='order_detail.php?order_code='+item.order_code;
+							},cencelOrder:function(index,item){
+								if(confirm('是否确认取消订单！')){
+									var url='../php/getData/getOrder.php?fc=cencelOrder&order_code='+item.order_code;
+										this.$http.get(url).then(function(res){
+										res=JSON.parse(res.bodyText);
+										console.log(res)
+										if(res.code==1){
+											alert(res.msg);
+											this.data.order.splice(index,1);
+											
+										}
+									}, function(err){
+										
+									});
+								}
+							},
+							getCmd:function(index,item){
+								if(confirm('是否确认收货！')){
+									var url='../php/getData/getOrder.php?fc=getCmd&order_code='+item.order_code;
+										this.$http.get(url).then(function(res){
+										res=JSON.parse(res.bodyText);
+										console.log(res)
+										if(res.code==1){
+											alert(res.msg);
+											this.data.order[index].order_status=4;
+											
+										}
+									}, function(err){
+										
+									});
+								}
+							},
+							toDetail:function(item){
+								location.href='../nav_contain/shipingxiangqing.php?category=life_food&id='+item.id;
+							}
 						}
 					})
 			</script>

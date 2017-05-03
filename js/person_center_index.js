@@ -20,8 +20,8 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 	 vm = new Vue({
 		el:'#familyAndContain',
 		data:{
-			navIndex:0,
-			currentView:'child0',
+			navIndex:selectNum*1,
+			currentView:tab,
 			selected_nav:0,
 			navInfo:[
 				'基本资料',
@@ -278,18 +278,46 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 					thisIndex:0,
 					selectedAddress:0,
 					addWin:false,
+					flag:1,
 					address:{
 						userName:'',
 						phone:'',
 						provinCity:'',
 						addressDetail:'',
 						isDefault:'',
-						thisIndex:0
+						id:''
 					},
 				}
 				
 			},
 			methods:{
+				changeAddress:function(item){
+					this.addWin=true;
+					this.address.userName=item.username;
+					this.address.phone=item.phone;
+					this.address.provinCity=item.address;
+					this.address.addressDetail=item.detailaddrass;
+					this.address.isDefault=item.default;
+					this.address.id=item.id;
+					this.flag=0;
+				},
+				deleteAddress:function(index,item){
+					if(confirm('是否确认删除收货地址！')){
+						var url='../php/getData/getOrder.php?fc=deleteAddress&id='+item.id;
+							this.$http.get(url).then(function(res){
+							res=JSON.parse(res.bodyText);
+							console.log(res)
+							if(res.code==1){
+								alert(res.msg);
+								this.data.addressList.splice(index,1);
+								return;
+							}
+							alert(res.msg)
+						}, function(err){
+							
+						});
+					}
+				},
 				defaults:function(item,index){
 					if(item.default==1){
 						this.selectedAddress=item.id;
@@ -310,23 +338,29 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 				},
 				addAddress:function(){
 						this.addWin=!this.addWin;
+						this.flag=1;
 				},
 				submitAddAddress:function(){
-					var url='../php/createOrder/addAddress.php';
+					var url='../php/createOrder/addAddress.php?flag='+this.flag+'&id='+this.address.id;
 					this.$http.post(url, this.address).then(function(res){
 						res=JSON.parse(res.bodyText);
 						console.log(res);
 						if(res.code){
 							alert(res.msg);
 							this.thisIndex=this.data.addressList.length;
-							this.data.addressList.push({
-									'address':this.address.provinCity,
-									'addressname':this.address.userName,
-									'default':this.address.isDefault,
-									'detailaddrass':this.address.addressDetail,
-									'id':res.id[0]['max(id)'],
-									'phone':this.address.phone
-							});
+							if(this.flag){
+								this.data.addressList.push({
+										'address':this.address.provinCity,
+										'username':this.address.userName,
+										'default':this.address.isDefault,
+										'detailaddrass':this.address.addressDetail,
+										'id':res.id[0]['max(id)'],
+										'phone':this.address.phone
+								});
+							}else{
+									location.reload();
+								}
+							
 							this.addWin=false;
 							return ;
 						}else{
@@ -472,7 +506,13 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 		},
 	}
 })
+	 
+var obj={
+	target:{
+		hasLoad:false
+	}
+}
+vm.navSelect(obj,selectNum);
 }, function(res){
 	console.log(res);
 });
-

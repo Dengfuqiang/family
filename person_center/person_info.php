@@ -67,7 +67,6 @@
 								<li v-for='child in items.cmd_list'>
 									<div class="order_bianhao">
 										订单编号：<span v-text='items.order_code'>SHYJ125203</span>
-										<a href="" class="delete_order"></a>
 									</div>
 									<div class="order_info_contain  box">
 										<div class="order_cmd_info item">
@@ -170,7 +169,7 @@
 								<li @click='selected($index,item,$event)' :class="defaults(item,$index)&&$index==thisIndex?'selected':''" v-for='item in data.addressList'>
 									<p><span>{{item.address}}（{{item.username}}收）</span><span v-text='item.phone'>13689223290</span></p>
 									<p v-text='item.detailaddrass'>天河车陂东圃大马路8号时代TIT广场A座4楼430</p>
-									<div class="change_address"><a href="javascript:;" class="change_bt">修改</a> | <a href="javascript:;" class="cancel_bt">删除</a></div>
+									<div class="change_address"><a href="javascript:;" class="change_bt" @click='changeAddress(item)'>修改</a> | <a href="javascript:;" class="cancel_bt" @click='deleteAddress($index,item)'>删除</a></div>
 								</li>
 							</ul>
 							<a href="javascript:void(0);" class="add_address" @click='addAddress'>+添加地址</a>
@@ -298,5 +297,8 @@
 		<script type="text/javascript" src="../js/vue.js" ></script>
 		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
 		<script type="text/javascript" src="../js/person_center_index.js" ></script>
+		<script type="text/javascript">
+			<?php echo 'var tab="'.$_GET['tab'].'",selectNum='.$_GET['selectNum'].';'?>
+		</script>
 	</body>
 </html>

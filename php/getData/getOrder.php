@@ -86,6 +86,27 @@
 		$res['data']=$mysql->query($sql);
 		echo  json_encode($res);
 	}
+	function deleteAddress(){
+		global $mysql;
+		$phone=$_SESSION['phone'];
+			//var_dump($favour_list);exit;
+		//$phone=['0']['phone'];
+		$id=$_GET['id'];
+		$result=$mysql->table('user_address')->where("id={$id}")->delete();
+		if($result>0){
+			$res=[
+				'msg'=>'删除成功',
+				'code'=>1
+			];
+		}else{
+			$res=[
+				'msg'=>'删除失败',
+				'code'=>2
+			];
+		}
+		
+		echo  json_encode($res);
+	}
 	function toback()
 	{
 		
@@ -264,32 +285,71 @@
 		    $back_reason = $_POST["back_reason"];
 		    $back_price = $_POST["back_price"];
 			$back_info = $_POST['back_info'];
+			$order_code=$_POST['order_code'];
+			$phone=$_SESSION['phone'];
 		    $file = $_FILES["upfile"];
 		    // var_dump($file);
 		    //文件名
-		    $name = iconv('utf-8','gb2312','../upload/'.$file["name"]);
+		    $name = iconv('utf-8','gb2312',$file["name"]);
+			$arr=explode('.', basename($name));
+			$hz=array_pop($arr);
+			$name='../upload/'.date('YmdHis').rand(100,999).'.'.$hz;
+			$arr=array('sale_reason'=>$back_reason,'sale_price'=>$back_price,'sale_explain'=>$back_info,'order_code'=>$order_code,'sale_picture'=>$name,'phone'=>$phone);
 		    $file_type = $file["type"];
 		    $tmp = $file["tmp_name"];
-		    if($file_type=='image/png'){
+		    if($file_type=='image/png'||$file_type=='image/jpeg'||$file_type=='image/jpg'){
 		        //判断文件是否存在
 		        if(!file_exists($name)){
 		            //移动文件
 		            if(move_uploaded_file($tmp,$name)){
 		                // echo "上传成功";
 		                //$sql = "INSERT INTO `slide_img`(`id`, `link`, `title`, `src`) VALUES (null,'$link','$title','$name')";
-		                //$res=$mysql->execute($sql);
-		                //if($res>0){
-		                    echo "上传成功";
-		                    echo "<script type='text/javascript'>setTimeout(function() {location.href='upload_img.html';},2000);</script>";
-		                //}
+		                $res=$mysql->data($arr)->table('sale_order')->add();
+		                if($res>0){
+		                	$mysql->data(array('order_status'=>5))->table('user_order')->where("order_code={$order_code}")->update();
+		                	$res=[
+								'msg'=>'提交成功',
+								'code'=>1,
+							];
+		                }
+
 		            }else{
-		                echo "上传失败";
+		                $res=[
+								'msg'=>'提交失败',
+								'code'=>2,
+							];
 		            }
 		        }else{
-		            echo "文件已经存在";
+		              $res=[
+							'msg'=>'提交失败，图片已存在',
+							'code'=>3,
+						];
 		        }
 		    }else{
-		        echo "文件格式错误";
+				$res=[
+				'msg'=>'提交失败，图片格式错误',
+				'code'=>4,
+				];
 		    }
+		echo json_encode($res);
+	}
+	function cencelSale(){
+		global $mysql;
+		$order_code=$_GET['order_code'];
+		$result=$mysql->table('user_order')->data(array('order_status'=>'4'))->where("order_code={$order_code} and order_status=5")->update();
+		if($result>0){
+			$res=[
+					'msg'=>'操作成功',
+					'code'=>1,
+				];
+			
+		}else{
+			$res=[
+				'msg'=>'由于网络原因，操作失败',
+				'code'=>3,
+				'erro'=>$mysql->error()
+			];
+		}
+		echo  json_encode($res);
 	}
 ?>

@@ -41,7 +41,7 @@
 				</section>
 				<section class="order_status" v-if='orderData[0].order_status==5'>
 					<p>当前订单状态： 售后处理中 </p>
-					<a href="javascript:void(0)" class="to_pay_money">取消售后</a>
+					<a href="javascript:void(0);" class="to_pay_money" @click='cencelSale()'>取消售后</a>
 				</section>
 				<section class="order_info">
 					<h2>订单信息</h2>
@@ -142,12 +142,35 @@
 							};
 						},
 						methods:{
+							cencelSale:function(){
+								if(confirm('是否确认取消售后！')){
+									var url='../php/getData/getOrder.php?fc=cencelSale&order_code='+this.orderData[0].order_code;
+										this.$http.get(url).then(function(res){
+										res=JSON.parse(res.bodyText);
+										console.log(res)
+										if(res.code==1){
+											alert(res.msg);
+											this.orderData[0].order_status=4;return;
+										}
+										alert(res.msg);
+									}, function(err){
+										
+									});
+								}
+							},
 							submitData:function(){
 								var formData = new FormData(document.getElementById('afterData'));
+								formData.append('order_code',this.orderData[0].order_code);
 								var url='../php/getData/getOrder.php?fc=createAfterOrder&order_code='+this.orderData[0].order_code;
 										this.$http.post(url,formData).then(function(res){
 										res=JSON.parse(res.bodyText);
-										console.log(res);
+										if(res.code==1){
+											alert(res.msg);
+											this.sellerAfter=false;
+											this.orderData[0].order_status=5;
+											return;
+										}
+										alert(res.msg);
 									}, function(err){
 										
 									});
