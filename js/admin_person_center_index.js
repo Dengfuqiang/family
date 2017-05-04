@@ -2,42 +2,34 @@ var myorder;
 var vm=null;
 var res={};
 Vue.http.options.emulateJSON = true;
-Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
+var selectUser={
+	name:'',
+	phone:'',
+	pwd:'',
+	purse_pwd:'',
+	balance:'',
+};
+Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 	res=JSON.parse(res.bodyText);
-	if(res.code==0){
-		alert(res.msg);
-		location.href='../index/login.html';
-		return ;
-		
-	}else{
-		res=res.data[0];
-	}
-	if(res.code==0){
-		alert(res.msg);
-		location.href='../index/login.html';
-		return ;
-	}
 	 vm = new Vue({
 		el:'#familyAndContain',
 		data:{
-			navIndex:selectNum*1,
-			currentView:tab,
+			navIndex:0,
+			currentView:'child0',
 			selected_nav:0,
 			navInfo:[
-				'基本资料',
-				'我的订单',
-				'我的钱包',
-				'我的收藏',
-				'收货地址',
-				'帮组中心',
-				'意见反馈'
+				'账号管理',
+				'订单管理',
+				'商品管理',
+				'反馈管理'
 			],
 			dataArr:{
 				myorder:[],
-				userInfo:res,
+				userInfo:res.data,
 				favourList:[],
 				addressList:[],
 				purse:true,
+				backList:[],
 			},
 			favourList:[]
 			
@@ -50,25 +42,22 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 			if(i==0){
 				return false;
 			}else if(i==1&&!e.target.hasLoad){
-				var url='../php/getData/getOrder.php?status=1&fc=getOrder';
+				var url='../php/index/admin_manage.php?status=1&fc=getOrder';
 				e.target.hasLoad=true;
 					this.$http.get(url).then(function(res){
 					res=JSON.parse(res.bodyText);
-					if(res.code==0){
-						alert(res.msg);
-						location.href='../index/login.html';
-						return ;
-					}
-					this.dataArr.myorder=res.data;
+					this.dataArr.myorder=res.data.reverse();
 				}, function(err){
 					
 				});
 			}else if(i==2&&!e.target.hasLoad){
-				var url='../php/getData/getOrder.php?status=1&fc=getOrder';
+				var url='../php/index/admin_manage.php?status=1&fc=getOrder';
 				e.target.hasLoad=true;
+				this.currentView='child'+3;
 			}else if(i==3&&!e.target.hasLoad){
 				console.log(1)
-				var url='../php/getData/getOrder.php?fc=getFavour';
+				this.currentView='child'+6;
+				var url='../php/index/admin_manage.php?fc=getBack';
 				e.target.hasLoad=true;
 				this.$http.get(url).then(function(res){
 					res=JSON.parse(res.bodyText);
@@ -77,12 +66,12 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 						location.href='../index/login.html';
 						return ;
 					}
-					this.dataArr.favourList=res.data;
+					this.dataArr.backList=res;
 				}, function(err){
 					
 				});
 			}else if(i==4&&!e.target.hasLoad){
-				var url='../php/getData/getOrder.php?fc=getAddress';
+				var url='../php/index/admin_manage.php?fc=getAddress';
 				e.target.hasLoad=true;
 				this.$http.get(url).then(function(res){
 					res=JSON.parse(res.bodyText);
@@ -97,10 +86,10 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 					
 				});
 			}else if(i==5&&!e.target.hasLoad){
-				var url='../php/getData/getOrder.php?status=1';
+				var url='../php/index/admin_manage.php?status=1';
 				e.target.hasLoad=true;
 			}else if(i==6&&!e.target.hasLoad){
-				var url='../php/getData/getOrder.php?status=1';
+				var url='../php/index/admin_manage.php?status=1';
 				e.target.hasLoad=true;
 			}else{
 				return false;
@@ -112,17 +101,33 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 		 'child0':{
 		 	props:['data'],
 			template:'#info_right',
+			data:function(){
+				return{
+					show:false,
+					selectUser:{}
+				};
+			},
 			methods:{
-				changePwd:function(){
-					this.$parent.currentView='child7'
-				},
-				changePurse:function(){
-					if(!this.$parent.dataArr.userInfo.purse_pwd){
-						//this.$parent.$options.components.child8.purse=false;
-						vm.dataArr.purse=false;
+				deleteUser:function(index,item){
+					if(confirm('是否确认删除账号！')){
+						var url='../php/index/admin_manage.php?fc=deleteUser&phone='+item.phone;
+							this.$http.get(url).then(function(res){
+							res=JSON.parse(res.bodyText);
+							console.log(res)
+							if(res.code==1){
+								alert(res.msg);
+								this.data.userInfo.splice(index,1);
+								
+							}
+						}, function(err){
+							
+						});
 					}
-					this.$parent.currentView='child8';
-					
+				}
+				,changeUser:function(index,item){
+					selectUser=item;
+					console.log(item)
+					this.$parent.currentView='child7';
 				}
 			}
 		},
@@ -143,9 +148,10 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 				
 			},
 			methods:{
-				cencelSale:function(){
+				cencelSale:function(index,item){
+					console.log(item);
 					if(confirm('是否确认取消售后！')){
-						var url='../php/getData/getOrder.php?fc=cencelSale&order_code='+item.order_code;
+						var url='../php/index/admin_manage.php?fc=cencelSale&order_code='+item.order_code;
 							this.$http.get(url).then(function(res){
 							res=JSON.parse(res.bodyText);
 							console.log(res)
@@ -161,10 +167,10 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 				},
 				tabSelect:function(i){
 					this.active=i;
-					var url='../php/getData/getOrder.php?status='+(i+1)+'&fc=getOrder';
+					var url='../php/index/admin_manage.php?status='+(i+1)+'&fc=getOrder';
 					this.$http.get(url).then(function(res){
 						res=JSON.parse(res.bodyText);
-						this.data.myorder=res.data;
+						this.data.myorder=res.data.reverse();
 					}, function(err){
 						
 					});
@@ -174,8 +180,8 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 					location.href='order_detail.php?order_code='+item.order_code;
 				},
 				cencelOrder:function(index,item){
-					if(confirm('是否确认取消订单！')){
-						var url='../php/getData/getOrder.php?fc=cencelOrder&order_code='+item.order_code;
+					if(confirm('是否确认删除订单！')){
+						var url='../php/index/admin_manage.php?fc=cencelOrder&order_code='+item.order_code;
 							this.$http.get(url).then(function(res){
 							res=JSON.parse(res.bodyText);
 							console.log(res)
@@ -191,7 +197,7 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 				},
 				getCmd:function(index,item){
 					if(confirm('是否确认收货！')){
-						var url='../php/getData/getOrder.php?fc=getCmd&order_code='+item.order_code;
+						var url='../php/index/admin_manage.php?fc=getCmd&order_code='+item.order_code;
 							this.$http.get(url).then(function(res){
 							res=JSON.parse(res.bodyText);
 							console.log(res)
@@ -233,7 +239,7 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 					console.log(this.selectedCheckbox);
 				},
 				deleteThis:function(index,item){
-					var url='../php/getData/getOrder.php?fc=deleteFavour';
+					var url='../php/index/admin_manage.php?fc=deleteFavour';
 					var index=index;
 					var arr=[];
 					arr.push(item.id);
@@ -266,7 +272,7 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 				},
 				deleteSelect:function(){
 					console.log(1)
-					var url='../php/getData/getOrder.php?fc=deleteFavour';
+					var url='../php/index/admin_manage.php?fc=deleteFavour';
 					var obj={};
 					obj.arr=[];
 					 for(a in this.selectedCheckbox){
@@ -319,7 +325,7 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 				},
 				deleteAddress:function(index,item){
 					if(confirm('是否确认删除收货地址！')){
-						var url='../php/getData/getOrder.php?fc=deleteAddress&id='+item.id;
+						var url='../php/index/admin_manage.php?fc=deleteAddress&id='+item.id;
 							this.$http.get(url).then(function(res){
 							res=JSON.parse(res.bodyText);
 							console.log(res)
@@ -403,7 +409,7 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 			},
 			methods:{
 				back:function(){
-					var url='../php/getData/getOrder.php?fc=toback&back='+this.backs;
+					var url='../php/index/admin_manage.php?fc=toback&back='+this.backs;
 					this.$http.get(url).then(function(res){
 						res=JSON.parse(res.bodyText);
 						if(res.code==0){
@@ -419,52 +425,46 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 						
 					});
 				}
+				,deleteBack:function(index,item){
+					if(confirm('是否确认删除账号！')){
+						var url='../php/index/admin_manage.php?fc=deleteBack&id='+item.id;
+							this.$http.get(url).then(function(res){
+							res=JSON.parse(res.bodyText);
+							console.log(res)
+							if(res.code==1){
+								alert(res.msg);
+								this.data.backList.splice(index,1);
+								
+							}
+						}, function(err){
+							
+						});
+					}
+				}
 			}
 		},
 		'child7':{
 			template:'#change_pwd',
 			data:function(){
 				return {
-					obj:{
-						oldPwd:'',
-						newPwd:'',
-						repeatPwd:'',
-					}
+					obj:selectUser,
 				};
 			},
 			methods:{
 				submits:function(){
 					console.log(this.obj)
-					if(this.obj.oldPwd.replace(' ','')&&this.obj.newPwd.replace(' ','')&&this.obj.repeatPwd.replace(' ',''))
-					{
-						if(this.obj.newPwd!=this.obj.repeatPwd){
-							alert('请输入与新密码相同的重复密码！');
-							return false;
-						}else{
-							var url='../php/getData/getOrder.php?fc=changePwd';
-							this.$http.post(url,this.obj).then(function(res){
-								res=JSON.parse(res.bodyText);
-								if(res.code==0){
-									alert(res.msg)
-									location.href='../index/login.html';
-									return false;
-								}else if(res.code==1){
-									alert(res.msg)
-									location.href='../index/login.html';return false;
-								}else if(res.code==3){
-									alert(res.msg);return false;
-								}
-								alert(res.msg)
-							}, function(err){
-								
-							});
-						}
-					}else{
-						alert('密码不能为空！');
-						return false;
-					}
+					var url='../php/index/admin_manage.php?fc=changeUser';
+					this.$http.post(url,this.obj).then(function(res){
+						res=JSON.parse(res.bodyText);
+						alert(res.msg)
+						location.reload();
+					}, function(err){
+						
+					});
 					
 				}
+				
+
 			}
 		},
 		'child8':{
@@ -484,7 +484,7 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 			template:'#change_purse_pwd',
 			methods:{
 				setPursePwd:function(){
-					var url='../php/getData/getOrder.php?purse='+this.pursePwd+'&fc=setPurse';
+					var url='../php/index/admin_manage.php?purse='+this.pursePwd+'&fc=setPurse';
 					this.$http.get(url).then(function(res){
 						res=JSON.parse(res.bodyText);
 						if(res.code==1){
@@ -500,7 +500,7 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 						alert('请输入一样的密码');
 						return;
 					}
-					var url='../php/getData/getOrder.php?fc=changePursePwd';
+					var url='../php/index/admin_manage.php?fc=changePursePwd';
 					this.$http.post(url,this.changeData).then(function(res){
 						res=JSON.parse(res.bodyText);
 						console.log(res);
@@ -523,12 +523,12 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 	}
 })
 	 
-var obj={
-	target:{
-		hasLoad:false
-	}
-}
-vm.navSelect(obj,selectNum);
+//var obj={
+//	target:{
+//		hasLoad:false
+//	}
+//}
+//vm.navSelect(obj,selectNum);
 }, function(res){
 	console.log(res);
 });

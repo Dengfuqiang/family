@@ -1,9 +1,45 @@
 <?php
+	header("content-type:text/html;charset=utf-8");
 	session_start();
 	$useInfo=$_SESSION;
-		include '../public/public_header.php';
+	require_once '../php/mysql.class.php';
+	$mysql = new MySQL('localhost','root','','family');
+	$sql="SELECT * FROM admin_users WHERE user_name ='".$useInfo['user_name']."' and pwd ='".$useInfo['pwd']."'";
+	$result = $mysql->query($sql);
+	if(empty($result)){
+		echo "<script> location.href='../index/admin_login.html';</script>";
+	}
 ?>
-<link rel="stylesheet" type="text/css" href="../css/person_center/person_info.css"/>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<?php 
+			$path = "http://localhost/family";
+			echo "<link rel='stylesheet' type='text/css' href='$path/css/familyHeader.css'/>";
+			?>
+	
+	</head>
+	<style type="text/css">
+		.info_right td,.info_right th{
+				border: 1px solid #e5e5e5;
+				padding: 15px;
+		}
+		.to_pay{
+			cursor: pointer;
+		}
+		.to_pay:hover{
+			color: white;
+			background-color: #ffa130;
+			border-color: #ffa130;
+		}
+	</style>
+	<body>
+		<div id="familyAndContain">
+		<link rel="stylesheet" type="text/css" href="../css/person_center/person_info.css"/>
+			
 			<article class="person_info_arctile">
 				<div class="nav_left">
 					<ul>
@@ -15,34 +51,22 @@
 						<section class="info_right" style="" >
 							<h2>
 								<span >
-									个人资料
+									账号信息
 								</span>
 							</h2>
-							<form action="" method="post" class="person_info" >
-								<label><span>头像：</span><div class="header_pic">
-										<a href="">
-											<img src="../img/120_120-(3)_02.png"/>
-										</a>
+							<table  cellspacing="0" cellpadding="0"style="width: 100%; border: 1px solid #e5e5e5; text-align: center;">
+								<tr><th>name</th><th>phone</th><th>pwd</th><th>purse_pwd</th><th>balance</th><th>opeation</th></tr>
+								<tr v-for='item in data.userInfo'><td>{{item.name}}</td><td>{{item.phone}}</td><td>{{item.pwd}}</td><td>{{item.purse_pwd}}</td><td>{{item.balance}}</td>
+								<td>
+									<div class="to_pay" @click='deleteUser($indet,item)'>
+										删除
 									</div>
-								</label>
-								<label><span>姓名:</span><input type="text" name="" id="" v-model="data.userInfo.name" placeholder="骑着蜗牛狂飙"/></label>
-								<p ><i>昵称长度不能超过8个字</i></p>
-								<label><span>联系方式:</span><input type="text" name="" id="" v-model="data.userInfo.phone" placeholder="骑着蜗牛狂飙"/></label>
-								<label for=""></label>
-								<input type="submit" name="" class="save" value="保存" />
-							</form>
-							<div class="change_info">
-								<p>
-									<span>修改密码：</span>
-									<i>经常的更换您的账号密码，并且不要和其他账号共用同一个密码</i>
-									<a href="javascript:void(0);" @click='changePwd()'>修改</a>
-								</p>
-								<p>
-									<span>修改钱包密码：</span>
-									<i>经常的更换您的账号密码，并且不要和其他账号共用同一个密码</i>
-									<a href="javascript:void(0);"  @click='changePurse()'>修改</a>
-								</p>
-							</div>
+									<div class="to_pay" @click='changeUser($index,item)'>
+										修改
+									</div>
+								</td>
+								</tr>
+							</table>
 					</section>
 				</template>
 				<template id="order_list_ct">
@@ -82,11 +106,11 @@
 										<div class="item after  order_before" v-if='items.order_status==3'><p class="order_status" >待收货</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
 										<div class="item after  order_before" v-if='items.order_status==4'><p class="order_status">已完成</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
 										<div class="item after  order_before" v-if='items.order_status==5'><p class="order_status">售后处理中</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
-										<div class="item" v-if='items.order_status==1'><a href="../life_food/pay.php" class="to_pay">立即付款</a><a href="javascript:void(0);" class="cancel_order"  @click='cencelOrder($parent.$index,items)'>取消订单</a></div>
-										<div class="item" v-if='items.order_status==2'><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>取消订单</a></div>
-										<div class="item" v-if='items.order_status==3'><a href="javascript:void(0);" class="to_pay" @click='getCmd($parent.$index,items)'>收货</a></div>
-										<div class="item" v-if='items.order_status==4'><a href="" class="cancel_order"></a></div>
-										<div class="item" v-if='items.order_status==5'><a href="" class="to_pay" @click='cencelSale()'>取消售后</a><a href="" class="cancel_order"></a></div>
+										<div class="item" v-if='items.order_status==1'><a href="javascript:void(0);" class="cancel_order"  @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
+										<div class="item" v-if='items.order_status==2'><a href="javascript:void(0);" class="to_pay">发货</a><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
+										<div class="item" v-if='items.order_status==3'><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
+										<div class="item" v-if='items.order_status==4'><a href="javascript:void(0);" class="cancel_order"></a><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
+										<div class="item" v-if='items.order_status==5'><a href="javascript:void(0);" class="to_pay" @click='cencelSale($parent.$index,items)'>拒绝售后</a><a href="" class="cancel_order"></a><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
 									</div>
 								</li>
 								
@@ -135,7 +159,7 @@
 				<section class="my_favour_cmd">
 					<h2>
 						<span  class="active_span">
-							我的收藏
+							商品管理
 						</span>
 					</h2>
 					<div class="property box">
@@ -217,18 +241,22 @@
 				</section>
 				</template>
 				<template id="feed_contain">
-				<section class="feed_contain" >
+				<section class="feed_contain info_right" >
 					<h2>
 						<span >
 							意见反馈
 						</span>
 					</h2>
-					<div class="feed_back">
-						<textarea name="" rows="" cols="" v-model='backs'>
-						
-						</textarea>
-						<div @click='back()' class="submit_feed" >提交</div>
-					</div>
+					<table  cellspacing="0" cellpadding="0"style="width: 100%; border: 1px solid #e5e5e5; text-align: center;">
+								<tr><th>id</th><th>phone</th><th>user_back</th><th>opeation</th></tr>
+								<tr v-for='item in data.backList'><td>{{item.id}}</td><td>{{item.phone}}</td><td>{{item.user_back}}</td>
+								<td>
+									<div class="to_pay" @click='deleteBack($indet,item)'>
+										删除
+									</div>
+								</td>
+								</tr>
+							</table>
 				</section>
 				</template>
 				<template id="change_pwd">
@@ -240,9 +268,10 @@
 					</h2>
 					<form action="" method="post">
 						
-						<label><span>当前密码:</span><input type="password" name="" id="" value="" placeholder="请输入密码" v-model='obj.oldPwd'/></label>
-						<label><span>新密码:</span><input type="password" name="" id="" value="" placeholder="请输入新密码" v-model='obj.newPwd'/></label>
-						<label><span>确认密码:</span><input type="password" name="" id="" value="" placeholder="请再次输入密码" v-model='obj.repeatPwd'/></label>
+						<label><span>用户名:</span><input type="text" name="" id="" placeholder="请输入密码" v-model='obj.name'/></label>
+						<label><span>密码:</span><input type="password" name="" id="" placeholder="请输入密码" v-model='obj.pwd'/></label>
+						<label><span>钱包密码:</span><input type="password" name="" id=""  placeholder="请输入新密码" v-model='obj.purse_pwd'/></label>
+						<label><span>余额:</span><input type="text" name="" id="" placeholder="请再次输入密码" v-model='obj.balance'/></label>
 						<i>注意：密码不得填空格，可由英文字母和数字组成</i>
 						<input type="submit" value="保存" @click.prevent='submits' class="save"/>
 					</form>
@@ -296,9 +325,6 @@
 		</div>
 		<script type="text/javascript" src="../js/vue.js" ></script>
 		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
-		<script type="text/javascript" src="../js/person_center_index.js" ></script>
-		<script type="text/javascript">
-			<?php echo 'var tab="'.$_GET['tab'].'",selectNum='.$_GET['selectNum'].';'?>
-		</script>
+		<script type="text/javascript" src="../js/admin_person_center_index.js" ></script>
 	</body>
 </html>

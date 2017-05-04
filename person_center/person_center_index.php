@@ -140,7 +140,12 @@
 						$order[$key]['cmd_list']=$order_commodity;
 						//var_dump($order[$key]);
 					}
-					$arr=['userInfo'=>$res[0],'address'=>$defautl_address[0],'order'=>$order,'favour_cmd'=>$favour_list];
+					if($defautl_address>0){
+						$arr=['userInfo'=>$res[0],'address'=>$defautl_address[0],'order'=>$order,'favour_cmd'=>$favour_list];
+
+					}else{
+						$arr=['userInfo'=>$res[0],'address'=>'','order'=>$order,'favour_cmd'=>$favour_list];
+					}
 					echo 'var data='. json_encode($arr).";";}
 					?>
 					console.log(data);

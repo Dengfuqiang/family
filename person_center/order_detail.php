@@ -1,12 +1,14 @@
 <?php
 	session_start();
 	$useInfo=$_SESSION;
-	if(!isset($_SESSION['phone'])){
-		$res=[
-			'msg'=>'请先登录',
-			'code'=>0
-		];
-		echo '<script>var data = '.json_encode($res).'</script>';exit;
+	if(!isset($_SESSION['user_name'])){
+		if(!isset($_SESSION['phone'])){
+			$res=[
+				'msg'=>'请先登录',
+				'code'=>0
+			];
+			echo '<script>var data = '.json_encode($res).'</script>';exit;
+		}
 	}
 	include '../public/public_header.php';
 	require_once '../php/mysql.class.php';
