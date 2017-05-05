@@ -10,10 +10,27 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-04-25 00:25:48
+Date: 2017-05-06 01:17:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for admin_users
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_users`;
+CREATE TABLE `admin_users` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(32) NOT NULL,
+  `pwd` varchar(32) NOT NULL,
+  `power` varchar(2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of admin_users
+-- ----------------------------
+INSERT INTO `admin_users` VALUES ('1', 'admin', 'dc9cb86be7dedc91ccf35ccd1418b2a0', '1');
 
 -- ----------------------------
 -- Table structure for beautity_life
@@ -889,7 +906,7 @@ CREATE TABLE `hot_commodity` (
 -- ----------------------------
 DROP TABLE IF EXISTS `life_articles`;
 CREATE TABLE `life_articles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id编号',
+  `id` int(16) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id编号',
   `marketPrice` int(8) NOT NULL,
   `salesPrice` int(8) NOT NULL,
   `sysTime` datetime NOT NULL,
@@ -1487,7 +1504,7 @@ INSERT INTO `life_articles` VALUES ('1354', '3499', '2798', '2017-04-15 22:53:10
 -- ----------------------------
 DROP TABLE IF EXISTS `life_food`;
 CREATE TABLE `life_food` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id编号',
+  `id` int(16) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id编号',
   `marketPrice` int(8) NOT NULL,
   `salesPrice` int(8) NOT NULL,
   `sysTime` datetime NOT NULL,
@@ -1500,13 +1517,13 @@ CREATE TABLE `life_food` (
   `commodity_id` int(4) NOT NULL,
   `sellerCount` int(8) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1833 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1494001759 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of life_food
 -- ----------------------------
-INSERT INTO `life_food` VALUES ('1613', '199', '165', '2017-04-13 21:54:40', 'http://www.gdshyj.com/shoppic/2017/2/22/b7faa323-7a86-4cde-acca-417759b6e733.jpg', '韩国进口啤酒Blue Girl beer 蓝妹啤酒玻璃瓶装 330ml*24瓶', '<div style=\"text-align: center;\">\r\n	<strong style=\"font-size: 13.3333px; color: rgb(255, 0, 0);\"><span style=\"font-size: 36px;\">特供</span></strong></div>\r\n<div style=\"font-size: 13.3333px; text-align: center;\">\r\n	<span style=\"color: rgb(255, 0, 0); font-size: 20px;\">(惠城区包送货)</span></div>\r\n<div style=\"font-size: 13.3333px; text-align: center;\">\r\n	<span style=\"color: rgb(255, 0, 0); font-size: 20px;\">其他地区暂不配送，如需请联系客服<img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/8/24/ce991ee6-44cf-4237-aa29-c95f98aa2734.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/8/24/4d005ca6-9268-4768-a946-28e90434ca0f.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/8/24/961a49be-f785-416e-be81-9fd789a0f1f4.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/8/24/9933f3f8-2860-4d8f-a096-b85bccd66787.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/8/24/1c7a680b-1e12-4527-a97b-055fdc6dc5c3.jpg\" /></span></div>\r\n', '2017-02-22 00:00:00', '500', '224', '0', '60');
-INSERT INTO `life_food` VALUES ('1574', '899', '210', '2017-04-13 21:54:40', 'http://www.gdshyj.com/shoppic/2017/2/10/4eb0e0bc-596b-4554-89ab-d65afd0dada7.jpg', '特立尼达庄园佳美娜干红葡萄酒', '<div>\r\n	<span style=\"font-size: 12px;\"><span style=\"font-size:16px;\">特立尼达庄园佳美娜干红葡萄酒</span></span><br />\r\n	<span style=\"font-size:16px;\">此款特级珍藏佳美娜来自于智利酒皇伊拉苏家族在空加瓜山谷最大的葡萄庄园玛其古！该酒经过9个月法国和美国橡木桶陈酿，丹宁细腻，酸度较小，入口齿颊留香！</span></div>\r\n<div>\r\n	<span style=\"font-size:16px;\">酒庄拥有者介绍：</span></div>\r\n<div>\r\n	<span style=\"font-size:16px;\">&nbsp; &nbsp; &nbsp; &nbsp;伊拉苏家族是智利有名的政治家族，智利历史上出现了四任总统、两位圣地亚哥大主教，多位外交官及马球运动员！该酒庄出边的高端葡萄酒曾经在柏林盲品会打败波尔多一级名庄获得盲品冠军！</span><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2017/2/10/a071bf1c-cd49-4f92-b53c-f7c54805486d.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2017/2/10/197ec9c8-c2d0-4bbd-8a73-60321c05c8e7.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2017/2/10/c8b21d91-9f5a-45e1-a0b7-da29f4539d65.jpg\" /></div>\r\n', '2017-02-10 00:00:00', '500', '224', '0', '539');
+INSERT INTO `life_food` VALUES ('1613', '201', '165', '2017-04-13 21:54:40', 'http://www.gdshyj.com/shoppic/2017/2/22/b7faa323-7a86-4cde-acca-417759b6e733.jpg', '韩国进口啤酒Blue Girl beer 蓝妹啤酒玻璃瓶装 330ml*24瓶', '<div style=\"text-align: center;\">\r\n	<strong style=\"font-size: 13.3333px; color: rgb(255, 0, 0);\"><span style=\"font-size: 36px;\">特供</span></strong></div>\r\n<div style=\"font-size: 13.3333px; text-align: center;\">\r\n	<span style=\"color: rgb(255, 0, 0); font-size: 20px;\">(惠城区包送货)</span></div>\r\n<div style=\"font-size: 13.3333px; text-align: center;\">\r\n	<span style=\"color: rgb(255, 0, 0); font-size: 20px;\">其他地区暂不配送，如需请联系客服<img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/8/24/ce991ee6-44cf-4237-aa29-c95f98aa2734.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/8/24/4d005ca6-9268-4768-a946-28e90434ca0f.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/8/24/961a49be-f785-416e-be81-9fd789a0f1f4.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/8/24/9933f3f8-2860-4d8f-a096-b85bccd66787.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/8/24/1c7a680b-1e12-4527-a97b-055fdc6dc5c3.jpg\" /></span></div>', '2017-02-22 00:00:00', '500', '379', '0', '60');
+INSERT INTO `life_food` VALUES ('1574', '899', '300', '2017-04-13 21:54:40', 'http://www.gdshyj.com/shoppic/2017/2/10/4eb0e0bc-596b-4554-89ab-d65afd0dada7.jpg', '特立尼达庄园佳美娜干红葡萄酒', '<div>\r\n	<span style=\"font-size: 12px;\"><span style=\"font-size:16px;\">特立尼达庄园佳美娜干红葡萄酒</span></span><br />\r\n	<span style=\"font-size:16px;\">此款特级珍藏佳美娜来自于智利酒皇伊拉苏家族在空加瓜山谷最大的葡萄庄园玛其古！该酒经过9个月法国和美国橡木桶陈酿，丹宁细腻，酸度较小，入口齿颊留香！</span></div>\r\n<div>\r\n	<span style=\"font-size:16px;\">酒庄拥有者介绍：</span></div>\r\n<div>\r\n	<span style=\"font-size:16px;\">&nbsp; &nbsp; &nbsp; &nbsp;伊拉苏家族是智利有名的政治家族，智利历史上出现了四任总统、两位圣地亚哥大主教，多位外交官及马球运动员！该酒庄出边的高端葡萄酒曾经在柏林盲品会打败波尔多一级名庄获得盲品冠军！</span><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2017/2/10/a071bf1c-cd49-4f92-b53c-f7c54805486d.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2017/2/10/197ec9c8-c2d0-4bbd-8a73-60321c05c8e7.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2017/2/10/c8b21d91-9f5a-45e1-a0b7-da29f4539d65.jpg\" /></div>', '2017-02-10 00:00:00', '500', '224', '0', '539');
 INSERT INTO `life_food` VALUES ('1564', '388', '268', '2017-04-13 21:54:40', 'http://www.gdshyj.com/shoppic/2017/2/6/25d88184-a69a-43e7-91e1-28742cfb7b25.jpg', '【张裕先锋国际酒业】法国多名利VSOP 原瓶进口 醇正白兰地1L', '<div style=\"text-align: center;\">\r\n	<strong style=\"font-size: 13.3333px;\"><span style=\"font-size: 18px;\">【<span style=\"color: rgb(75, 0, 130);\">一瓶到店自取</span>】</span></strong></div>\r\n<div style=\"font-size: 13.3333px; text-align: center;\">\r\n	<strong><span style=\"font-size: 18px;\">一箱6瓶包送<br />\r\n	<span style=\"color: rgb(0, 0, 128);\">茅台集团 白金酒惠州旗舰店</span></span></strong><br />\r\n	<strong><span style=\"color: rgb(255, 140, 0);\">地址：惠州市惠城区江北文昌一路12号(华贸斜对面)<img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2017/1/9/60e35ced-69d2-409a-b819-5d6cecc4eef1.jpg\" /></span></strong></div>\r\n', '2017-02-06 00:00:00', '500', '224', '0', '512');
 INSERT INTO `life_food` VALUES ('1563', '199', '159', '2017-04-13 21:54:40', 'http://www.gdshyj.com/shoppic/2017/2/6/3682dbff-8144-4c9e-aa90-24748192c524.jpg', '52度茅台集团白金酒公司 白金银如意500ml', '<div style=\"text-align: center;\">\r\n	<strong style=\"font-size: 13.3333px;\"><span style=\"font-size: 18px;\">【一瓶到店自取】</span></strong></div>\r\n<div style=\"font-size: 13.3333px; text-align: center;\">\r\n	<strong><span style=\"font-size: 18px;\">一箱6瓶包送<br />\r\n	<span style=\"color: rgb(0, 0, 128);\">茅台集团 白金酒惠州旗舰店</span></span></strong><br />\r\n	<strong><span style=\"color: rgb(255, 140, 0);\">地址：惠州市惠城区江北文昌一路12号(华贸斜对面)<img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2017/1/9/adcf40df-4491-4b6c-b33f-68755e6a7162.jpg\" /></span></strong></div>\r\n', '2017-02-06 00:00:00', '500', '224', '0', '942');
 INSERT INTO `life_food` VALUES ('1317', '267', '108', '2017-04-13 21:54:40', 'http://www.gdshyj.com/shoppic/2016/11/16/5d527e1e-eeda-4d48-b961-a8497a265254.jpg', 'St-Christoly 圣克利斯图干红葡萄酒  750ml', '<div style=\"text-align: center;\">\r\n	<img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/11/16/79aabca8-8a7d-4832-b4cb-6a94c25b84c0.jpg\" /><br />\r\n	<img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/11/16/4b7b6977-d568-4e35-92fb-4e560bcb715c.jpg\" /></div>\r\n', '2016-11-17 00:00:00', '80', '224', '0', '173');
@@ -1776,7 +1793,7 @@ INSERT INTO `life_food` VALUES ('1263', '198', '158', '2017-04-13 22:19:04', 'ht
 -- ----------------------------
 DROP TABLE IF EXISTS `life_furniture`;
 CREATE TABLE `life_furniture` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id编号',
+  `id` int(16) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id编号',
   `marketPrice` int(8) NOT NULL,
   `salesPrice` int(8) NOT NULL,
   `sysTime` datetime NOT NULL,
@@ -1811,6 +1828,58 @@ INSERT INTO `life_furniture` VALUES ('1369', '4020', '1289', '2017-04-13 22:35:0
 INSERT INTO `life_furniture` VALUES ('1361', '8199', '2459', '2017-04-13 22:35:06', 'http://www.gdshyj.com/shoppic/2016/12/5/ac548e24-ac17-4052-b104-a0613ebabb84.jpg', '竹天下 全竹双人床 宽1.9米跟1.6米2种规格', '<div style=\"text-align: center;\">\r\n	<img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/12/5/4a1bba86-8f82-4393-b0f5-1616dec23e7e.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/12/5/89b84be3-ffa0-4044-b2d5-d61c1c1c4b74.jpg\" /><img alt=\"\" src=\"http://www.gdshyj.com/shoppic/2016/12/5/fe4a3777-933f-491b-a189-42449b04a29e.jpg\" /></div>\r\n', '2016-12-22 00:00:00', '500', '240', '1', '152');
 
 -- ----------------------------
+-- Table structure for order_commodity
+-- ----------------------------
+DROP TABLE IF EXISTS `order_commodity`;
+CREATE TABLE `order_commodity` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `commodity_id` int(8) NOT NULL,
+  `commodity_title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `commodity_img` varchar(255) DEFAULT NULL,
+  `order_code` varchar(16) CHARACTER SET utf8 NOT NULL,
+  `cmd_count` varchar(4) NOT NULL,
+  `all_price` decimal(10,2) NOT NULL,
+  `sales_price` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of order_commodity
+-- ----------------------------
+INSERT INTO `order_commodity` VALUES ('57', '840', '先锋电风扇10风叶FS40-16D新品风扇机械定时落地扇静音', 'http://www.gdshyj.com/shoppic/2016/5/31/eef74279-47ec-46d7-8242-66889f2e2d41.jpg', '2017050303777', '2', '298.00', '149.00');
+INSERT INTO `order_commodity` VALUES ('58', '1275', '丹荔园荔枝冰酒 果酒 16°VOL 375ML', 'http://www.gdshyj.com/shoppic/2016/11/1/fe99d6d7-e029-484a-a583-1d6f3713bda8.jpg', '2017050396606', '2', '516.00', '258.00');
+INSERT INTO `order_commodity` VALUES ('74', '1574', '特立尼达庄园佳美娜干红葡萄酒', 'http://www.gdshyj.com/shoppic/2017/2/10/4eb0e0bc-596b-4554-89ab-d65afd0dada7.jpg', '2017050318220', '1', '210.00', '210.00');
+INSERT INTO `order_commodity` VALUES ('75', '1613', '韩国进口啤酒Blue Girl beer 蓝妹啤酒玻璃瓶装 330ml*24瓶', 'http://www.gdshyj.com/shoppic/2017/2/22/b7faa323-7a86-4cde-acca-417759b6e733.jpg', '2017050343245', '1', '165.00', '165.00');
+INSERT INTO `order_commodity` VALUES ('76', '1840', '美的电风扇FS40-16ER电风扇立式落地扇变频节能遥控静音摇头家用电风扇', 'http://www.gdshyj.com/shoppic/2017/4/11/f60b193b-e27d-4dd9-bf73-5f53614965b3.jpg', '2017050322065', '1', '199.00', '199.00');
+INSERT INTO `order_commodity` VALUES ('77', '925', '先锋空调扇 单冷LL08-16DR/DG1602节能 遥控制冷机冷风扇 冷风机', 'http://www.gdshyj.com/shoppic/2016/6/23/35c8a00b-aebe-47de-8b85-fa370a34ee9e.jpg', '2017050322065', '1', '699.00', '699.00');
+INSERT INTO `order_commodity` VALUES ('78', '1841', '先锋电风扇FTS30-10AR（DL1002）电风扇/遥控台立扇', 'http://www.gdshyj.com/shoppic/2017/4/13/20017eb0-b155-40f4-b8d7-08fdb87e79dd.jpg', '2017050362881', '1', '159.00', '159.00');
+INSERT INTO `order_commodity` VALUES ('79', '840', '先锋电风扇10风叶FS40-16D新品风扇机械定时落地扇静音', 'http://www.gdshyj.com/shoppic/2016/5/31/eef74279-47ec-46d7-8242-66889f2e2d41.jpg', '2017050362881', '1', '149.00', '149.00');
+INSERT INTO `order_commodity` VALUES ('80', '1363', '泰洋树阿胶羹 东阿阿胶', 'http://www.gdshyj.com/shoppic/2016/12/6/b017823d-2082-4a5b-af85-2570271dc7de.jpg', '2017050362881', '1', '480.00', '480.00');
+INSERT INTO `order_commodity` VALUES ('81', '1398', '三禾汤锅20cm 22cm 24cm 不锈钢304汤锅 电磁炉通用汤锅TGS2000-3 TGS2200-3 TGS2400-3', 'http://www.gdshyj.com/shoppic/2016/12/12/2c1f6db2-ea7d-49b8-95be-b816fc89a506.jpg', '2017050311666', '1', '109.00', '109.00');
+INSERT INTO `order_commodity` VALUES ('82', '1716', '银鹭八宝粥 银鹭好粥道280g*12罐黑米 红豆 紫薯整箱', 'http://www.gdshyj.com/shoppic/2017/3/14/e94cceb9-4bfd-4bc2-a88b-b447cc66814a.jpg', '2017050311666', '1', '38.00', '38.00');
+INSERT INTO `order_commodity` VALUES ('83', '1574', '特立尼达庄园佳美娜干红葡萄酒', 'http://www.gdshyj.com/shoppic/2017/2/10/4eb0e0bc-596b-4554-89ab-d65afd0dada7.jpg', '2017050318432', '1', '210.00', '210.00');
+
+-- ----------------------------
+-- Table structure for sale_order
+-- ----------------------------
+DROP TABLE IF EXISTS `sale_order`;
+CREATE TABLE `sale_order` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `sale_reason` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `sale_price` decimal(10,2) NOT NULL,
+  `sale_explain` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `order_code` varchar(255) NOT NULL,
+  `sale_picture` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `phone` varchar(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of sale_order
+-- ----------------------------
+INSERT INTO `sale_order` VALUES ('8', '789', '456.00', '123', '2017050303777', '../upload/20170503120526302.jpg', '18813973441');
+
+-- ----------------------------
 -- Table structure for users
 -- ----------------------------
 DROP TABLE IF EXISTS `users`;
@@ -1818,17 +1887,17 @@ CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id编号',
   `name` varchar(30) CHARACTER SET utf8 NOT NULL COMMENT '用户名',
   `phone` varchar(11) NOT NULL COMMENT '手机号',
-  `pwd` char(32) NOT NULL COMMENT '密码',
+  `pwd` char(64) NOT NULL COMMENT '密码',
+  `balance` int(16) NOT NULL,
+  `purse_pwd` char(64) NOT NULL COMMENT '钱包密码',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', '23333', '13713628448', '96e79218965eb72c92a549dd5a330112');
-INSERT INTO `users` VALUES ('2', '23333', '18813973441', 'e10adc3949ba59abbe56e057f20f883e');
-INSERT INTO `users` VALUES ('3', '23333', '18813973442', 'e10adc3949ba59abbe56e057f20f883e');
-INSERT INTO `users` VALUES ('8', '18813973443', '18813973443', 'e10adc3949ba59abbe56e057f20f883e');
+INSERT INTO `users` VALUES ('3', '23333', '18813973441', 'dc9cb86be7dedc91ccf35ccd1418b2a0', '0', '');
+INSERT INTO `users` VALUES ('8', '18813973443', '18813973443', 'dc9cb86be7dedc91ccf35ccd1418b2a0', '100', 'dc9cb86be7dedc91ccf35ccd1418b2a0');
 
 -- ----------------------------
 -- Table structure for user_address
@@ -1843,22 +1912,68 @@ CREATE TABLE `user_address` (
   `default` int(2) NOT NULL,
   `addressname` varchar(32) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of user_address
 -- ----------------------------
-INSERT INTO `user_address` VALUES ('15', '18813973441', 'sdasdasd', 'asda', 'asdasd', '0', '');
-INSERT INTO `user_address` VALUES ('16', '18813973441', 'asdas', 'dasd', 'asdafa', '0', '');
-INSERT INTO `user_address` VALUES ('17', '18813973441', 'asdasd', 'asdas', 'dasdasd', '0', '');
-INSERT INTO `user_address` VALUES ('18', '18813973441', 'asd', 'qwq', 'asfaf', '0', '');
-INSERT INTO `user_address` VALUES ('19', '18813973441', 'qwrq', 'rqt', 'asdasd', '0', '');
-INSERT INTO `user_address` VALUES ('20', '18813973441', 'asdasa', 'fasfa', 'sasdasd', '0', '');
-INSERT INTO `user_address` VALUES ('21', '18813973441', 'asdasa', 'fasfa', 'sasdasd', '0', '');
-INSERT INTO `user_address` VALUES ('22', '18813973441', 'asdasa', 'fasfa', 'sasdasd', '0', '');
-INSERT INTO `user_address` VALUES ('23', '18813973441', 'asdasa', 'fasfa', 'sasdasd', '0', '');
-INSERT INTO `user_address` VALUES ('24', '18813973441', 'asf', 'qetq', 'weqweqwe', '1', '');
-INSERT INTO `user_address` VALUES ('25', '18813973441', '', '', '', '0', '');
+INSERT INTO `user_address` VALUES ('33', '18813973441', '123', '123456', '233334rwer', '0', '');
+INSERT INTO `user_address` VALUES ('34', '18813973441', '123', '123456', '233334wettyqqqw', '0', '');
+INSERT INTO `user_address` VALUES ('35', '18813973441', '1232333', '123456', '233334wtt', '0', '');
+INSERT INTO `user_address` VALUES ('36', '18813973441', '123', '123456', '233334atwetww', '0', '');
+INSERT INTO `user_address` VALUES ('37', '18813973441', '123asd', '123456', '233334', '0', '');
+INSERT INTO `user_address` VALUES ('39', '18813973441', '123', '123456', '233334', '0', '');
+INSERT INTO `user_address` VALUES ('40', '18813973441', '123456', '123456', '233334', '0', '');
+INSERT INTO `user_address` VALUES ('41', '18813973441', '123', '123456', '233334', '0', '');
+INSERT INTO `user_address` VALUES ('42', '18813973441', '123', '123456789', '2333342tggg', '0', '');
+INSERT INTO `user_address` VALUES ('43', '18813973441', '123', '123456', '233334', '0', '');
+INSERT INTO `user_address` VALUES ('44', '18813973441', '213', '123', '456', '0', '');
+INSERT INTO `user_address` VALUES ('45', '18813973441', '123', '456456', '456456wer', '0', '');
+INSERT INTO `user_address` VALUES ('46', '18813973441', '123', '123', '123', '0', '');
+INSERT INTO `user_address` VALUES ('47', '18813973441', 'doufu', '456', '456wrq', '0', '');
+INSERT INTO `user_address` VALUES ('48', '18813973441', 'doufuqiang', '456', '789', '0', '');
+INSERT INTO `user_address` VALUES ('49', '18813973441', 'doufuqian', 'asdasd', 'safafa', '0', '');
+INSERT INTO `user_address` VALUES ('50', '18813973441', 'doufu', '789', '789789', '0', '');
+INSERT INTO `user_address` VALUES ('52', '18813973441', '123', '456', '456wert', '1', '');
+INSERT INTO `user_address` VALUES ('53', '18813973442', '213', '789', '789', '1', '');
+
+-- ----------------------------
+-- Table structure for user_back
+-- ----------------------------
+DROP TABLE IF EXISTS `user_back`;
+CREATE TABLE `user_back` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(11) NOT NULL,
+  `user_back` varchar(255) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of user_back
+-- ----------------------------
+INSERT INTO `user_back` VALUES ('5', '18813973441', '123456789');
+INSERT INTO `user_back` VALUES ('8', '18813973441', 'asfawgergaehr');
+
+-- ----------------------------
+-- Table structure for user_favour
+-- ----------------------------
+DROP TABLE IF EXISTS `user_favour`;
+CREATE TABLE `user_favour` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `cmd_id` int(8) NOT NULL,
+  `phone` varchar(11) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of user_favour
+-- ----------------------------
+INSERT INTO `user_favour` VALUES ('46', '1317', '18813973441');
+INSERT INTO `user_favour` VALUES ('48', '1574', '18813973441');
+INSERT INTO `user_favour` VALUES ('49', '1613', '18813973441');
+INSERT INTO `user_favour` VALUES ('50', '1275', '18813973441');
+INSERT INTO `user_favour` VALUES ('51', '1840', '18813973441');
+INSERT INTO `user_favour` VALUES ('52', '1841', '18813973441');
 
 -- ----------------------------
 -- Table structure for user_order
@@ -1867,15 +1982,24 @@ DROP TABLE IF EXISTS `user_order`;
 CREATE TABLE `user_order` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `phone` varchar(255) NOT NULL,
-  `cmd_id` int(8) NOT NULL,
-  `cmd_count` varchar(8) NOT NULL,
-  `cmd_price` decimal(10,2) NOT NULL,
   `order_status` int(2) NOT NULL,
-  `create_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `create_time` varchar(32) NOT NULL,
   `address` int(8) NOT NULL,
+  `order_code` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `liuyan` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `order_all_price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of user_order
 -- ----------------------------
+INSERT INTO `user_order` VALUES ('53', '18813973441', '4', '1493778081', '33', '2017050303777', '', '298.00');
+INSERT INTO `user_order` VALUES ('54', '18813973441', '4', '1493778100', '16', '2017050396606', '', '516.00');
+INSERT INTO `user_order` VALUES ('55', '18813973441', '5', '1493778116', '37', '2017050303777', '', '136.00');
+INSERT INTO `user_order` VALUES ('66', '18813973441', '1', '1493821681', '42', '2017050318220', '', '210.00');
+INSERT INTO `user_order` VALUES ('67', '18813973441', '1', '1493823046', '39', '2017050343245', '', '165.00');
+INSERT INTO `user_order` VALUES ('68', '18813973441', '3', '1493823262', '16', '2017050322065', '', '898.00');
+INSERT INTO `user_order` VALUES ('69', '18813973441', '2', '1493823353', '37', '2017050362881', '', '788.00');
+INSERT INTO `user_order` VALUES ('70', '18813973441', '2', '1493823434', '41', '2017050311666', '', '147.00');
+INSERT INTO `user_order` VALUES ('71', '18813973441', '1', '1493830054', '48', '2017050318432', '', '210.00');
