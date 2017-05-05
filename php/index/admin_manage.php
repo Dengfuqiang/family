@@ -8,6 +8,123 @@
 	}
 	$mysql = new MySQL('localhost','root','','family');
 	$_GET['fc']();
+	function editCommodity(){
+		global $mysql;
+		
+		$newData=json_decode($_POST['newData']) ;
+		if(!empty($_FILES['pic']["name"])){
+			$name = iconv('utf-8','gb2312',$_FILES['pic']["name"]);
+			$arr=explode('.', basename($name));
+			$hz=array_pop($arr);
+			$name3=date('YmdHis').rand(100,999).'.'.$hz;
+			$name1=$_SERVER['HTTP_ORIGIN'].'/php/upload/'.$name3;
+			$name='../upload/'.$name3;
+			$tmp = $_FILES['pic']["tmp_name"];
+			move_uploaded_file($tmp,$name);
+			$newData->pic=$name1;
+		}
+		
+		
+		if(!empty($_FILES['contents']['name'][0])){
+			$content_pic='';
+			$num=count($_FILES['contents']['name']);
+			for($i=0;$i<$num;$i++){
+				
+				$content_name = iconv('utf-8','gb2312',$_FILES['contents']["name"][$i]);
+				$content_arr=explode('.', basename($content_name));
+				$content_hz=array_pop($content_arr);
+				$content_name3=date('YmdHis').rand(100,999).'.'.$content_hz;
+				$content_name1=$_SERVER['HTTP_ORIGIN'].'/php/upload/'.$content_name3;
+				$content_pic.='<div style="text-align: center;"><img alt="" src="'.$content_name1.'" /></div>';
+				$content_name='../upload/'.$content_name3;
+				$content_tmp = $_FILES['contents']["tmp_name"][$i];
+				move_uploaded_file($content_tmp,$content_name);
+			}
+			$newData->content=$content_pic;
+		}
+ 		$table=$_POST['table'];
+		$id=$newData->id;
+		$result= $mysql->data($newData)->table($table)->where("id={$id}")->update();
+		if($result>0){
+			$res=[
+				'msg'=>'编辑成功',
+				'code'=>1,
+			];
+		}else{
+			$res=[
+				'msg'=>'编辑失败',
+				'code'=>3,
+				'erro'=>$mysql->error()
+			];
+		}
+		echo  json_encode($res);
+	
+	}
+	function addCommodity(){
+		global $mysql;
+		$name = iconv('utf-8','gb2312',$_FILES['pic']["name"]);
+		$arr=explode('.', basename($name));
+		$hz=array_pop($arr);
+		$name3=date('YmdHis').rand(100,999).'.'.$hz;
+		$name1=$_SERVER['HTTP_ORIGIN'].'/php/upload/'.$name3;
+		$name='../upload/'.$name3;
+		$tmp = $_FILES['pic']["tmp_name"];
+		
+		
+		$content_pic='';
+		$num=count($_FILES['contents']['name']);
+		for($i=0;$i<$num;$i++){
+			
+			$content_name = iconv('utf-8','gb2312',$_FILES['contents']["name"][$i]);
+			$content_arr=explode('.', basename($content_name));
+			$content_hz=array_pop($content_arr);
+			$content_name3=date('YmdHis').rand(100,999).'.'.$content_hz;
+			$content_name1=$_SERVER['HTTP_ORIGIN'].'/php/upload/'.$content_name3;
+			$content_pic.='<div style="text-align: center;"><img alt="" src="'.$content_name1.'" /></div>';
+			$content_name='../upload/'.$content_name3;
+			$content_tmp = $_FILES['contents']["tmp_name"][$i];
+			move_uploaded_file($content_tmp,$content_name);
+		}
+		
+		
+		 if(move_uploaded_file($tmp,$name)){
+		 		$table=$_POST['table'];
+            	$arr1=[
+					'id'=>time(),
+					'marketPrice'=>$_POST['marketPrice'],
+					'sellerCount'=>$_POST['sellerCount'],
+					'salesPrice'=>$_POST['salesPrice'],
+					'title'=>$_POST['title'],
+					'category'=>$_POST['category'],
+					'salesCount'=>500,
+					'createDate'=>$_POST['createDate'],
+					'pic'=>$name1,
+					'content'=>$content_pic
+				];
+				$result= $mysql->data($arr1)->table($table)->add();
+				if($result>0){
+					$res=[
+						'msg'=>'提交成功',
+						'code'=>1,
+					];
+				}else{
+					$res=[
+						'msg'=>'添加失败',
+						'code'=>3,
+					];
+				}
+            	
+
+        }else{
+            $res=[
+					'msg'=>'添加失败',
+					'code'=>2,
+				];
+        }
+		
+		echo  json_encode($res);
+	
+	}
 	function deleteUser(){
 		global $mysql;
 			//var_dump($favour_list);exit;
@@ -67,21 +184,10 @@
 			'code'=>1
 		];
 		global $mysql;
-		$phone=$_SESSION['phone'];
 			//var_dump($favour_list);exit;
 		//$phone=['0']['phone'];
 		
-		$favour= $mysql->table('user_favour')->where("phone={$phone}")->select();
-		$favour_list=[];
-			//var_dump($favour);exit;
-		foreach ($favour as $key => $value) {
-			$cmd_id=$value['cmd_id'];
-			//var_dump($cmd_id);exit;
-			$sql='SELECT * FROM life_food WHERE id='.$cmd_id.' UNION SELECT * FROM life_furniture WHERE id='.$cmd_id.' UNION SELECT * FROM life_articles WHERE id='.$cmd_id;
-			$favour_cmd_list= $mysql->query($sql);
-			//var_dump($favour_cmd_list);exit;
-			$favour_list[]=$favour_cmd_list[0];
-		}
+		$favour_list= $mysql->table('life_food')->limit(0,8)->select();
 		$res['data']=$favour_list;
 		echo  json_encode($res);
 	}
@@ -295,7 +401,7 @@
 		    $name = iconv('utf-8','gb2312',$file["name"]);
 			$arr=explode('.', basename($name));
 			$hz=array_pop($arr);
-			$name='../upload/'.date('YmdHis').rand(100,999).'.'.$hz;
+			$name=$_SERVER['HTTP_ORIGIN'].'/php/upload/'.date('YmdHis').rand(100,999).'.'.$hz;
 			$arr=array('sale_reason'=>$back_reason,'sale_price'=>$back_price,'sale_explain'=>$back_info,'order_code'=>$order_code,'sale_picture'=>$name,'phone'=>$phone);
 		    $file_type = $file["type"];
 		    $tmp = $file["tmp_name"];

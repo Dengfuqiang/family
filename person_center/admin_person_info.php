@@ -23,6 +23,14 @@
 	
 	</head>
 	<style type="text/css">
+	#content_ct div{
+		text-align: left!important;
+	}
+		#content_ct img{
+			width: 500px;
+			height: auto;
+			
+		}
 		.info_right td,.info_right th{
 				border: 1px solid #e5e5e5;
 				padding: 15px;
@@ -156,11 +164,12 @@
 				</section>
 				</template>
 				<template id="my_favour_cmd">
-				<section class="my_favour_cmd">
+				<section class="my_favour_cmd info_right">
 					<h2>
 						<span  class="active_span">
 							商品管理
 						</span>
+						<a href="" class="to_pay" style="float: right;margin: 5px 10px 0 0;" @click='add_cmd()'>添加商品</a>
 					</h2>
 					<div class="property box">
 						<div class="item item2 "><label><input type="checkbox" name="" id="allSelect" @click='checkAll()'>全选</label><a href="javascript:void(0);" class="cancel_all" @click='deleteSelect()'>删除</a><span>商品详情</span></div>
@@ -168,15 +177,15 @@
 						<div class="item">操作</div>
 					</div>
 					<ul class="commodity_list ">
-						<li class="box" v-for='item in data.favourList'>
+						<li class="box" v-for='item in data.favourList' @click='to_deatil(item)'>
 							<label><input @click='childCheck($index,item,$event)' type="checkbox" name="" id="" value="" :checked="checkAlls"></label>
 							<div class="cmd_info item">
-								<a href="#" class="box">
+								<a href="javascript:void(0);" class="box">
 									<div><img :src="item.pic" alt=""></div>
 									<div class="item cd_title"><span v-text='item.title'>百草味 夏威夷果200g*3袋奶油 味  夏威夷果</span></div>
 								</a></div>
 							<div class="item before">￥<span class="price" v-text='item.salesPrice'>500</span></div>
-							<div class="item"><a href="javascript:void(0);" class="cancel" @click='deleteThis($index,item)'>删除</a></div>
+							<div class="item"><a href="javascript:void(0);" class="to_pay" @click='edit_cmd(item)'>编辑商品</a><a href="javascript:void(0);" class="cancel" @click='deleteThis($index,item)'>删除</a></div>
 						</li>
 					</ul>
 				</section>
@@ -217,27 +226,39 @@
 					</section>
 				</template>
 				<template id="help_center">
-				<section class="help_center">
+				<section class="help_center info_right">
 					<h2>
 						<span >
-							帮助中心
+							编辑商品
 						</span>
 					</h2>
-					<div class="problem">
-						<h3>常见问题</h3>
-						<h2>1.如何修改收货地址 </h2>
-						<p>答：在个人中心-送货地址进入可修改详细地址  </p>
-						<h2> 2.如何修改密码</h2>
-						<p>答：在个人中心-送货地址进入可修改详细地址</p>
-						<h2>3.如何退款</h2>
-						<p>答：在个人中心-送货地址进入可修改详细</p>
-					</div>
-					<div class="customer_server_center">
-						<i></i>
-						<p>周一至周五 8:00-6:00 </p>
-						<h4>4000-8888-08</h4>
-						<a href="javascript:void(0)">一键拨打</a>
-					</div>
+					<form action="" method="post" id="edit_cmd">
+
+						<label><span>原价:</span><input type="text" name="marketPrice" id="marketPrice" v-model='data.editCmd.marketPrice'  placeholder="请输入原价" /></label>
+						<label><span>优惠价:</span><input type="text" name="salesPrice" id="salesPrice" v-model='data.editCmd.salesPrice'  placeholder="请再次优惠价" /></label>
+						<label><span>标题:</span><input type="text" name="title" id="title" v-model='data.editCmd.title'  placeholder="请输入商品标题" /></label>
+						<label><span>销量:</span><input type="text" name="sellerCount" id="sellerCount" v-model='data.editCmd.sellerCount' placeholder="请销量" /></label>
+						<label >
+							<select  name="" @change='selectOne($event)' style="display: inline-block;width: 114px;margin-left: 70px; height: 40px;border: 1px solid #e5e5e5;background: none;">
+								<option value='0' v-if='data.category=="life_food"'>生活食品</option>
+								<option value='1' v-if='data.category=="life_articles"'>生活食品</option>
+								<option value='2' v-if='data.category=="life_furniture"'>生活食品</option>
+							</select>
+							<select name=""  @change='selectTwo($event)' style="display: inline-block;width: 114px;height: 40px;border: 1px solid #e5e5e5;background: none;">
+								<option value="0">选择二级类目</option>
+								<option :value="item.id" v-for='item in data.twoCategory.list.pageList'>{{item.title}}</option>
+							</select>
+						</label>
+						<label><span>商品图片</span><img v-if='picFlag' style="width: 100px;height: 100px; display: inline-block;" :src="data.editCmd.pic" /><img  :src="newPic" v-if='!picFlag' style="width: 100px;height: 100px; display: inline-block;" /><input style="border: none;" type="file" name="pic" id="pic" @change='changePic($event)'/></label>
+						<label><span>商品图片</span><input type="file"  style="border: none;" multiple="multiple" name="contents[]" id="contents" @change='changeContent($event)' /></label>
+						<div id="content_ct" v-html='data.editCmd.content' v-if='contentFlag'>
+							
+						</div>
+						<div id="div" v-if='!contentFlag'>
+							<img style="width: 100px;height: 100px; display: inline-block;" :src="item" v-for='item in imgList' track-by="$index"/>
+						</div>
+						<input type="submit" value="保存" class="save"  @click.prevent='changePursePwd()'/>
+					</form>
 				</section>
 				</template>
 				<template id="feed_contain">
@@ -248,15 +269,15 @@
 						</span>
 					</h2>
 					<table  cellspacing="0" cellpadding="0"style="width: 100%; border: 1px solid #e5e5e5; text-align: center;">
-								<tr><th>id</th><th>phone</th><th>user_back</th><th>opeation</th></tr>
-								<tr v-for='item in data.backList'><td>{{item.id}}</td><td>{{item.phone}}</td><td>{{item.user_back}}</td>
-								<td>
-									<div class="to_pay" @click='deleteBack($indet,item)'>
-										删除
-									</div>
-								</td>
-								</tr>
-							</table>
+						<tr><th>id</th><th>phone</th><th>user_back</th><th>opeation</th></tr>
+						<tr v-for='item in data.backList'><td>{{item.id}}</td><td>{{item.phone}}</td><td>{{item.user_back}}</td>
+						<td>
+							<div class="to_pay" @click='deleteBack($indet,item)'>
+								删除
+							</div>
+						</td>
+						</tr>
+					</table>
 				</section>
 				</template>
 				<template id="change_pwd">
@@ -281,20 +302,31 @@
 				<section class="change_purse_pwd">
 					<h2>
 						<span >
-							修改钱包密码
+							添加商品
 						</span>
 					</h2>
-					<form action="" method="post" v-if='data.purse'>
-						<label><span>新密码:</span><input type="password" name="" id="" value="" placeholder="请输入新密码" v-model='changeData.newPursePwd'/></label>
-						<label><span>确认密码:</span><input type="password" name="" id="" value="" placeholder="请再次输入密码" v-model='changeData.repeatPwd'/></label>
-						<label><span>手机号码:</span><input type="text" name="" id="" value="" placeholder="请输入手机号码" v-model='changeData.phone'/></label>
-						<label><span>验证码:</span><input type="text" name="" id="sms" value="" placeholder="请输入验证码" v-model='changeData.sms'/><a href="" id="sms_bt">获取验证码</a></label>
-						<i>注意：密码不得填空格，可由英文字母和数字组成</i>
+					<form action="" method="post" id="add_cmd">
+
+						<label><span>原价:</span><input type="text" name="marketPrice" id="marketPrice"  placeholder="请输入原价" /></label>
+						<label><span>优惠价:</span><input type="text" name="salesPrice" id="salesPrice"  placeholder="请再次优惠价" /></label>
+						<label><span>标题:</span><input type="text" name="title" id="title"  placeholder="请输入商品标题" /></label>
+						<label><span>销量:</span><input type="text" name="sellerCount" id="sellerCount" placeholder="请销量" /></label>
+						<label >
+							<select  name="" @change='selectOne($event)' style="display: inline-block;width: 114px;margin-left: 70px; height: 40px;border: 1px solid #e5e5e5;background: none;">
+								<option :value='$index' v-for='item in oneCategory' >{{item}}</option>
+							</select>
+							<select name=""  @change='selectTwo($event)' style="display: inline-block;width: 114px;height: 40px;border: 1px solid #e5e5e5;background: none;">
+								<option value="0">选择二级类目</option>
+								<option :value="item.id" v-for='item in twoCategory.list.pageList'>{{item.title}}</option>
+							</select>
+						</label>
+						<label><span>商品ID:</span><input type="num" name="id" id="id"  placeholder="请输入商品ID" /></label>
+						<label><span>商品图片</span><input  style="border: none;" type="file" name="pic" id="pic" /></label>
+						<label><span>商品图片</span><input  style="border: none;" type="file" multiple="multiple" name="contents[]" id="contents" @change='addContent($event)' /></label>
+						<!--<div id="div">
+							<img style="width: 100px;height: 100px; display: inline-block;" :src="item" v-for='item in imgList' track-by="$index"/>
+						</div>-->
 						<input type="submit" value="保存" class="save"  @click.prevent='changePursePwd()'/>
-					</form>
-					<form action="#" method="post" v-else>
-						<label><span>钱包密码:</span><input type="text" name="" id="" value="" placeholder="请设置钱包密码" v-model='pursePwd'/></label>
-						<input type="submit" value="保存" class="save" @click.prevent='setPursePwd()'/>
 					</form>
 				</section>
 				</template>
@@ -324,7 +356,7 @@
 			</footer>
 		</div>
 		<script type="text/javascript" src="../js/vue.js" ></script>
-		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
+		<script src="../js/vue-resource.min.js"></script>
 		<script type="text/javascript" src="../js/admin_person_center_index.js" ></script>
 	</body>
 </html>

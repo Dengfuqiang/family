@@ -9,6 +9,9 @@ var selectUser={
 	purse_pwd:'',
 	balance:'',
 };
+var nav1 ={"msg":"","list":{"columnIcon":"","msgCount":0,"pageList":[{"id":"224","title":"中外名酒"},{"id":"225","title":"茗茶月饼"},{"id":"226","title":"休闲食品"},{"id":"229","title":"奶粉"},{"id":"230","title":"饮品"},{"id":"312","title":"生鲜蔬果"},{"id":"313","title":"干货"},{"id":"379","title":"保健品"},{"id":"402","title":"特产类"}],"pageNum":1,"pageSize":10000,"totalPage":1,"totalRecord":9,"updateTime":""},"status":"0"};
+var nav2 ={"msg":"","list":{"columnIcon":"","msgCount":0,"pageList":[{"id":"232","title":"小家电"},{"id":"233","title":"大家电"},{"id":"234","title":"厨电总汇"},{"id":"336","title":"手机数码"},{"id":"337","title":"名表首饰"},{"id":"365","title":"化妆品"},{"id":"370","title":"服装"},{"id":"371","title":"女装"},{"id":"372","title":"母婴"},{"id":"373","title":"鞋靴箱包"},{"id":"374","title":"运动户外"},{"id":"375","title":"汽车用品"},{"id":"380","title":"日常用品"},{"id":"395","title":"床上用品"}],"pageNum":1,"pageSize":10000,"totalPage":1,"totalRecord":14,"updateTime":""},"status":"0"};
+var nav3 ={"msg":"","list":{"columnIcon":"","msgCount":0,"pageList":[{"id":"239","title":"厨具"},{"id":"240","title":"家具"},{"id":"241","title":"灯具"},{"id":"242","title":"五金"},{"id":"243","title":"饰品"}],"pageNum":1,"pageSize":10000,"totalPage":1,"totalRecord":5,"updateTime":""},"status":"0"};
 Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 	res=JSON.parse(res.bodyText);
 	 vm = new Vue({
@@ -30,8 +33,12 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 				addressList:[],
 				purse:true,
 				backList:[],
+				editCmd:{},
+		 		category:'life_food',
+		 		twoCategory:nav1,
 			},
-			favourList:[]
+			favourList:[],
+		 	category:'life_food',
 			
 	},
 	methods:{
@@ -51,8 +58,20 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 					
 				});
 			}else if(i==2&&!e.target.hasLoad){
-				var url='../php/index/admin_manage.php?status=1&fc=getOrder';
+				var url='../php/index/admin_manage.php?fc=getFavour';
 				e.target.hasLoad=true;
+				this.$http.get(url).then(function(res){
+					res=JSON.parse(res.bodyText);
+					if(res.code==0){
+						alert(res.msg);
+						location.href='../index/login.html';
+						return ;
+					}
+					console.log(res.data)
+					this.dataArr.favourList=res.data;
+				}, function(err){
+					
+				});
 				this.currentView='child'+3;
 			}else if(i==3&&!e.target.hasLoad){
 				console.log(1)
@@ -222,11 +241,21 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 		 	data:function(){
 		 		return {
 		 			checkAlls:false,
-		 			selectedCheckbox:{}
+		 			selectedCheckbox:{},
 		 		};
 		 	},
 			template:'#my_favour_cmd',
 			methods:{
+				edit_cmd:function(item){
+					this.$parent.dataArr.editCmd=item;
+					this.$parent.currentView='child5';
+				},
+				add_cmd:function(){
+					this.$parent.currentView='child8';
+				},
+				to_deatil:function(item){
+						location.href='../nav_contain/shipingxiangqing.php?category='+this.$parent.category+'&id='+item.id;
+				},
 				checkAll:function(){
 					this.checkAlls=!this.checkAlls;
 					if(this.checkAlls){
@@ -397,7 +426,78 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 		},
 		 'child5':{
 		 	props:['data'],
-			template:'#help_center'
+			template:'#help_center',
+			data:function(){
+				return {
+					picFlag:true,
+					newPic:'',
+					imgList:'',
+					contentFlag:true,
+					imgList:[]
+				};
+			},
+			methods:{
+				changeContent:function(e){
+					this.contentFlag=false;
+					var obj={};
+					var that=this;
+					that.imgList=[];
+					for(i=0;i<e.target.files.length;i++){
+						
+						var files =e.target.files[i];
+						obj[i]=new FileReader();
+						obj[i].onloadend = function () {
+				        // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+					        var dataURL = this.result;
+					        // 插入到 DOM 中预览
+					        // ...
+					       that.imgList.push(dataURL) ;
+					    };
+				   		 obj[i].readAsDataURL(files);
+					}
+				
+				},
+				changePic:function(e){
+					this.picFlag=false;
+					var file = e.target.files[0];
+				    var reader = new FileReader();
+					var that=this;
+				    reader.onloadend = function () {
+				        // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+				        var dataURL = reader.result;
+				        // 插入到 DOM 中预览
+				        // ...
+				        that.newPic=dataURL;
+				    };
+				
+				    reader.readAsDataURL(file);
+				},
+				selectTwo:function(e){
+					var val=e.target.value;
+					this.$parent.dataArr.editCmd.category=val;
+					console.log(this.data);
+				},
+				changePursePwd:function(){
+					var formData=new FormData(document.getElementById('edit_cmd'));
+					formData.append('table',this.$parent.dataArr.category);
+					console.log(this.$parent.dataArr.editCmd);
+					
+					formData.append('newData',JSON.stringify(this.$parent.dataArr.editCmd));
+					var url='../php/index/admin_manage.php?fc=editCommodity';
+					this.$http.post(url,formData).then(function(res){
+						res=JSON.parse(res.bodyText);
+						console.log(res);
+//						if(res.code==1){
+//							alert(res.msg);
+//							location.reload();return;
+//						}
+//						alert(res.msg)
+						
+					}, function(err){
+						
+					});
+				},
+			}
 		},
 		 'child6':{
 		 	props:['data'],
@@ -477,12 +577,63 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 						repeatPwd:'',
 						phone:'',
 						sms:'',
-					}
-					
+					},
+					imgList:[],
+					blobs:[],
+					twoCategory:nav1,
+					oneCategory:[
+						'生活食品',
+						'生活用品',
+						'生活家具'
+					],
+					one:'life_food',
+					two:'',
+					files:'',
 				};
 			},
 			template:'#change_purse_pwd',
 			methods:{
+				addContent:function(e){
+					this.files=e.target.files;
+				},
+				selectOne:function(e){
+					var val=e.target.value;
+					console.log(val);
+					if(val==0){
+						this.twoCategory=nav1;
+					this.one='life_food';
+					}else if(val==1){
+						this.twoCategory=nav2;
+						this.one='life_articles';
+					}else{
+						this.twoCategory=nav3;
+					this.one='life_furniture';
+					}
+				},
+				selectTwo:function(e){
+					var val=e.target.value;
+					this.two=val;
+				},
+				changePursePwd:function(){
+					var formData=new FormData(document.getElementById('add_cmd'));
+					formData.append('table',this.one);
+					formData.append('category',this.two);
+					formData.append('createDate',formatDate(new Date().getTime()));
+					formData.append('files',this.files);
+					var url='../php/index/admin_manage.php?fc=addCommodity';
+					this.$http.post(url,formData).then(function(res){
+						res=JSON.parse(res.bodyText);
+						console.log(res);
+						if(res.code==1){
+							alert(res.msg);
+							location.reload();return;
+						}
+						alert(res.msg)
+						
+					}, function(err){
+						
+					});
+				},
 				setPursePwd:function(){
 					var url='../php/index/admin_manage.php?purse='+this.pursePwd+'&fc=setPurse';
 					this.$http.get(url).then(function(res){
@@ -491,26 +642,6 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 							alert(res.msg);
 							this.$parent.currentView='child0';
 						}
-					}, function(err){
-						
-					});
-				},
-				changePursePwd:function(){
-					if(this.changeData.newPursePwd!=this.changeData.repeatPwd){
-						alert('请输入一样的密码');
-						return;
-					}
-					var url='../php/index/admin_manage.php?fc=changePursePwd';
-					this.$http.post(url,this.changeData).then(function(res){
-						res=JSON.parse(res.bodyText);
-						console.log(res);
-						if(res.code==1){
-							alert(res.msg);
-							this.$parent.currentView='child0';return;
-						}
-						
-							alert(res.msg);
-						
 					}, function(err){
 						
 					});
@@ -532,3 +663,9 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 }, function(res){
 	console.log(res);
 });
+function formatDate(ns) {  
+    var d = new Date(ns);  
+    var dformat = [ d.getFullYear(), d.getMonth() + 1, d.getDate() ].join('-')   
+            + ' ' + [ d.getHours(), d.getMinutes(), d.getSeconds() ].join(':');  
+    return dformat;  
+} 
