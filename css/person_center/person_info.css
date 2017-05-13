@@ -35,6 +35,9 @@
   background-color: #ffa130;
   color: white !important; }
 
+#content_ct span {
+  width: auto; }
+
 h2 {
   border: 1px solid #e6e6e6; }
   h2 span {

@@ -107,9 +107,6 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 			}else if(i==5&&!e.target.hasLoad){
 				var url='../php/index/admin_manage.php?status=1';
 				e.target.hasLoad=true;
-			}else if(i==6&&!e.target.hasLoad){
-				var url='../php/index/admin_manage.php?status=1';
-				e.target.hasLoad=true;
 			}else{
 				return false;
 			}
@@ -233,10 +230,6 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 			}
 		},
 		 'child2':{
-		 	props:['data'],
-			template:'#my_purse_info'
-		},
-		 'child3':{
 		 	props:['data'],
 		 	data:function(){
 		 		return {
@@ -499,7 +492,7 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 				},
 			}
 		},
-		 'child6':{
+		 'child3':{
 		 	props:['data'],
 			template:'#feed_contain',
 			data:function(){

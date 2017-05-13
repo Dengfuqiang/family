@@ -30,6 +30,11 @@
 .info_right{
     @extend %item;
 }
+#content_ct{
+    span{
+        width: auto;
+    }
+}
 h2{
     border:  1px solid $bc;
     span{

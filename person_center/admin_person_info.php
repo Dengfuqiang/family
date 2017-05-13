@@ -128,48 +128,14 @@
 						</div>
 					</section>
 				</template>
-				<template id="my_purse_info">
-				<section class="my_purse_info" >
-					<h2>
-						<span  class="active_span">
-							我的钱包
-						</span><span>
-							账单
-						</span>
-					</h2>
-					<div class="purse_wrap">
-						<div class="purse_inner">
-							<p class="my_price">我的余额</p>
-							<p>￥<span>88.50</span></p>
-						</div>
-						<p href="" class="zhifubao">支付宝</p>
-						<a href="" class="to_charge">充值</a>
-					</div>
-					<div class="my_bill">
-						<ul>
-							<li>
-								<p>充值<span>+100</span></p>
-								<p class="pay_time">2017-4-6 3:50</p>
-							</li>
-							<li>
-								<p>充值<span>+100</span></p>
-								<p class="pay_time">2017-4-6 3:50</p>
-							</li>
-							<li>
-								<p>充值<span>+100</span></p>
-								<p class="pay_time">2017-4-6 3:50</p>
-							</li>
-						</ul>
-					</div>
-				</section>
-				</template>
+				
 				<template id="my_favour_cmd">
 				<section class="my_favour_cmd info_right">
 					<h2>
 						<span  class="active_span">
 							商品管理
 						</span>
-						<a href="" class="to_pay" style="float: right;margin: 5px 10px 0 0;" @click='add_cmd()'>添加商品</a>
+						<a href="javascript:void(0);" class="to_pay" style="float: right;margin: 5px 10px 0 0;" @click='add_cmd()'>添加商品</a>
 					</h2>
 					<div class="property box">
 						<div class="item item2 "><label><input type="checkbox" name="" id="allSelect" @click='checkAll()'>全选</label><a href="javascript:void(0);" class="cancel_all" @click='deleteSelect()'>删除</a><span>商品详情</span></div>
@@ -177,10 +143,10 @@
 						<div class="item">操作</div>
 					</div>
 					<ul class="commodity_list ">
-						<li class="box" v-for='item in data.favourList' @click='to_deatil(item)'>
+						<li class="box" v-for='item in data.favourList'>
 							<label><input @click='childCheck($index,item,$event)' type="checkbox" name="" id="" value="" :checked="checkAlls"></label>
 							<div class="cmd_info item">
-								<a href="javascript:void(0);" class="box">
+								<a href="javascript:void(0);" class="box" @click='to_deatil(item)'>
 									<div><img :src="item.pic" alt=""></div>
 									<div class="item cd_title"><span v-text='item.title'>百草味 夏威夷果200g*3袋奶油 味  夏威夷果</span></div>
 								</a></div>
@@ -190,41 +156,7 @@
 					</ul>
 				</section>
 				</template>
-				<template id="address_ct">
-					<section class="address_ct" >
-						<h2>
-							<span >
-								收获地址
-							</span>
-						</h2>
-						<div class="address">
-							<ul class="address_list">
-								<li @click='selected($index,item,$event)' :class="defaults(item,$index)&&$index==thisIndex?'selected':''" v-for='item in data.addressList'>
-									<p><span>{{item.address}}（{{item.username}}收）</span><span v-text='item.phone'>13689223290</span></p>
-									<p v-text='item.detailaddrass'>天河车陂东圃大马路8号时代TIT广场A座4楼430</p>
-									<div class="change_address"><a href="javascript:;" class="change_bt" @click='changeAddress(item)'>修改</a> | <a href="javascript:;" class="cancel_bt" @click='deleteAddress($index,item)'>删除</a></div>
-								</li>
-							</ul>
-							<a href="javascript:void(0);" class="add_address" @click='addAddress'>+添加地址</a>
-						</div>
-						<div class="add_address_window" v-show='addWin'>
-							<div class="add_address_inner">
-								<h3>使用新地址 <a href="javascript:void(0);" class="close_win" @click='addAddress()'></a></h3>
-								<div class="add_info">
-									<p><span>新增收货地址</span>电话号码、手机号选填一项，其余均为必真项</p>
-									<form action="" method="post">
-										<label><span>收货人姓名</span><input type="text" name="" id="reciver_name" value="" placeholder="长度不超过25个字符" v-model='address.userName'/></label>
-										<label><span>手机号码<i>*</i></span><input type="text" name="" id="mobile_phone" value="" placeholder="请输入手机号"  v-model='address.phone'/></label>
-										<label><span>所在城市<i>*</i></span><input type="text" name="" id="city" value="" placeholder="请输入省市区" v-model='address.provinCity'/></label>
-										<label><span>详细地址<i>*</i></span><textarea name="" rows="" cols=""  id="address_detail" placeholder="建议你如实填写的的信息，如街道门牌号..."  v-model='address.addressDetail'></textarea>  </label>
-										<label><input type="checkbox" name="isdefault" id="isdefault"  v-model='address.isDefault'/>设置为默认收货地址</label>
-										<input type="submit" value="保存" id="confirm_add_address" @click.prevent='submitAddAddress()'/>
-									</form>
-								</div>
-							</div>
-						</div>
-					</section>
-				</template>
+				
 				<template id="help_center">
 				<section class="help_center info_right">
 					<h2>
@@ -335,13 +267,6 @@
 						<span></span><a href="javascript:void(0);">数据加载中</a>
 					</section>
 				</template>
-			</article>
-			<article class="pay_success" style="display: none">
-				<div class="pay_status">
-						<h3>恭喜您已成功支付</h3>
-						<p> 您可以在个人中心 > 我的订单中查询。</p>
-				</div>
-				<p class="auto_goback"><span>5</span>秒后 <a href="">自动返回>></a></p>
 			</article>
 			<footer id="familyFooter">
 				<a href="index.html">首页</a><span>|</span>
