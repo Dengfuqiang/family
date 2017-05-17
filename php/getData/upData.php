@@ -6,7 +6,11 @@
 	$mysql = new MySQL('localhost','root','','family');
 	$arr=[];
 	$table=$_GET['table'];
-	$min=$_GET['page']*12;
+	if(isset($_GET['page'])){
+		$min=$_GET['page']*12;
+	}else{
+		$min=0;
+	}
 	$max=$min+12;
 	$category=$_GET['category'];
 	

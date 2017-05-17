@@ -8,7 +8,7 @@
 	$table=$_GET['table'];
 	$min=$_GET['page']*12;
 	$category=$_GET['category'];
-	$max=$min+12;
+	$max=12;
 	if(!isset($_GET['sort'])){
 		$sql='select * from '.$table.' where category='.$category.' LIMIT '.$min.','.$max;
 	}else{

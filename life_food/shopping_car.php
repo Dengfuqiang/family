@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	$useInfo=$_SESSION;
+	
 	include '../public/public_header.php';
 ?>
 		<link rel="stylesheet" type="text/css" href="../css/lifefood/shopping_car.css"/>
@@ -12,7 +13,7 @@
 						<div class="item">数量</div>
 						<div class="item">操作</div>
 					</div>
-					<ul class="commodity_list ">
+					<ul id='commodityList' class="commodity_list ">
 						<li class="box" v-for='item in dataList'>
 							<label><input type="checkbox" name="" @click='checkBox(item,$index)' :checked="checks" id="" value="" /></label>
 							<div class="cmd_info item">
@@ -33,17 +34,9 @@
 						<span class="has_select">已选择商品<i v-text='selectNum'></i>件</span>
 					</div>
 			</article>
-			<footer id="familyFooter">
-				<a href="index.html">首页</a><span>|</span>
-				<a href="../beautifulLife.html">精彩生活</a><span>|</span>
-				<a href="../lifeFood.html">生活食品</a><span>|</span>
-				<a href="###">生活用品</a><span>|</span>
-				<a href="###">生活家居</a><span>|</span>
-				<a href="###">会员杂锦</a><span>|</span>
-				<a href="###">一键客服</a><span>|</span>
-				<a href="../aboutOur.html">关于我们</a>
-				<p>CopyrightO 生活一家 2007-2015, All Rights Reserved</p>
-			</footer>
+			<?php
+			include '../public/public_footer.php';
+			?>
 		</div>
 		<script type="text/javascript" src="../js/vue.js" ></script>
 		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
@@ -70,8 +63,8 @@
 				}else{
 					echo 'var login=0;';
 				}?>
-				console.log(dataList)
 				if(!login){
+					alert('您还未登录！请先登录');
 					location.href='../index/login.html';
 				}else if(login==2){
 					dataList=null;
@@ -81,6 +74,9 @@
 		</script>
 		<script type="text/javascript" src="../js/jquery-2.2.2.min.js" ></script>
 		<script type="text/javascript">
+				if(!dataList||dataList.length==0){
+					document.getElementById('commodityList').innerHTML='<li style="text-align:center; width:100%;padding:200px 0">您的购物车还没有商品哦！快去选购商品吧~</li>';
+				}else{
 				var vm=new Vue({
 					el:'#shopping_car',
 					data:{
@@ -175,6 +171,7 @@
 						}
 					});
 				}
+			}
 			}
 		</script>
 	</body>

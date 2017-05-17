@@ -82,7 +82,7 @@
 										<div class="item after  order_before" v-if='items.order_status==3'><p class="order_status" >待收货</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
 										<div class="item after  order_before" v-if='items.order_status==4'><p class="order_status">已完成</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
 										<div class="item after  order_before" v-if='items.order_status==5'><p class="order_status">售后处理中</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
-										<div class="item" v-if='items.order_status==1'><a href="../life_food/pay.php" class="to_pay">立即付款</a><a href="javascript:void(0);" class="cancel_order"  @click='cencelOrder($parent.$index,items)'>取消订单</a></div>
+										<div class="item" v-if='items.order_status==1'><a href="javascript:void(0);" class="to_pay" @click='topay($parent.$index,items)'>立即付款</a><a href="javascript:void(0);" class="cancel_order"  @click='cencelOrder($parent.$index,items)'>取消订单</a></div>
 										<div class="item" v-if='items.order_status==2'><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>取消订单</a></div>
 										<div class="item" v-if='items.order_status==3'><a href="javascript:void(0);" class="to_pay" @click='getCmd($parent.$index,items)'>收货</a></div>
 										<div class="item" v-if='items.order_status==4'><a href="" class="cancel_order"></a></div>
@@ -282,23 +282,22 @@
 				</div>
 				<p class="auto_goback"><span>5</span>秒后 <a href="">自动返回>></a></p>
 			</article>
-			<footer id="familyFooter">
-				<a href="index.html">首页</a><span>|</span>
-				<a href="../beautifulLife.html">精彩生活</a><span>|</span>
-				<a href="../lifeFood.html">生活食品</a><span>|</span>
-				<a href="###">生活用品</a><span>|</span>
-				<a href="###">生活家居</a><span>|</span>
-				<a href="###">会员杂锦</a><span>|</span>
-				<a href="###">一键客服</a><span>|</span>
-				<a href="../aboutOur.html">关于我们</a>
-				<p>CopyrightO 生活一家 2007-2015, All Rights Reserved</p>
-			</footer>
+			<?php
+				include '../public/public_footer.php';
+			?>
 		</div>
 		<script type="text/javascript" src="../js/vue.js" ></script>
 		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
 		<script type="text/javascript" src="../js/person_center_index.js" ></script>
 		<script type="text/javascript">
-			<?php echo 'var tab="'.$_GET['tab'].'",selectNum='.$_GET['selectNum'].';'?>
+			<?php
+			 	if(isset($_GET['tab'])){
+			 		echo 'var tab="'.$_GET['tab'].'",selectNum='.$_GET['selectNum'].';';
+			 	}else{
+			 		echo 'var tab="child0",selectNum=0;';
+			 	}
+			 
+			 ?>
 		</script>
 	</body>
 </html>

@@ -34,7 +34,7 @@
 									<li class="shuliang">
 										数量 <span><input type="text" name="shuliang" id="shuliang" value="1" v-model='cmdCount' /><a id="add_cont" @click='addCount()' href="javascript:void(0)"></a><a id="reduce_cont" @click='reduceCount()' href="javascript:void(0)"></a></span>件
 									</li>
-									<li class="buying"><a href="javascript:void(0)">立即购买</a><a  class="mashangmai" href="javascript:void(0)" @click='toShoppingCar()'>加入购物车</a></li>
+									<li class="buying"><a href="javascript:void(0)" @click='toBuy()'>立即购买</a><a  class="mashangmai" href="javascript:void(0)" @click='toShoppingCar()'>加入购物车</a></li>
 									<li class="sharefriend"><span href="javascript:void(0)">分享</span><span class="spelice_span">|</span><span class="shouchang" href="javascript:void(0)" @click='shouCang()'>收藏</span></li>
 								</ul>
 							</div>
@@ -55,19 +55,12 @@
 					</ul>
 				</div>
 			</div>
-			<div id="familyFooter">
-				<a href="index/index.html">首页</a><span>|</span>
-				<a href="beautifulLife.html">精彩生活</a><span>|</span>
-				<a href="lifeFood.html">生活食品</a><span>|</span>
-				<a href="###">生活用品</a><span>|</span>
-				<a href="###">生活家居</a><span>|</span>
-				<a href="###">会员杂锦</a><span>|</span>
-				<a href="###">一键客服</a><span>|</span>
-				<a href="aboutOur.html">关于我们</a>
-				<p>CopyrightO 生活一家 2007-2015, All Rights Reserved</p>
-			</div>
+			<?php
+				include '../public/public_footer.php';
+			?>
 		</div>
 		<script type="text/javascript" src="../js/vue.js" ></script>
+		<script type="text/javascript" src="../js/jquery-2.2.2.min.js" ></script>
 		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
 		<script type="text/javascript">
 		   document.getElementsByClassName('headerNavInner')[0].getElementsByTagName('a')[0].className='';
@@ -94,6 +87,19 @@
 						ss:0
 					},
 					methods:{
+						toBuy:function(){
+							var obj={
+								'0':{
+									'0':{}
+								}
+							};
+							console.log(this.data[0][0]);
+							obj['0']['0']['0']=this.data[0][0];
+							obj['0']['0'].count=this.cmdCount;
+							obj['allPrice']=this.cmdCount*this.data[0][0].salesPrice;
+							var data = $.param(obj);
+							location.href='../life_food/to_buy.php?'+data;
+						},
 						addCount:function(){
 							this.cmdCount++;
 							var maxCount=this.data[0][0].salesCount;

@@ -39,6 +39,7 @@ article{
         margin-top: 30px;
         height: 32px;
         border: 2px solid #ffa130;
+     vertical-align: bottom;
     }
     select{
         -webkit-appearance: none;
@@ -61,12 +62,17 @@ select{
     height: 98px;
     background: url("../img/lifepicture (1).png") no-repeat 0px 22px; 
 }
-
+#searchText{
+    margin-left: 140px;
+    outline: none;
+    padding-left: 10px;
+}
 #searchBt{
     width: 70px;
-     height: 36px;
+     height: 35px;
      background-color:#ffa130 ;
      color: white;
+     vertical-align: bottom;
 }
 .kefuShoppingCar{
     @extend %floatRight;

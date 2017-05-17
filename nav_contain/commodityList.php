@@ -3,18 +3,20 @@
 	$useInfo=$_SESSION;
 		include '../public/public_header.php';
 ?>
+<style type="text/css">
+	#foodContain li{
+		width: 19.9%;
+	}
+</style>
 <link rel="stylesheet" type="text/css" href="../css/lifeFood.css"/>
 			<div id="beatifulBody">
-				<ul id="bt_left">
-					<li v-for='item in nav' @click='getData($event,$index)' :class="{speilli:$index==nav_selected}"><a href="javascript:void(0);" :id='item.id' v-text='item.title'></a></li>
-				</ul>
-				<div id="life_contain">
+				<div id="life_contain"  style="width: 100%;">
 					<div class="food_selecter">
 						<span v-for='item in sort' @click='sorts($index,item)' :class="{active_span:active_sort==$index}">{{item.name}}<a href="javascript:void(0)" v-if='item.is' @click.stop='sorts($index,item,2)' class="food_top" :class='{active_top:active_sort==$index&&item.flag==2}'></a><a href="javascript:void(0)" v-if='item.is'  class="food_bottom" :class='{active_bottom:active_sort==$index&&item.flag==1}' @click.stop='sorts($index,item,1)'></a></span>
 						<span class="food_next_pre">
 							<a class="food_pre" href="javascript:void(0)" @click="selectPage2(0)"></a>
 							<span v-text='nowPage+1'></span>/
-							<span v-text='page.length'></span>
+							<span v-text='maxPage'></span>
 							<a class="food_next" href="javascript:void(0)" @click="selectPage2(1)"></a>
 						</span>
 					</div>
@@ -29,9 +31,9 @@
 					</ul>
 					<div id="select-list">
 						<a id="pre" href="javascript:void(0);" @click="selectPage2(0)">&lt;&lt;</a>
-						<a href="javascript:void(0);" v-for='item in page'  @click='selectPage($index)' :class="{active_a:active==$index}" v-text='item+1'></a>		
-						<a id="next" href="javascript:void(0);"@click="selectPage2(1)">&gt;&gt;</a>
-
+						<span v-text='nowPage+1' style="margin-left: 28px;"></span>/
+							<span v-text='maxPage'></span>
+						<a id="next" href="javascript:void(0);"@click="selectPage2(1)">&gt;&gt;</a><span style="margin-left: 28px;  color: #ccc;">跳转至第 <input type="text"  name="" id="" v-model='toPage' style="width: 28px; border:1px solid #ccc;text-align: center; outline: none; height: 28px; line-height: 30px;" /> 页</span><a href="javascript:void(0)" @click='selectPage(toPage)' style="padding: 0 10px;">确认</a>
 					</div>
 				</div>
 			</div>
@@ -42,22 +44,26 @@
 		<script type="text/javascript" src="../js/vue.js" ></script>
 		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
 		<script type="text/javascript">
-			var nav ={"msg":"","list":{"columnIcon":"","msgCount":0,"pageList":[{"id":"224","title":"中外名酒"},{"id":"225","title":"茗茶月饼"},{"id":"226","title":"休闲食品"},{"id":"229","title":"奶粉"},{"id":"230","title":"饮品"},{"id":"312","title":"生鲜蔬果"},{"id":"313","title":"干货"},{"id":"379","title":"保健品"},{"id":"402","title":"特产类"}],"pageNum":1,"pageSize":10000,"totalPage":1,"totalRecord":9,"updateTime":""},"status":"0"};
-		   document.getElementsByClassName('headerNavInner')[0].getElementsByTagName('a')[0].className='';
-		   document.getElementsByClassName('headerNavInner')[0].getElementsByTagName('a')[2].className='active_nav';
-			var url='../php/getData/getCommodityData.php?table=life_food&page=0&category=224';
+			 var keys=decodeURIComponent(location.search.slice(location.search.indexOf('=')+1));
+			 
+			 var keys=document.getElementById('searchText').value=keys;
+			var url='../php/getData/getCommodityDataByKey.php?key='+keys+'&page=0';
 			Vue.http.get(url).then(function(res){
-				console.log(JSON.parse(res.bodyText))
 				vm.cmd_list=JSON.parse(res.bodyText)[0];
 				vm.hot_cmd_list=JSON.parse(res.bodyText)[1];
-				var page=Math.floor(JSON.parse(res.bodyText)[2][0]['count(id)']/12) ;
+				var page=Math.floor(JSON.parse(res.bodyText)[1]/12) ;
+				vm.maxPage=page;
 				$arr=[];
 				if(page==0){
 					$arr.push(1);
 				}else{
-					for(i=0;i<page;i++){
-				 		$arr.push(i);
+					if(page>8){
+						page=8;
+						
 					}
+					for(i=0;i<page;i++){
+					 			$arr.push(i);
+						}
 				}
 				vm.page=$arr;
 			}, function(res){
@@ -68,7 +74,6 @@
 				data:{
 					cmd_list:null,
 					hot_cmd_list:null,
-					nav:nav.list.pageList,
 					nav_selected:0,
 					page:0,
 					category:224,
@@ -76,6 +81,8 @@
 					nowPage:0,
 					active_sort:0,
 					sortId:0,
+					maxPage:0,
+					toPage:1,
 					sort:[
 						{
 							name:'全部',
@@ -96,36 +103,18 @@
 					]
 				},
 				methods:{
-					getData:function(event,index){
-						this.nav_selected=index;
-						this.category=event.target.id;
-						this.active_sort=0;
-						var url='../php/getData/getCommodityData.php?table=life_food&page=0&category='+event.target.id;
-						this.$http.get(url).then(function(res){
-							vm.cmd_list=JSON.parse(res.bodyText)[0];
-							var page=Math.floor(JSON.parse(res.bodyText)[2][0]['count(id)']/12) ;
-							$arr=[];
-							if(page==0){
-								$arr.push(0);
-							}else{
-								for(i=0;i<page;i++){
-							 		$arr.push(i);
-								}
-							}
-							vm.page=$arr;
-							this.nowPage=0;
-							this.active=0;
-						}, function(res){
-							console.log(res);
-						});
-					},
-					selectPage:function (i){
-						this.nowPage=i;
-						this.active=i;
+					selectPage:function(num){
+						if(num>this.maxPage){
+							num=this.maxPage;
+						}else if(num<1){
+							num=1;
+						}
+						this.toPage=num;
+						this.nowPage=num*1-1;
 						if(this.active_sort){
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+i+'&category='+this.category+'&sort='+this.sortId+'&top=0';
+							var url='../php/getData/getCommodityDataByKey.php?key='+keys+'&page='+this.nowPage+'&sort='+this.sortId+'&top=0';
 						}else{
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+i+'&category='+this.category;
+							var url='../php/getData/getCommodityDataByKey.php?key='+keys+'&page='+this.nowPage;
 						}
 
 						this.$http.get(url).then(function(res){
@@ -133,33 +122,37 @@
 							}, function(res){
 								console.log(res);
 							});
-							
-							
-						
 					},
 					selectPage2:function (num){
-						var len=this.page.length;
+						var len=this.maxPage;
 						if(num){
 							this.nowPage+=1;
+							this.toPage=this.nowPage+1;
 							if(this.nowPage>len-1){
 								this.nowPage=len-1;
 								return	false;
 							}
 							this.active+=1;
-							if(this.active>len)this.active=len-1;
+							if(this.active>4){
+								this.active=4;
+							}
+							this.page.shift();
+							this.page.push(this.nowPage+7);
 						}else{
 							this.nowPage-=1;
+							this.toPage=this.nowPage+1;
 							if(this.nowPage<0){
 								this.nowPage=0;
 								return false;
 							}
 							this.active-=1;
-							if(this.active<0)this.active=0;
+							this.page.unshift(this.nowPage);
+							this.page.pop();
 						}
 						if(this.active_sort){
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+this.nowPage+'&category='+this.category+'&sort='+this.sortId+'&top=0';
+							var url='../php/getData/getCommodityDataByKey.php?key='+keys+'&page='+this.nowPage+'&sort='+this.sortId+'&top=0';
 						}else{
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+this.nowPage+'&category='+this.category;
+							var url='../php/getData/getCommodityDataByKey.php?key='+keys+'&page='+this.nowPage;
 						}
 
 						this.$http.get(url).then(function(res){
@@ -175,16 +168,16 @@
 						this.sortId=item.id;
 						if(top==1){
 							item.flag=top;
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+(this.nowPage)+'&category='+this.category+'&sort='+item.id+'&top=1';
+							var url='../php/getData/getCommodityDataByKey.php?page='+(this.nowPage)+'&sort='+item.id+'&top=1&key='+keys;
 						}else if(top==2){
 							item.flag=top;
-							var url='../php/getData/getCommodityData.php?table=life_food&page='+(this.nowPage)+'&category='+this.category+'&sort='+item.id+'&top=0';
+							var url='../php/getData/getCommodityDataByKey.php?page='+(this.nowPage)+'&sort='+item.id+'&top=0&key='+keys;
 						}else{
 							if(i==0){
-								var url='../php/getData/getCommodityData.php?table=life_food&page='+(this.nowPage)+'&category='+this.category;
+								var url='../php/getData/getCommodityDataByKey.php?page='+(this.nowPage)+'&key='+keys;
 								
 							}else{
-								var url='../php/getData/getCommodityData.php?table=life_food&page='+(this.nowPage)+'&category='+this.category+'&sort='+item.id;
+								var url='../php/getData/getCommodityDataByKey.php?page='+(this.nowPage)+'&key='+keys+'&sort='+item.id;
 							}
 
 						}

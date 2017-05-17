@@ -1,3 +1,7 @@
+ document.getElementById('searchBt').onclick=function(){
+				 	 var keys=encodeURIComponent(document.getElementById('searchText').value);
+				 	location.href='../nav_contain/commodityList.php?keys='+keys;
+				 }
 window.onload=function(){
 	var outerElement=document.getElementById("lunbo_outer");
 	var innerElement=document.getElementById("lunbo_inner");
@@ -35,6 +39,9 @@ var vm=new Vue({
 			}, function(res){
 				
 			});
+		},
+		to_detail:function(item,table){
+			location.href='../nav_contain/shipingxiangqing.php?category='+table+'&id='+item.id;
 		}
 	}
 });

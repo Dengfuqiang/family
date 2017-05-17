@@ -26,7 +26,7 @@
 							</a>
 							<div class="info">
 								<h2 v-text='data.userInfo.name'> <span></span></h2>
-								<p class="address"  >{{data.address.name+data.address.detailaddrass}}[<a href="">修改</a>]</p>
+								<p class="address"  >{{data.address.address+''+data.address.detailaddrass}}[<a href="person_info.php?tab=child4&selectNum=4" v-if='!data.address.address'>去设置</a><a href="person_info.php?tab=child4&selectNum=4" v-else>修改</a>]</p>
 							</div>
 						</div>
 						<div class="cash">
@@ -67,7 +67,7 @@
 
 							</div>
 							<div class="operation" v-if='item.order_status==1'>
-								<a href="../life_food/pay.php">立即付款</a>
+								<a href="javascript:void(0)" @click='topay($parent.$index,items)'>立即付款</a>
 								<a href="javascript:void(0)" @click='cencelOrder($parent.$index,items)'>取消订单</a>
 							</div>
 							<div class="operation" v-if='item.order_status==2'>
@@ -96,17 +96,9 @@
 					</div>
 				</section>
 			</article>
-			<footer id="familyFooter">
-				<a href="index.html">首页</a><span>|</span>
-				<a href="../beautifulLife.html">精彩生活</a><span>|</span>
-				<a href="../lifeFood.html">生活食品</a><span>|</span>
-				<a href="###">生活用品</a><span>|</span>
-				<a href="###">生活家居</a><span>|</span>
-				<a href="###">会员杂锦</a><span>|</span>
-				<a href="###">一键客服</a><span>|</span>
-				<a href="../aboutOur.html">关于我们</a>
-				<p>CopyrightO 生活一家 2007-2015, All Rights Reserved</p>
-			</footer>
+			<?php
+				include '../public/public_footer.php';
+			?>
 			<script type="text/javascript" src="../js/vue.js" ></script>
 			<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
 			<script type="text/javascript">
@@ -140,7 +132,7 @@
 						$order[$key]['cmd_list']=$order_commodity;
 						//var_dump($order[$key]);
 					}
-					if($defautl_address>0){
+					if(!empty($defautl_address) ){
 						$arr=['userInfo'=>$res[0],'address'=>$defautl_address[0],'order'=>$order,'favour_cmd'=>$favour_list];
 
 					}else{
@@ -148,10 +140,15 @@
 					}
 					echo 'var data='. json_encode($arr).";";}
 					?>
-					console.log(data);
 					if(!data){
 						alert('请先登录！');
 						location.href='../index/login.html';
+					}
+					if(!data.address){
+						data.address={
+							name:'',
+							detailaddrass:' 暂无默认收货地址 '
+						}
 					}
 					var vm =new Vue({
 						el:'#account_contain',
@@ -196,6 +193,9 @@
 							},
 							toDetail:function(item){
 								location.href='../nav_contain/shipingxiangqing.php?category=life_food&id='+item.id;
+							},
+							topay:function(index,items){
+								location.href='../life_food/pay.php?order_code='+items.order_code;
 							}
 						}
 					})

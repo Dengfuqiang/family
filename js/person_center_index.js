@@ -143,6 +143,9 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 				
 			},
 			methods:{
+				topay:function(index,items){
+					location.href='../life_food/pay.php?order_code='+items.order_code;
+				},
 				cencelSale:function(){
 					if(confirm('是否确认取消售后！')){
 						var url='../php/getData/getOrder.php?fc=cencelSale&order_code='+item.order_code;
