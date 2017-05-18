@@ -32,6 +32,23 @@
     .nav_left a:hover {
       color: #ffa130; }
 
+#select-list {
+  text-align: center;
+  word-spacing: -3px; }
+  #select-list a {
+    display: inline-block;
+    width: 28px;
+    border: 1px solid #cccccc;
+    line-height: 28px;
+    word-spacing: 0px;
+    margin-left: 28px;
+    color: #1a1a1a; }
+
+#select-list {
+  width: 720px;
+  margin: 20px auto 50px;
+  clear: both; }
+
 .active_nav_select {
   background-color: #ffa130;
   color: white !important; }

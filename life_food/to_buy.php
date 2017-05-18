@@ -9,7 +9,7 @@
 		$sql='select * from user_address where phone='.$_SESSION['phone'];
 		$arr['address']=$mysql->query($sql);
 	}else{
-		echo 'var login=0;';
+		echo '<script>alert("您还未登录！请先登录");location="../index/login.html";</script>;';exit;
 	}
 ?>
 		<link rel="stylesheet" type="text/css" href="../css/lifefood/to_buy.css"/>
@@ -85,10 +85,7 @@
 				echo 'var login=1; var dataList='.json_encode($arr).';';
 				?>
 		</script>
-		<script type="text/javascript">	
-			if(!login){
-					location.href='../index/login.html';
-				}
+		<script type="text/javascript">
 			Vue.http.options.emulateJSON = true;
 			var vm=new Vue({
 				el:'#familyAndContain',

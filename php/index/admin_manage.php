@@ -184,10 +184,19 @@
 			'code'=>1
 		];
 		global $mysql;
-			//var_dump($favour_list);exit;
+		//var_dump($favour_list);exit;
 		//$phone=['0']['phone'];
-		
-		$favour_list= $mysql->table('life_food')->limit(0,8)->select();
+		if(isset($_GET['category'])){
+			$category=$_GET['category'];
+			if(isset($_GET['key'])){
+				$key=$_GET['key'];
+				$favour_list= $mysql->table($category)->order('createDate desc ')->where("title like '%{$key}%'")->select();
+			}else{
+				$favour_list= $mysql->table($category)->order('createDate desc ')->select();
+			}
+		}else{
+			$favour_list= $mysql->table('life_food')->order('createDate desc ')->select();
+		}
 		$res['data']=$favour_list;
 		echo  json_encode($res);
 	}
@@ -445,6 +454,26 @@
 		global $mysql;
 		$order_code=$_GET['order_code'];
 		$result=$mysql->table('user_order')->data(array('order_status'=>'4'))->where("order_code={$order_code} and order_status=5")->update();
+		if($result>0){
+			$res=[
+					'msg'=>'操作成功',
+					'code'=>1,
+				];
+			
+		}else{
+			$res=[
+				'msg'=>'由于网络原因，操作失败',
+				'code'=>3,
+				'erro'=>$mysql->error()
+			];
+		}
+		echo  json_encode($res);
+	}
+	function setWuliu(){
+		global $mysql;
+		$order_code=$_GET['order_code'];
+		$wuliu=$_GET['value'];
+		$result=$mysql->table('user_order')->data(array('order_status'=>'3','wuliu'=>$wuliu))->where("order_code={$order_code} and order_status=2")->update();
 		if($result>0){
 			$res=[
 					'msg'=>'操作成功',

@@ -25,7 +25,7 @@
 							<p><i v-text='item.salesPrice'></i><span v-text='item.marketPrice'></span></p>
 							<a href="javascript:void(0);" class="addShoppingCar" @click.stop='toShoppingCar(item)'>加入购物车</a>
 						</li>
-						<li v-if='cmd_list.length<1' style="width: 100%;padding:250px; 0 text-align: center;">暂时还没有商品数据哦~</li>
+						<li v-if='cmd_list.length<1' style="width: 100%;padding:250px 0 ; text-align: center;">暂时还没有商品数据哦~</li>
 					</ul>
 					<div id="select-list">
 						<a id="pre" href="javascript:void(0);" @click="selectPage2(0)">&lt;&lt;</a>

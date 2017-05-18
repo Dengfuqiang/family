@@ -26,6 +26,12 @@
 	#content_ct div{
 		text-align: left!important;
 	}
+	.select_category{
+		height:37px ;
+		border: 1px solid #999;
+		background: none!important;
+		vertical-align: middle;
+	}
 		#content_ct img{
 			width: 500px;
 			height: auto;
@@ -42,6 +48,33 @@
 			color: white;
 			background-color: #ffa130;
 			border-color: #ffa130;
+		}
+		.info_right{
+			margin-bottom: 30px;
+		}
+		#searchCmd{
+			display: inline-block;
+		    border: none;
+		    outline: none;
+		    width: 80px;
+		    height: 35px;
+		    padding: 0;
+		    -webkit-border-radius: 3px;
+		    border-radius: 3px;
+		    text-align: center;
+		    line-height: 35px;
+		    background-color: #ffa130;
+		    color: white;
+		    cursor: pointer;
+		vertical-align: middle;
+		    margin-left: 20px;
+		}
+		#searchInput{
+		    border: 1px solid #e6e6e6;
+		    width: 265px;
+		    padding-left: 10px;
+		vertical-align: middle;
+		    height: 35px;
 		}
 	</style>
 	<body>
@@ -115,7 +148,7 @@
 										<div class="item after  order_before" v-if='items.order_status==4'><p class="order_status">已完成</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
 										<div class="item after  order_before" v-if='items.order_status==5'><p class="order_status">售后处理中</p><a href="javascript:void(0)" class="order_detail" @click='orderDetial(items)'>订单详情</a></div>
 										<div class="item" v-if='items.order_status==1'><a href="javascript:void(0);" class="cancel_order"  @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
-										<div class="item" v-if='items.order_status==2'><a href="javascript:void(0);" class="to_pay">发货</a><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
+										<div class="item" v-if='items.order_status==2'><a href="javascript:void(0);" @click='sentCmd($parent.$index,items)' class="to_pay">发货</a><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
 										<div class="item" v-if='items.order_status==3'><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
 										<div class="item" v-if='items.order_status==4'><a href="javascript:void(0);" class="cancel_order"></a><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
 										<div class="item" v-if='items.order_status==5'><a href="javascript:void(0);" class="to_pay" @click='cencelSale($parent.$index,items)'>拒绝售后</a><a href="" class="cancel_order"></a><a href="javascript:void(0);" class="cancel_order" @click='cencelOrder($parent.$index,items)'>删除订单</a></div>
@@ -136,6 +169,12 @@
 						<span  class="active_span">
 							商品管理
 						</span>
+						<select class="select_category" name="select_category" @change='selectCategory($event)'>
+							<option value="life_food">生活食品</option>
+							<option value="life_articles">生活用品</option>
+							<option value="life_furniture">生活家居</option>
+						</select>
+						<input type="text" name="" id="searchInput" v-model='keys' /><a href="javascript:void(0)" id='searchCmd' @click='searchCmd()'>搜索</a>
 						<a href="javascript:void(0);" class="to_pay" style="float: right;margin: 5px 10px 0 0;" @click='add_cmd()'>添加商品</a>
 					</h2>
 					<div class="property box">
@@ -155,6 +194,11 @@
 							<div class="item"><a href="javascript:void(0);" class="to_pay" @click='edit_cmd(item)'>编辑商品</a><a href="javascript:void(0);" class="cancel" @click='deleteThis($index,item)'>删除</a></div>
 						</li>
 					</ul>
+					<div id="select-list">
+						<a id="pre" href="javascript:void(0);" @click="prePage()">&lt;&lt;</a>
+						<span style="margin-left: 28px;" v-text='nowPage'></span>/<span>{{data.cmdMaxLenght}}</span>
+						<a id="next" href="javascript:void(0);"@click="nextPage()">&gt;&gt;</a>
+					</div>
 				</section>
 				</template>
 				
@@ -241,9 +285,9 @@
 					<form action="" method="post" id="add_cmd">
 
 						<label><span>原价:</span><input type="text" name="marketPrice" id="marketPrice"  placeholder="请输入原价" /></label>
-						<label><span>优惠价:</span><input type="text" name="salesPrice" id="salesPrice"  placeholder="请再次优惠价" /></label>
+						<label><span>优惠价:</span><input type="text" name="salesPrice" id="salesPrice"  placeholder="请输入再次优惠价" /></label>
 						<label><span>标题:</span><input type="text" name="title" id="title"  placeholder="请输入商品标题" /></label>
-						<label><span>销量:</span><input type="text" name="sellerCount" id="sellerCount" placeholder="请销量" /></label>
+						<label><span>销量:</span><input type="text" name="sellerCount" id="sellerCount" placeholder="请输入销量" /></label>
 						<label >
 							<select  name="" @change='selectOne($event)' style="display: inline-block;width: 114px;margin-left: 70px; height: 40px;border: 1px solid #e5e5e5;background: none;">
 								<option :value='$index' v-for='item in oneCategory' >{{item}}</option>
@@ -253,12 +297,11 @@
 								<option :value="item.id" v-for='item in twoCategory.list.pageList'>{{item.title}}</option>
 							</select>
 						</label>
-						<label><span>商品ID:</span><input type="num" name="id" id="id"  placeholder="请输入商品ID" /></label>
-						<label><span>商品图片</span><input  style="border: none;" type="file" name="pic" id="pic" /></label>
+						<label><span>商品图片</span><img :src="picUrl" v-if='picFlag'  style="width: 100px;height: 100px; display: inline-block;"/><input @change='changePic($event)'  style="border: none;" type="file" name="pic" id="pic" /></label>
 						<label><span>商品图片</span><input  style="border: none;" type="file" multiple="multiple" name="contents[]" id="contents" @change='addContent($event)' /></label>
-						<!--<div id="div">
+						<div id="imgCtlist" v-if='contentFlag'>
 							<img style="width: 100px;height: 100px; display: inline-block;" :src="item" v-for='item in imgList' track-by="$index"/>
-						</div>-->
+						</div>
 						<input type="submit" value="保存" class="save"  @click.prevent='changePursePwd()'/>
 					</form>
 				</section>

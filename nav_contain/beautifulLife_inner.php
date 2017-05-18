@@ -7,9 +7,9 @@
 			<div id="beatifulBody">
 				<ul id="bt_right">
 					<h4>热门商家</h4>
-					<li v-for='item in data[1]'>
-						<a href="javascript:;"><img :src="item.pic" alt="" /></a>
-						<h2><a href="javascript:;" v-text='item.title'></a></h2>
+					<li v-for='item in data[1]' @click='to_inner(item)'>
+						<a href="javascript:void(0);"><img :src="item.pic" alt="" /></a>
+						<h2><a href="javascript:void(0);" v-text='item.title'></a></h2>
 						<i v-text='item.phone'></i>
 					</li>
 				</ul>
@@ -17,19 +17,19 @@
 					<ul>
 						<li class="pictureAndInformation">
 							<div id="picture_watch">
-								<a class="bigPicture" href="javascript:;"><img  :src="data[0][0].pic" alt="" /></a>
-								<a href="javascript:;"><img :src="data[0][0].pic" alt="" /></a>
+								<a class="bigPicture" href="javascript:void(0);"><img  :src="data[0][0].pic" alt="" /></a>
+								<a href="javascript:void(0);"><img :src="data[0][0].pic" alt="" /></a>
 							</div>
 							<div  id="information">
 								<h6 v-text="data[0][0].title"></h6>
 								<p v-text="data[0][0].shortDesc"></p>
 
 							</div>
-							<a class="telphone" href="javascript:;"  v-text="data[0][0].phone"></a>
+							<a class="telphone" href="javascript:void(0);"  v-text="data[0][0].phone"></a>
 						</li>
 						<li v-html='data[0][0].content'>
 							<span class="spInformation">
-								<a href="javascript:;">
+								<a href="javascript:void(0);">
 									<h2>商品详情</h2>
 								</a>
 							</span>
@@ -97,6 +97,10 @@
 						data:res,
 					},
 					methods:{
+						to_inner:function(item){
+							console.log(item)
+							location.href='beautifulLife_inner.php?id='+item.id;
+						},
 					}
 				})
 			}, function(res){

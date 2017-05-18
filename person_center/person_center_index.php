@@ -2,7 +2,9 @@
 	session_start();
 	$useInfo=$_SESSION;
 	include '../public/public_header.php';
-	
+	if(!isset($_SESSION['phone'])){
+		echo '<script>alert("您还未登录！请先登录");location="../index/login.html";</script>;';exit;
+	}
 ?>
 		<link rel="stylesheet" type="text/css" href="../css/person_center/person_center_index.css"/>
 			<article id='account_contain'>

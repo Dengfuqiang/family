@@ -11,8 +11,8 @@
 				</ul>
 				<ul id="bt_right">
 					<h4>热门商家</h4>
-					<li v-for='item in hot_cmd_list'>
-						<a href="beautifulLife_inner.html"><img :src="item.pic" alt="" /></a>
+					<li v-for='item in hot_cmd_list' @click='to_inner(item)'>
+						<a href="javascript:void(0)"><img :src="item.pic" alt="" /></a>
 						<h2><a href="beautifulLife_inner.html" v-text='item.title'></a></h2>
 						<i v-text='item.phone'></i>
 					</li>
@@ -88,6 +88,10 @@
 					nav_selected:0,
 				},
 				methods:{
+					to_inner:function(item){
+						console.log(item)
+						location.href='beautifulLife_inner.php?id='+item.id;
+					},
 					getData:function(event,index){
 						this.nav_selected=index;
 						this.category=event.target.id;

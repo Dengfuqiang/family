@@ -23,8 +23,7 @@
 					}?>
 					<span class="shuGang">|</span>
 					<span><a href="../person_center/person_center_index.php">我的账号</a></span>
-					<span class="shuGang">|</span>
-					<span><a href="###">生活一家app下载</a></span>
+
 				</div>
 				<div class="seacherKuang">
 					<div class="seacherInner">

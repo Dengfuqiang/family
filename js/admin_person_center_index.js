@@ -36,6 +36,7 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 				editCmd:{},
 		 		category:'life_food',
 		 		twoCategory:nav1,
+		 		cmdMaxLenght:0,
 			},
 			favourList:[],
 		 	category:'life_food',
@@ -67,8 +68,9 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 						location.href='../index/login.html';
 						return ;
 					}
-					console.log(res.data)
-					this.dataArr.favourList=res.data;
+					this.dataArr.allCmd=res.data;
+					this.dataArr.cmdMaxLenght=Math.ceil(res.data.length/8);
+					this.dataArr.favourList=res.data.slice(0,8);
 				}, function(err){
 					
 				});
@@ -164,8 +166,23 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 				
 			},
 			methods:{
+				sentCmd:function(index,item){
+					var value=prompt('发货','输入物流信息');
+					if(value){
+						var url='../php/index/admin_manage.php?fc=setWuliu&order_code='+item.order_code+'&value='+value;
+							this.$http.get(url).then(function(res){
+							res=JSON.parse(res.bodyText);
+							if(res.code==1){
+								alert(res.msg);
+								this.data.myorder.splice(index,1);
+								
+							}
+						}, function(err){
+							
+						});
+					}
+				},
 				cencelSale:function(index,item){
-					console.log(item);
 					if(confirm('是否确认取消售后！')){
 						var url='../php/index/admin_manage.php?fc=cencelSale&order_code='+item.order_code;
 							this.$http.get(url).then(function(res){
@@ -235,10 +252,59 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 		 		return {
 		 			checkAlls:false,
 		 			selectedCheckbox:{},
+		 			category:'life_food',
+		 			nowPage:1,
+		 			keys:'',
 		 		};
 		 	},
 			template:'#my_favour_cmd',
 			methods:{
+				prePage:function(){
+					this.nowPage-=1;
+					if(this.nowPage<1){
+						this.nowPage=1;
+					};
+					this.data.favourList=this.data.allCmd.slice((this.nowPage-1)*8,this.nowPage*8-1);
+				},
+				nextPage:function(){
+					this.nowPage+=1;
+					if(this.nowPage>this.data.cmdMaxLenght){
+						this.nowPage=this.data.cmdMaxLenght;
+					};
+					this.data.favourList=this.data.allCmd.slice((this.nowPage-1)*8,this.nowPage*8-1);
+					
+				},
+				searchCmd:function(){
+					if(this.keys!=''){
+						var url='../php/index/admin_manage.php?fc=getFavour&category='+this.category+'&key='+this.keys;
+						this.$http.get(url).then(function(res){
+							res=JSON.parse(res.bodyText);
+							vm.dataArr.allCmd=res.data;
+							vm.dataArr.cmdMaxLenght=Math.ceil(res.data.length/8);
+							vm.dataArr.favourList=res.data.slice(0,8);
+							
+						}, function(err){
+							
+						});
+					}else{
+						alert('请输入关键字~');
+					}
+				},
+				selectCategory:function(e){
+					if(e.target.value!=0){
+						this.category=e.target.value
+						var url='../php/index/admin_manage.php?fc=getFavour&category='+this.category;
+						this.$http.get(url).then(function(res){
+							res=JSON.parse(res.bodyText);
+							vm.dataArr.allCmd=res.data;
+							vm.dataArr.cmdMaxLenght=parseInt(res.data.length/8);
+							vm.dataArr.favourList=res.data.slice(0,8);
+							
+						}, function(err){
+							
+						});
+					}
+				},
 				edit_cmd:function(item){
 					this.$parent.dataArr.editCmd=item;
 					this.$parent.currentView='child5';
@@ -582,12 +648,47 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 					one:'life_food',
 					two:'',
 					files:'',
+					picFlag:false,
+					picUrl:'',
+					contentFlag:false,
 				};
 			},
 			template:'#change_purse_pwd',
 			methods:{
+				
+				changePic:function(e){
+					var file = e.target.files[0];
+				    var reader = new FileReader();
+					var that=this;
+					console.log(1)
+				    reader.onloadend = function () {
+						that.picFlag=true;
+				        // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+				        var dataURL = reader.result;
+				        // 插入到 DOM 中预览
+				        // ...
+				        that.picUrl=dataURL;
+				    };
+				
+				    reader.readAsDataURL(file);
+				},
 				addContent:function(e){
-					this.files=e.target.files;
+					var obj={};
+					var that=this;
+					that.imgList=[];
+					for(i=0;i<e.target.files.length;i++){
+						that.contentFlag=true;
+						var files =e.target.files[i];
+						obj[i]=new FileReader();
+						obj[i].onloadend = function () {
+				        // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+					        var dataURL = this.result;
+					        // 插入到 DOM 中预览
+					        // ...
+					       that.imgList.push(dataURL) ;
+					    };
+				   		 obj[i].readAsDataURL(files);
+					}
 				},
 				selectOne:function(e){
 					var val=e.target.value;
