@@ -126,6 +126,7 @@
 							</ul>
 							
 						</div>
+						<div v-if='data.myorder.length<1' style="width: 100%;padding:170px 0; margin-bottom: 30px; border: 1px solid #e6e6e6; text-align: center;">暂时还没有<i style="color: #ffa130;">{{tabs[active]}}</i>订单哦~</div>
 					</section>
 				</template>
 				

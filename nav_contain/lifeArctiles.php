@@ -22,10 +22,10 @@
 						<li  @click='to_deatil(item)' v-for='item in cmd_list'>
 							<a href="javascript:void(0);"><img :src="item.pic" alt="" /></a>
 							<h2 v-text='item.title'></h2>
-							<p><i v-text='item.marketPrice'></i><span v-text='item.salesPrice'></span></p>
-							<a href="javascript:void(0);" class="addShoppingCar">加入购物车</a>
+							<p><i v-text='item.salesPrice'></i><span v-text='item.marketPrice'></span></p>
+							<a href="javascript:void(0);" class="addShoppingCar" @click.stop='toShoppingCar(item)'>加入购物车</a>
 						</li>
-
+						<li v-if='cmd_list.length<1' style="width: 100%;padding:250px; 0 text-align: center;">暂时还没有商品数据哦~</li>
 					</ul>
 					<div id="select-list">
 						<a id="pre" href="javascript:void(0);" @click="selectPage2(0)">&lt;&lt;</a>
@@ -66,7 +66,7 @@
 			var vm=new Vue({
 				el:'#beatifulBody',
 				data:{
-					cmd_list:null,
+					cmd_list:[],
 					hot_cmd_list:null,
 					nav:nav.list.pageList,
 					nav_selected:0,
@@ -96,6 +96,21 @@
 					]
 				},
 				methods:{
+					toShoppingCar:function(item){
+						var url='../php/shopping/addToShoppingCar.php?category='+this.category+'&id='+item.id+'&count=1&table=life_articles';
+						this.$http.get(url).then(function(res){
+							res=JSON.parse(res.bodyText);
+							console.log(res)
+							if(!res.code){
+								alert(res.msg);
+								location.href='../index/login.html';
+							}else{
+								alert(res.msg);
+							}
+						},function(err){
+							
+						});
+					},
 					getData:function(event,index){
 						this.nav_selected=index;
 						this.category=event.target.id;

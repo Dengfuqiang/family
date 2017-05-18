@@ -1,7 +1,6 @@
 <?php
 	session_start();
 	$useInfo=$_SESSION;
-	
 	include '../public/public_header.php';
 ?>
 		<link rel="stylesheet" type="text/css" href="../css/lifefood/shopping_car.css"/>
@@ -23,13 +22,14 @@
 								</a></div>
 							<div class='item before'>￥<span class="price" v-text='item[0].salesPrice'>500</span></div>
 							<div class="item before num_ct">数量<i class="reduce" @click='reduceCount(item)'></i><input readonly="readonly" type="text" name="num" id="num" class="num" v-model='item.count'/><i class="add"  @click='addCount(item)'></i>件</div>
-							<div class="item"><a href="javscript:;" class="cancel" @click='removeCmd(item,$index)'>删除</a></div>
+							<div class="item"><a href="javscript:void(0);" class="cancel" @click='removeCmd(item,$index)'>删除</a></div>
 						</li>
+						<li v-if='dataList.length<1' style="width: 100%;padding:62px 0; border: 1px solid #e6e6e6; text-align: center;">购物车内还没有商品哦，快去选购吧~</li>
 					</ul>
 					<div id="pay_money">
-						<label><a href="#" class="cancel" @click='deleteAll()'>删除</a></label>
+						<label><a href="javscript:void(0);" class="cancel" @click='deleteAll()'>删除</a></label>
 						
-						<span href="javscript:;" id="to_pay" @click='submits()'>立即结算</span>
+						<span href="javscript:void(0);" id="to_pay" @click='submits()'>立即结算</span>
 						<span class="heji">合计:<i v-text='selectCommodity.allPrice'>0</i></span>
 						<span class="has_select">已选择商品<i v-text='selectNum'></i>件</span>
 					</div>
@@ -67,16 +67,14 @@
 					alert('您还未登录！请先登录');
 					location.href='../index/login.html';
 				}else if(login==2){
-					dataList=null;
+					dataList=[];
 				};
 				
 				
 		</script>
 		<script type="text/javascript" src="../js/jquery-2.2.2.min.js" ></script>
 		<script type="text/javascript">
-				if(!dataList||dataList.length==0){
-					document.getElementById('commodityList').innerHTML='<li style="text-align:center; width:100%;padding:200px 0">您的购物车还没有商品哦！快去选购商品吧~</li>';
-				}else{
+					Vue.http.options.emulateJSON = true;
 				var vm=new Vue({
 					el:'#shopping_car',
 					data:{
@@ -115,12 +113,51 @@
 							}
 						},
 						removeCmd:function(item,index){
-							this.selectCommodity.allPrice-=item[0].salesPrice*item.count*1;
-							this.dataList.splice(index,1);
+							var url='../php/shopping/deleteCmd?fc=deleteCmd&flag=1';
+							var obj={
+								fc:'deleteCmd',
+								flag:0,
+								id:item[0].id
+							}
+							this.$http.post(url,obj).then(function(res){
+								var res=JSON.parse(res.bodyText);
+								if(res.code){
+									alert(res.msg);
+									if(item.check){
+										this.selectCommodity.allPrice-=item[0].salesPrice*item.count*1;
+									}
+									this.dataList.splice(index,1);
+								}else{
+									alert('删除失败！');
+								}
+							},function(){
+								
+							})
 						},
 						deleteAll:function(){
-							this.selectCommodity.allPrice=0;
-							this.dataList.splice(0,this.dataList.length);
+							var url='../php/shopping/deleteCmd?fc=deleteCmd&flag=1';
+							var arr=[];
+							for(a in this.selectCommodity[0]){
+								 var id = this.selectCommodity['0'][a]['0'].id;
+								arr.push(id)
+							}
+							var obj={
+								fc:'deleteCmd',
+								flag:1,
+								cmdList:arr
+							}
+							this.$http.post(url,obj).then(function(res){
+								var res=JSON.parse(res.bodyText);
+								if(res.code){
+									alert(res.msg);
+									this.selectCommodity.allPrice=0;
+									this.dataList=res.data;
+								}else{
+									alert('删除失败！');
+								}
+							},function(){
+								
+							})
 						},
 						submits:function(){
 							var data= $.param(this.selectCommodity);
@@ -171,7 +208,6 @@
 						}
 					});
 				}
-			}
 			}
 		</script>
 	</body>

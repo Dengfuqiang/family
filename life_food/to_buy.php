@@ -111,7 +111,6 @@
 				},
 				methods:{
 					changeAddress:function(item){
-						console.log(item)
 						this.addWin=!this.addWin;
 						this.address.userName=item.username;
 						this.address.phone=item.phone;
@@ -207,6 +206,9 @@
 						});
 					},
 					submitOrder:function(){
+						if(this.selectedAddress==0){
+							alert('请选择收货地址~');return false;
+						}
 						var url='../php/createOrder/createOrder.php';
 						addressId=this.selectedAddress;
 						var obj={};

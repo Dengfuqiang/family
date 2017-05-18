@@ -1,8 +1,9 @@
 <?php
 	header("content-type:text/html;charset=utf-8");
+	session_start();
 	$arr = $_POST;
 	$sms=$arr['sms'];
-	if($sms==000000){
+	if($sms==$_SESSION['mobile_code']){
 		require_once '../mysql.class.php';
 		$mysql = new MySQL('localhost','root','','family');
 		$phone=$arr['mobile_phone'];

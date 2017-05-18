@@ -83,6 +83,7 @@
 							</div>
 						</div>
 					</div>
+					<div v-if='data.order.length<1' style="width: 100%;padding:50px 0; margin-bottom: 30px; border: 1px solid #e6e6e6; text-align: center;">暂时还没有订单哦，快去下单购物吧~</div>
 					<h3>我的收藏</h3>
 					<div class="my_favour">
 						<ul>
@@ -92,6 +93,7 @@
 								<p><span class="price">￥{{item.salesPrice}}</span><del>￥{{item.marketPrice}}</del></p>
 								<a href="" class="add_shopping_car">加入购物车</a>
 							</li>
+							<div v-if='data.favour_cmd.length<1' style="width: 100%;padding:50px 0; margin-bottom: 30px; border: 1px solid #e6e6e6; text-align: center;">暂时还收藏的商品哦，快去下单收藏吧~</div>
 						</ul>
 					</div>
 				</section>
@@ -125,7 +127,7 @@
 						//var_dump($favour_list);exit;
 					//$phone=['0']['phone'];
 					$defautl_address=$mysql->table('user_address')->where("phone={$phone} and `default`=1")->select();
-					$order=$mysql->table('user_order')->where("phone={$phone}")->limit(0,5)->select();
+					$order=$mysql->table('user_order')->where("phone={$phone}")->limit(0,2)->select();
 					foreach ($order as $key => $value) {
 						$order_code=$value['order_code'];
 						$order_commodity=$mysql->table('order_commodity')->where("order_code={$order_code}")->select();
@@ -146,7 +148,7 @@
 					}
 					if(!data.address){
 						data.address={
-							name:'',
+							address:' ',
 							detailaddrass:' 暂无默认收货地址 '
 						}
 					}

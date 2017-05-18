@@ -12,10 +12,10 @@
 						<p> 您可以在个人中心 > 我的订单中查询。</p>
 					</div>
 					<div class="pay_way">
-						<p>您的支付方式：<span>支付宝</span></p>
+						<p>您的支付方式：<span>余额支付</span></p>
 						<p>您的订单号：<span id="code">10253256215845</span></p>
 					</div>
-					<p class="auto_goback"><span id="time">5</span>秒后 <a href="">自动返回>></a></p>
+					<p class="auto_goback"><span id="time">5</span>秒后 <a href="../person_center/person_center_index.php">自动返回>></a></p>
 				</section>
 			</article>
 			<footer id="familyFooter">

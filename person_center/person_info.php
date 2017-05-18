@@ -89,11 +89,10 @@
 										<div class="item" v-if='items.order_status==5'><a href="" class="to_pay" @click='cencelSale()'>取消售后</a><a href="" class="cancel_order"></a></div>
 									</div>
 								</li>
-								
-							
 							</ul>
 							
 						</div>
+						<div v-if='data.myorder.length<1' style="width: 100%;padding:170px 0; margin-bottom: 30px; border: 1px solid #e6e6e6; text-align: center;">暂时还没有<i style="color: #ffa130;">{{tabs[active]}}</i>订单哦~</div>
 					</section>
 				</template>
 				<template id="my_purse_info">
@@ -108,7 +107,7 @@
 					<div class="purse_wrap">
 						<div class="purse_inner">
 							<p class="my_price">我的余额</p>
-							<p>￥<span>88.50</span></p>
+							<p>￥<span v-text='data.userInfo.balance'></span></p>
 						</div>
 						<p href="" class="zhifubao">支付宝</p>
 						<a href="" class="to_charge">充值</a>
@@ -143,7 +142,7 @@
 						<div class="item">单价（元）</div>
 						<div class="item">操作</div>
 					</div>
-					<ul class="commodity_list ">
+					<ul class="commodity_list " style="margin-bottom: 30px;">
 						<li class="box" v-for='item in data.favourList'>
 							<label><input @click='childCheck($index,item,$event)' type="checkbox" name="" id="" value="" :checked="checkAlls"></label>
 							<div class="cmd_info item">
@@ -154,6 +153,7 @@
 							<div class="item before">￥<span class="price" v-text='item.salesPrice'>500</span></div>
 							<div class="item"><a href="javascript:void(0);" class="cancel" @click='deleteThis($index,item)'>删除</a></div>
 						</li>
+						<li v-if='data.favourList.length<1' style="width: 100%;padding:147px 0; border: none; text-align: center;">暂时还没有收藏的商品哦，快去收藏吧~</li>
 					</ul>
 				</section>
 				</template>
@@ -171,7 +171,9 @@
 									<p v-text='item.detailaddrass'>天河车陂东圃大马路8号时代TIT广场A座4楼430</p>
 									<div class="change_address"><a href="javascript:;" class="change_bt" @click='changeAddress(item)'>修改</a> | <a href="javascript:;" class="cancel_bt" @click='deleteAddress($index,item)'>删除</a></div>
 								</li>
+
 							</ul>
+							<li v-if='data.addressList.length<1' style="width: 100%;padding:117px 0; margin-bottom: 30px; border: 1px solid #e6e6e6; text-align: center;">暂时还没有收货地址哦，快点击下方的按钮添加吧~</li>
 							<a href="javascript:void(0);" class="add_address" @click='addAddress'>+添加地址</a>
 						</div>
 						<div class="add_address_window" v-show='addWin'>
@@ -264,7 +266,7 @@
 						<input type="submit" value="保存" class="save"  @click.prevent='changePursePwd()'/>
 					</form>
 					<form action="#" method="post" v-else>
-						<label><span>钱包密码:</span><input type="text" name="" id="" value="" placeholder="请设置钱包密码" v-model='pursePwd'/></label>
+						<label><span>钱包密码:</span><input type="password" name="" id="" value="" placeholder="请设置钱包密码" v-model='pursePwd'/></label>
 						<input type="submit" value="保存" class="save" @click.prevent='setPursePwd()'/>
 					</form>
 				</section>

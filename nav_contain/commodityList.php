@@ -190,7 +190,7 @@
 							});
 					},
 					to_deatil:function(item){
-						location.href='shipingxiangqing.php?category=life_food&id='+item.id;
+						location.href='shipingxiangqing.php?category='+item.tableName+'&id='+item.id;
 					}
 				}
 			})

@@ -21,7 +21,8 @@
   margin-right: 25px;
   border: 1px solid #e6e6e6;
   height: 400px;
-  border-top: 3px solid #ffa130; }
+  border-top: 3px solid #ffa130;
+  margin-bottom: 30px; }
   .nav_left a {
     display: block;
     line-height: 50px;

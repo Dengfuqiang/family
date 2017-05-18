@@ -21,7 +21,7 @@
 						echo "<span><a href='javascript:;'>".$useInfo['username']."，您好</a>&emsp;<a href='../php/index/login_on.php'>注销登录</a></span>";
 
 					}else{
-						echo "<span>[<a href='login.html'>登录</a>]</span><span>[<a href='register.html'>注册</a>]</span>";
+						echo "<span>[<a href='login.html'>登录</a>]</span><span>[<a href='register.php'>注册</a>]</span>";
 						
 					}?>
 					<span class="shuGang">|</span>

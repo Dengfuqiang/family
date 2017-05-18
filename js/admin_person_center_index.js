@@ -72,10 +72,10 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 				}, function(err){
 					
 				});
-				this.currentView='child'+3;
+				this.currentView='child'+2;
 			}else if(i==3&&!e.target.hasLoad){
 				console.log(1)
-				this.currentView='child'+6;
+				this.currentView='child'+3;
 				var url='../php/index/admin_manage.php?fc=getBack';
 				e.target.hasLoad=true;
 				this.$http.get(url).then(function(res){

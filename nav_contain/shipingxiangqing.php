@@ -7,7 +7,7 @@
 			<div id="beatifulBody">
 				<ul id="bt_right">
 					<h4>同类热卖</h4>
-					<li v-for='item in data[1]'>
+					<li v-for='item in data[1]' @click='to_deatil(item)'>
 						<a href="###"><img :src="item.pic" alt="" /></a>
 						<h2 v-text='item.title'></h2>
 						<span class="price">￥<i  v-text="item.salesPrice"></i></span>
@@ -30,7 +30,7 @@
 										</span>
 									</li>
 									<li class="xianliang">限量：<span v-text='data[0][0].salesCount'></span><span class="speli_span">|</span >销量：<span v-text='data[0][0].sellerCount'></span><span class="speli_span2">|</span>限时：{{dd}}天{{hh}}时{{mm}}分{{ss}}秒</li>
-									<li class="guige">规格<a href="javascript:void(0)">200g x2</a><a href="javascript:void(0)">400g x2</a></li>
+<!--									<li class="guige">规格<a href="javascript:void(0)">200g x2</a><a href="javascript:void(0)">400g x2</a></li>-->
 									<li class="shuliang">
 										数量 <span><input type="text" name="shuliang" id="shuliang" value="1" v-model='cmdCount' /><a id="add_cont" @click='addCount()' href="javascript:void(0)"></a><a id="reduce_cont" @click='reduceCount()' href="javascript:void(0)"></a></span>件
 									</li>
@@ -87,6 +87,9 @@
 						ss:0
 					},
 					methods:{
+						to_deatil:function(item){
+							location.href='shipingxiangqing.php?category='+item.tableName+'&id='+item.id;
+						},
 						toBuy:function(){
 							var obj={
 								'0':{
