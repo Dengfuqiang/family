@@ -105,7 +105,7 @@
 							<label><span>退款金额<i>*</i></span><input type="text" name="back_price" id="" value="" placeholder="请输入退款金额"></label>
 							
 							<label><span>退款说明<i>*</i></span><textarea name="back_info" rows="" cols="" id="back_cmd_detail" placeholder="请输入退款说明"></textarea>  </label>
-							<label><span>上传凭证<i>*</i></span><a class="select_pic_bt" href="javascript:void(0);"><input type="file" name="upfile" id="upfile" value="" enctype="multipart/form-data"/><span>上传退款凭证</span></a></label>
+							<label><span>上传凭证<i>*</i></span><img :src="picUrl" v-if='picFlag'  style="width: 100px;height: 100px; display: inline-block;"/><a class="select_pic_bt" href="javascript:void(0);"><input @change='changePic($event)' type="file" name="upfile" id="upfile" value="" enctype="multipart/form-data"/><span>上传退款凭证</span></a></label>
 							
 							<input type="submit" value="提交" id="confirm_cmd_back" @click.prevent='submitData()'>
 						</form>
@@ -132,10 +132,27 @@
 						data:function(){
 							return{
 								orderData:data,
-								sellerAfter:false
+								sellerAfter:false,
+								picUrl:'',
+								picFlag:false,
 							};
 						},
 						methods:{
+							changePic:function(e){
+								var file = e.target.files[0];
+							    var reader = new FileReader();
+								var that=this;
+							    reader.onloadend = function () {
+									that.picFlag=true;
+							        // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+							        var dataURL = reader.result;
+							        // 插入到 DOM 中预览
+							        // ...
+							        that.picUrl=dataURL;
+							    };
+							
+							    reader.readAsDataURL(file);
+							},
 							cencelSale:function(){
 								if(confirm('是否确认取消售后！')){
 									var url='../php/getData/getOrder.php?fc=cencelSale&order_code='+this.orderData[0].order_code;

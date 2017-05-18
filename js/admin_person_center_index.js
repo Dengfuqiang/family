@@ -167,7 +167,7 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 			},
 			methods:{
 				sentCmd:function(index,item){
-					var value=prompt('发货','输入物流信息');
+					var value=prompt('填写物流单号','');
 					if(value){
 						var url='../php/index/admin_manage.php?fc=setWuliu&order_code='+item.order_code+'&value='+value;
 							this.$http.get(url).then(function(res){
