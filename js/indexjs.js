@@ -40,6 +40,10 @@ var vm=new Vue({
 				
 			});
 		},
+		to_beautifu_inner:function(item){
+			
+			location.href='../nav_contain/beautifulLife_inner.php?id='+item.id;
+		},
 		to_detail:function(item,table){
 			location.href='../nav_contain/shipingxiangqing.php?category='+table+'&id='+item.id;
 		}

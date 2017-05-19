@@ -18,11 +18,11 @@
 					if(isset($useInfo['username'])){
 						echo "<span><a href='javascript:;'>".$useInfo['username']."，您好</a>&emsp;<a href='../php/index/login_on.php'>注销登录</a></span>";
 					}else{
-						echo "<span>[<a href='../index/login.html'>登录</a>]</span><span>[<a href='index/register.php'>注册</a>]</span>";
+						echo "<span>[<a href='../index/login.html'>登录</a>]</span><span>[<a href='../index/register.php'>注册</a>]</span>";
 						
 					}?>
 					<span class="shuGang">|</span>
-					<span><a href="../person_center/person_center_index.php">我的账号</a></span>
+					<span><a href="../person_center/person_center_index.php" target="_blank">我的账号</a></span>
 
 				</div>
 				<div class="seacherKuang">
@@ -32,7 +32,7 @@
 						</a>
 						<input type="text" name="searchText" id="searchText" value="" /><input type="submit" name="searchBt" id="searchBt" value="搜索" />
 						<div class="kefuShoppingCar">
-							<a href="###" id="kefu">一键客服</a><a href="../life_food/shopping_car.php" id="shoppingCar">购物车</a>
+							<a href="../person_center/person_info.php?tab=child6&selectNum=6" id="kefu">一键客服</a><a href="../life_food/shopping_car.php" id="shoppingCar">购物车</a>
 						</div>
 					</div>
 

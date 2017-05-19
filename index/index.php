@@ -25,7 +25,7 @@
 						
 					}?>
 					<span class="shuGang">|</span>
-					<span><a href="../person_center/person_center_index.php">我的账号</a></span>
+					<span><a href="../person_center/person_center_index.php" target="_blank">我的账号</a></span>
 
 
 				</div>
@@ -36,7 +36,7 @@
 						</a>
 						<input type="text" name="searchText" id="searchText" value="" /><input type="submit" name="searchBt" id="searchBt" value="搜索" />
 						<div class="kefuShoppingCar">
-							<a href="javascript:void(0);" id="kefu">一键客服</a><a href="../life_food/shopping_car.php" id="shoppingCar">购物车</a>
+							<a href="../person_center/person_info.php?tab=child6&selectNum=6" id="kefu">一键客服</a><a href="../life_food/shopping_car.php" id="shoppingCar">购物车</a>
 						</div>
 					</div>
 
@@ -95,7 +95,7 @@
 							</span>
 						</li>
 						<li class="bodyliFirst">
-							<a href="javascript:void(0);" v-for='item in beautity_life'><img :src="item.pic" alt="" /></a>
+							<a href="javascript:void(0);" @click='to_beautifu_inner(item)'  v-for='item in beautity_life'><img :src="item.pic" alt="" /></a>
 						</li>
 					</ul>
 					<ul  >
@@ -197,15 +197,14 @@
 				</div>
 			</div>
 			<div id="familyFooter">
-				<a href="index.html">首页</a><span>|</span>
-				<a href="../beautifulLife.html">精彩生活</a><span>|</span>
-				<a href="../lifeFood.html">生活食品</a><span>|</span>
-				<a href="javascript:void(0);">生活用品</a><span>|</span>
-				<a href="javascript:void(0);">生活家居</a><span>|</span>
+				<a href="../index/index.php">首页</a><span>|</span>
+				<a href="../nav_contain/beautifulLife.php">精彩生活</a><span>|</span>
+				<a href="../nav_contain/lifeFood.php">生活食品</a><span>|</span>
+				<a href="../nav_contain/lifeArctiles.php">生活用品</a><span>|</span>
+				<a href="../nav_contain/lifeFurniture.php">生活家居</a><span>|</span>
 				<a href="javascript:void(0);">会员杂锦</a><span>|</span>
-				<a href="javascript:void(0);">一键客服</a><span>|</span>
-				<a href="../aboutOur.html">关于我们</a>
-				<p>CopyrightO 生活一家 2007-2015, All Rights Reserved</p>
+				<a href="../person_center/person_info.php?tab=child6&selectNum=6">一键客服</a><span>|</span>
+				<a href="../nav_contain/aboutOur.php">关于我们</a>
 			</div>	
 		</div>
 		<script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>

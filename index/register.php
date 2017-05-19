@@ -73,6 +73,26 @@ $_SESSION['send_code'] = random(6,1);
 		<script type="text/javascript" src="../js/jquery-2.2.2.min.js" ></script>
 		<script type="text/javascript">
 			$("#register").on('click',function(e){
+				if(document.getElementById('username').value==''){
+					alert('请输入用户名');
+					return false;
+				}
+				if(document.getElementById('mobile_phone').value==''){
+					alert('请输入手机号码');
+					return false;
+				}
+				if(document.getElementById('sms').value==''){
+					alert('请输入验证码');
+					return false;
+				}
+				if(document.getElementById('pwd').value==''){
+					alert('请输入密码');
+					return false;
+				}
+				if(document.getElementById('confirm_pwd').value==''){
+					alert('请输入确认密码');
+					return false;
+				}
 				e.preventDefault();
 	            $.ajax({
 	                url:'../php/index/register.php',//请求地址
@@ -134,6 +154,7 @@ $_SESSION['send_code'] = random(6,1);
 							clearTimeout(Account);
 							sTime='获取手机验证码';
 							iTime = 59;
+							document.getElementById('get_sms').innerHTML ='获取验证码';
 							document.getElementById('get_sms').flag=false;
 						}else{
 							Account = setTimeout("RemainTime()",1000);

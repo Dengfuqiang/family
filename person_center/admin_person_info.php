@@ -76,6 +76,9 @@
 		vertical-align: middle;
 		    height: 35px;
 		}
+		.select_category{
+			padding-right: 0;
+		}
 	</style>
 	<body>
 		<div id="familyAndContain">
@@ -178,13 +181,13 @@
 						<a href="javascript:void(0);" class="to_pay" style="float: right;margin: 5px 10px 0 0;" @click='add_cmd()'>添加商品</a>
 					</h2>
 					<div class="property box">
-						<div class="item item2 "><label><input type="checkbox" name="" id="allSelect" @click='checkAll()'>全选</label><a href="javascript:void(0);" class="cancel_all" @click='deleteSelect()'>删除</a><span>商品详情</span></div>
+						<div class="item item2 "><label v-if='false'><input type="checkbox" name="" id="allSelect">全选</label><a href="javascript:void(0);" v-if='false' class="cancel_all" @click='deleteSelect()'>删除</a><span>商品详情</span></div>
 						<div class="item">单价（元）</div>
 						<div class="item">操作</div>
 					</div>
 					<ul class="commodity_list ">
 						<li class="box" v-for='item in data.favourList'>
-							<label><input @click='childCheck($index,item,$event)' type="checkbox" name="" id="" value="" :checked="checkAlls"></label>
+							<label  v-if='false'><input @click='childCheck($index,item,$event)' type="checkbox" name="" id="" value="" :checked="checkAlls"></label>
 							<div class="cmd_info item">
 								<a href="javascript:void(0);" class="box" @click='to_deatil(item)'>
 									<div><img :src="item.pic" alt=""></div>
@@ -193,6 +196,7 @@
 							<div class="item before">￥<span class="price" v-text='item.salesPrice'>500</span></div>
 							<div class="item"><a href="javascript:void(0);" class="to_pay" @click='edit_cmd(item)'>编辑商品</a><a href="javascript:void(0);" class="cancel" @click='deleteThis($index,item)'>删除</a></div>
 						</li>
+						<li v-if='data.favourList.length<1' style="width: 100%;padding:147px 0; border: none; text-align: center;">检索不到商品哦~</li>
 					</ul>
 					<div id="select-list">
 						<a id="pre" href="javascript:void(0);" @click="prePage()">&lt;&lt;</a>

@@ -224,6 +224,9 @@ Vue.http.get('../php/getData/getOrder.php?fc=userInfo').then(function(res){
 		 	},
 			template:'#my_favour_cmd',
 			methods:{
+				to_deatil:function(item){
+						location.href='../nav_contain/shipingxiangqing.php?category='+item.tableName+'&id='+item.id;
+				},
 				checkAll:function(){
 					this.checkAlls=!this.checkAlls;
 					if(this.checkAlls){

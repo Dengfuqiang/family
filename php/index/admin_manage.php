@@ -329,20 +329,10 @@
 	}
 	function deleteFavour(){
 		global $mysql;
-		$thisPhone=$_SESSION['phone'];
-		$arr=$_POST['arr'];
+		$id=$_GET['cmd_id'];
 		//$sql='delete * from user_favour where cmd_id in (-1';
-		$uname='';
-		for($i=0;$i<count($arr);$i++){
-
-		$uname=$uname."'".$arr[$i]."',";
-		
-		}
-		
-		$the_uname ="cmd_id in(".$uname."'')";
-		
-		
-		$result=$mysql->table('user_favour')->where($the_uname)->delete();
+		$table=$_GET['table'];
+		$result=$mysql->table($table)->where("id={$id}")->delete();
 		if($result>0){
 			$res=[
 					'msg'=>'删除成功',
@@ -353,7 +343,7 @@
 			$res=[
 				'msg'=>'网络连接失败',
 				'code'=>3,
-				'erro'=>$sql
+				'result'=>$mysql->error()
 			];
 		}
 		echo  json_encode($res);

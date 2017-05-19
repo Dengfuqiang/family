@@ -145,7 +145,7 @@
 					<ul class="commodity_list " style="margin-bottom: 30px;">
 						<li class="box" v-for='item in data.favourList'>
 							<label><input @click='childCheck($index,item,$event)' type="checkbox" name="" id="" value="" :checked="checkAlls"></label>
-							<div class="cmd_info item">
+							<div class="cmd_info item" @click='to_deatil(item)'>
 								<a href="#" class="box">
 									<div><img :src="item.pic" alt=""></div>
 									<div class="item cd_title"><span v-text='item.title'>百草味 夏威夷果200g*3袋奶油 味  夏威夷果</span></div>

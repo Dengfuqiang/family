@@ -313,7 +313,7 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 					this.$parent.currentView='child8';
 				},
 				to_deatil:function(item){
-						location.href='../nav_contain/shipingxiangqing.php?category='+this.$parent.category+'&id='+item.id;
+						location.href='../nav_contain/shipingxiangqing.php?category='+this.category+'&id='+item.id;
 				},
 				checkAll:function(){
 					this.checkAlls=!this.checkAlls;
@@ -327,14 +327,8 @@ Vue.http.get('../php/index/admin_manage.php?fc=userInfo').then(function(res){
 					console.log(this.selectedCheckbox);
 				},
 				deleteThis:function(index,item){
-					var url='../php/index/admin_manage.php?fc=deleteFavour';
-					var index=index;
-					var arr=[];
-					arr.push(item.id);
-					var obj={
-						arr:arr,
-					}
-					this.$http.post(url, obj).then(function(res){
+					var url='../php/index/admin_manage.php?fc=deleteFavour&cmd_id='+item.id+'&table='+this.category;
+					this.$http.get(url).then(function(res){
 						res=JSON.parse(res.bodyText);
 						if(res.code==1){
 							this.data.favourList.splice(index,1);
