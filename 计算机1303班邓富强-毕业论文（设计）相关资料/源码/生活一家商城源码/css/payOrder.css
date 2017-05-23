@@ -1,0 +1,82 @@
+@import url(base.css);
+#pay_way {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+
+#pay_way div {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1; }
+
+#familyAndContain {
+  background-color: #fafafa; }
+
+.container {
+  overflow: hidden;
+  width: 900px;
+  margin: 28px auto;
+  background-color: white;
+  padding-bottom: 30px;
+  position: relative; }
+
+h2 {
+  font-size: 24px;
+  padding: 10px 20px; }
+
+p {
+  font-size: 14px;
+  margin: 10px;
+  text-indent: 2em;
+  color: #999; }
+
+#pay_way {
+  width: 280px;
+  padding-left: 38px;
+  font-size: 14px; }
+  #pay_way div {
+    margin-right: 30px;
+    text-align: center;
+    line-height: 30px;
+    color: #999;
+    margin: 20px; }
+  #pay_way img {
+    width: 100%;
+    height: 100px;
+    border: 2px solid white; }
+  #pay_way .selected img {
+    border-color: #ff461f; }
+
+.balance {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 24px; }
+  .balance span {
+    color: #ffa130; }
+
+input {
+  border: 1px solid #e6e6e6;
+  width: 265px;
+  padding-left: 10px;
+  height: 45px; }
+
+#to_pay {
+  display: block;
+  border: none;
+  outline: none;
+  width: 120px;
+  height: 35px;
+  padding: 0;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 35px;
+  background-color: #ffa130;
+  color: white;
+  cursor: pointer;
+  margin-left: 108px; }
+
+/*# sourceMappingURL=payOrder.css.map */

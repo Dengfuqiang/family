@@ -1,0 +1,30 @@
+<?php
+	header("content-type:text/html;charset=utf-8");
+
+	require_once '../mysql.class.php';
+	
+	$mysql = new MySQL('localhost','root','','family');
+	$arr = $_POST;
+	$phone=$arr['mobile_phone'];
+	$pwd=md5($arr['pwd']);
+	$sql="SELECT * FROM admin_users WHERE user_name ='$phone' and pwd ='$pwd'";
+	$result = $mysql->query($sql);
+	if(!empty($result)){
+		session_start();
+		$_SESSION['user_name']=$phone;
+		$_SESSION['pwd']=$pwd;
+ 		$res=[
+			'msg'=>'登录成功',
+			'code'=>1,
+			'data'=>$result
+		];
+		echo json_encode($res);
+	}else{
+		$res=[
+				'msg'=>'手机号或密码错误',
+				'code'=>0,
+				'data'=>$mysql->error()
+			];
+			echo json_encode($res);
+	}
+?>			

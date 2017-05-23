@@ -1,0 +1,83 @@
+@import "../base.css";
+@import "g:/sassCore/_function.scss";
+article{
+        width: 1200px;
+    margin: 30px auto 0;
+    li{
+        @extend %box;
+        border: 1px solid $bc;
+        padding: 40px 20px;
+        margin-bottom: 30px;
+    }
+}
+.cmd_info_ct{
+    @extend %item;
+    a{
+        @extend %box;
+        img{
+            width: 100px;
+            height: 100px;
+            margin-right: 35px;
+        }
+        div{
+            @extend %item;
+        }
+    }
+    p{
+        padding: 7px 0;
+        font-size: 16px;
+        line-height: 16px;
+        color: #757575;
+    }
+    .title{
+        color: #333333;
+    }
+    .price{
+        color: #de0000;
+    }
+}
+.access_ct{
+    @extend %item;
+    textarea{
+        background-color: #f7f7f7;
+        padding: 10px 0  0 10px;
+        width: 430px;
+        height: 140px;
+        resize: none;
+        border: 1px solid #dbdbdb;
+    }
+}
+h3{
+    width: 425px;
+    padding-left: 15px;
+    color: #666666;
+    line-height: 28px;
+    height: 28px;
+    p{
+        float: right;
+    }
+    span{
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        background: url(../../img/common.png) no-repeat -32px -285px ;
+    }
+}
+.selected{
+    background: url(../../img/common.png) no-repeat 0 -285px ;
+}
+.submit_access{
+    width:100px;
+    height: 36px;
+    background-color: #ffa130;
+    color: white;
+    display: inline-block;
+    margin-left: 320px;
+    line-height: 36px;
+    text-align: center;
+    margin-top: 20px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 14px;
+    
+}

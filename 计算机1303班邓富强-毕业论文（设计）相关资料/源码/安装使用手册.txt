@@ -1,0 +1,3 @@
+1.配置Apache+php+mysql的集成环境，如果是windows操作系统，可直接下载Wampserver32位或64软件，安装集成环境。
+2.在mysql中新建一个名为family的数据库，执行源码中附带的sql文件导入数据。
+3.把源码放入Apache服务器指向的www目录中，或修改服务器站点地址，指向源码所在的文件，直接访问localhost/index/index.php打开商城首页
